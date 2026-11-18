@@ -53,6 +53,22 @@ def test_history_cannot_supply_system_message():
     assert response.status_code == 422
 
 
+def test_provider_error_is_actionable_and_redacts_key():
+    import httpx
+    response = httpx.Response(400, json={"error": {"message": "Invalid argument secret-key"}})
+    with pytest.raises(ValueError) as error:
+        assistant.check_response(response, "secret-key")
+    assert "HTTP 400" in str(error.value)
+    assert "Invalid argument" in str(error.value)
+    assert "secret-key" not in str(error.value)
+
+
+def test_non_json_provider_error():
+    import httpx
+    with pytest.raises(ValueError, match="HTTP 502"):
+        assistant.check_response(httpx.Response(502, text="gateway failure"), "secret")
+
+
 def test_tool_round_trip(database, monkeypatch):
     monkeypatch.setenv("NFL_LLM_API_KEY", "test")
     monkeypatch.setenv("NFL_LLM_MODEL", "test")
