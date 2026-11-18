@@ -21,6 +21,9 @@ API belgeleri: http://127.0.0.1:8000/docs
 
 ## Sohbet bağlantısı
 
+Ücretsiz bulut seçeneği ve Gemini kurulum adımları: [LLM kurulumu](docs/LLM_KURULUMU.md).
+Koç odaklı geliştirme/kabul hedefleri: [10 koç sorusu](docs/KOC_SORULARI.md).
+
 Arayüzü başlatacağınız terminalde OpenAI-uyumlu, araç çağırabilen sağlayıcıyı ayarlayın:
 
 ```powershell
