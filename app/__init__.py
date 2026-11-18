@@ -1,0 +1,1 @@
+"""Dataset-grounded NFL assistant."""
