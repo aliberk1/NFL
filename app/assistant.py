@@ -99,7 +99,9 @@ def answer(question, history=None):
         messages.append({"role": entry["role"], "content": entry["content"]})
     messages.append({"role": "user", "content": question})
     evidence = []
-    with httpx.Client(timeout=90) as client:
+    # Long-running reasoning models may take minutes to return a response.
+    # Keep connection/write limits, but do not time out while waiting for output.
+    with httpx.Client(timeout=httpx.Timeout(connect=30, read=None, write=30, pool=30)) as client:
         for step in range(6):
             response = request_completion(client, base, key, {
                 "model": model, "messages": messages, "tools": TOOLS,
