@@ -36,6 +36,29 @@ def test_season_filter_and_missing_values(database):
     assert result[1]["pressure_labeled_plays"] == 0
 
 
+def test_distinct_games_and_computed_sack_rate(database):
+    with duckdb.connect(str(analytics.DB)) as con:
+        con.execute("UPDATE player_play SET sack = (play_id = 1) WHERE nfl_id = 1")
+        con.execute("INSERT INTO games VALUES (30, 2023, 'POST')")
+        con.execute("INSERT INTO player_play VALUES (30, 1, 1, 'X', false, NULL, NULL, true)")
+    response = analytics.player_performance([1], 2023, "REG")
+    row = response["data"][0]
+    assert len(response["data"]) == 1
+    assert row["games"] == 1
+    assert row["player_play_rows"] == 2
+    assert row["sacks"] == 1
+    assert row["sacks_per_observed_game"] == 1.0
+    assert row["sack_labeled_plays"] == 2
+    assert response["scope"]["season_type"] == "REG"
+    assert "benzersiz" in response["metric_definitions"]["games"]
+    assert analytics.player_performance([2], 2023, "REG")["data"][0]["sacks_per_observed_game"] is None
+
+
+def test_invalid_season_type(database):
+    with pytest.raises(ValueError, match="season_type"):
+        analytics.player_performance([1], season_type="ALL")
+
+
 def test_search_is_parameterized(database):
     assert len(analytics.search_players("Player")["data"]) == 2
     assert analytics.search_players("' OR 1=1 --")["data"] == []
