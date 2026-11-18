@@ -1,6 +1,7 @@
 """OpenAI-compatible tool calling; all sports evidence comes from local tools."""
 import json
 import os
+import re
 
 import httpx
 
@@ -55,17 +56,24 @@ def check_response(response, key):
         error = response.json().get("error", {})
         detail = error.get("message", "Sağlayıcı açıklama vermedi.") if isinstance(error, dict) else str(error)
     except (ValueError, AttributeError):
-        detail = "Sağlayıcı JSON hata açıklaması döndürmedi."
+        # Gateways may return plain text or HTML rather than the API error schema.
+        text = re.sub(r"<[^>]+>", " ", response.text)
+        text = " ".join(text.split())
+        detail = (
+            f"JSON olmayan yanıt ({response.headers.get('content-type', 'belirsiz içerik türü')}): "
+            + (text or "Boş yanıt")
+        )
     detail = str(detail).replace(key, "[GİZLİ]")[:2000]
+    detail = re.sub(r"AIza[\w-]+", "[GİZLİ]", detail)
     raise ValueError(f"LLM servisi HTTP {response.status_code}: {detail}")
 
 
 def answer(question, history=None):
-    key = os.environ.get("NFL_LLM_API_KEY")
-    model = os.environ.get("NFL_LLM_MODEL")
+    key = os.environ.get("NFL_LLM_API_KEY", "").strip()
+    model = os.environ.get("NFL_LLM_MODEL", "").strip()
     if not key or not model:
         raise ValueError("Sohbet için NFL_LLM_API_KEY ve NFL_LLM_MODEL ortam değişkenlerini tanımlayın. Analiz sekmeleri anahtarsız çalışır.")
-    base = os.environ.get("NFL_LLM_BASE_URL", "https://api.openai.com/v1").rstrip("/")
+    base = os.environ.get("NFL_LLM_BASE_URL", "https://api.openai.com/v1").strip().rstrip("/")
     messages = [{"role": "system", "content": SYSTEM}]
     # Previous conversation is context, not fresh numerical evidence.
     for entry in (history or [])[-12:]:

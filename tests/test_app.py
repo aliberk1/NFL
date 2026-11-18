@@ -65,8 +65,10 @@ def test_provider_error_is_actionable_and_redacts_key():
 
 def test_non_json_provider_error():
     import httpx
-    with pytest.raises(ValueError, match="HTTP 502"):
-        assistant.check_response(httpx.Response(502, text="gateway failure"), "secret")
+    with pytest.raises(ValueError, match="gateway failure") as error:
+        assistant.check_response(httpx.Response(502, text="<h1>gateway failure</h1> secret"), "secret")
+    assert "secret" not in str(error.value)
+    assert "<h1>" not in str(error.value)
 
 
 def test_tool_round_trip(database, monkeypatch):
