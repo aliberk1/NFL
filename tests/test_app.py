@@ -71,6 +71,36 @@ def test_non_json_provider_error():
     assert "<h1>" not in str(error.value)
 
 
+def test_provider_array_error():
+    import httpx
+    response = httpx.Response(503, json=[{"error": {"message": "High demand"}}])
+    with pytest.raises(ValueError, match="geçici olarak yoğun") as error:
+        assistant.check_response(response, "secret")
+    assert "High demand" in str(error.value)
+
+
+@pytest.mark.parametrize("statuses,expected", [([503, 503, 200], 3), ([401], 1), ([429], 1), ([503, 503, 503], 3)])
+def test_bounded_service_retries(monkeypatch, statuses, expected):
+    import httpx
+    waits = []
+    calls = []
+    monkeypatch.setattr(assistant.time, "sleep", waits.append)
+
+    class Client:
+        def post(self, *args, **kwargs):
+            status = statuses[len(calls)]
+            calls.append(status)
+            return httpx.Response(status, json={"error": {"message": "test"}})
+
+    if statuses[-1] == 200:
+        assert assistant.request_completion(Client(), "https://example.test/v1", "secret", {}).status_code == 200
+    else:
+        with pytest.raises(ValueError):
+            assistant.request_completion(Client(), "https://example.test/v1", "secret", {})
+    assert len(calls) == expected
+    assert len(waits) == expected - 1
+
+
 def test_tool_round_trip(database, monkeypatch):
     monkeypatch.setenv("NFL_LLM_API_KEY", "test")
     monkeypatch.setenv("NFL_LLM_MODEL", "test")

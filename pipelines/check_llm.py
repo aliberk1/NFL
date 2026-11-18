@@ -26,8 +26,14 @@ def main():
             models = response.json().get("data", [])
             ids = [m.get("id", "") for m in models]
             print(f"{label}: başarılı")
-            print("Seçilen model listede:", model in ids)
-            print("Flash modeller:", ", ".join(m for m in ids if "flash" in m.lower()))
+            normalized_ids = {item.removeprefix("models/") for item in ids}
+            print("Seçilen model listede:", model.removeprefix("models/") in normalized_ids)
+            print("Erişilebilir modeller:", ", ".join(ids))
+            for entry in models:
+                if entry.get("id", "").removeprefix("models/") == model.removeprefix("models/"):
+                    for field in ("capabilities", "pricing", "context_length"):
+                        if field in entry:
+                            print(f"{field}: {entry[field]}")
         except (ValueError, httpx.HTTPError) as exc:
             print(str(exc).replace(key, "[GİZLİ]"))
 

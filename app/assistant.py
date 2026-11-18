@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import time
 
 import httpx
 
@@ -53,7 +54,10 @@ def check_response(response, key):
     if not response.is_error:
         return
     try:
-        error = response.json().get("error", {})
+        body = response.json()
+        if isinstance(body, list):
+            body = body[0] if body else {}
+        error = body.get("error", {})
         detail = error.get("message", "Sağlayıcı açıklama vermedi.") if isinstance(error, dict) else str(error)
     except (ValueError, AttributeError):
         # Gateways may return plain text or HTML rather than the API error schema.
@@ -65,7 +69,22 @@ def check_response(response, key):
         )
     detail = str(detail).replace(key, "[GİZLİ]")[:2000]
     detail = re.sub(r"AIza[\w-]+", "[GİZLİ]", detail)
+    if response.status_code == 503:
+        detail = "Model geçici olarak yoğun veya kullanılamıyor. Biraz sonra tekrar deneyin. Sağlayıcı: " + detail
     raise ValueError(f"LLM servisi HTTP {response.status_code}: {detail}")
+
+
+def request_completion(client, base, key, payload):
+    """Retry only explicit temporary service errors, at most twice."""
+    for attempt in range(3):
+        response = client.post(base + "/chat/completions",
+                               headers={"Authorization": f"Bearer {key}"},
+                               json=payload)
+        if response.status_code not in (502, 503, 504) or attempt == 2:
+            check_response(response, key)
+            return response
+        # Never retry authentication, model availability, or quota errors.
+        time.sleep(2 ** (attempt + 1))
 
 
 def answer(question, history=None):
@@ -82,11 +101,9 @@ def answer(question, history=None):
     evidence = []
     with httpx.Client(timeout=90) as client:
         for step in range(6):
-            response = client.post(base + "/chat/completions",
-                                   headers={"Authorization": f"Bearer {key}"},
-                                   json={"model": model, "messages": messages, "tools": TOOLS,
-                                         "tool_choice": "required" if step == 0 else "auto"})
-            check_response(response, key)
+            response = request_completion(client, base, key, {
+                "model": model, "messages": messages, "tools": TOOLS,
+                "tool_choice": "required" if step == 0 else "auto"})
             message = response.json()["choices"][0]["message"]
             calls = message.get("tool_calls", [])
             # Preserve provider metadata (including Gemini thought signatures).
