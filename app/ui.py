@@ -388,7 +388,8 @@ with players:
         }
         widget_key = f"player_selection:{search.strip().casefold()}:{position}:{team}:{page}"
         page_defaults = [label for label, player_id in player_options.items() if player_id in selected_ids]
-        st.session_state[widget_key] = page_defaults
+        if widget_key not in st.session_state:
+            st.session_state[widget_key] = page_defaults
         selected_labels = st.multiselect("Kar\u015f\u0131la\u015ft\u0131r\u0131lacak oyuncular", list(player_options),
                                          max_selections=10, key=widget_key)
         page_selected = [player_options[label] for label in selected_labels]
