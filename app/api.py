@@ -46,6 +46,8 @@ def chat(request: ChatRequest):
         return answer(request.question, [m.model_dump() for m in request.history])
     except ValueError as exc:
         raise HTTPException(400, str(exc)) from exc
+    except httpx.TimeoutException as exc:
+        raise HTTPException(504, "Sohbet sağlayıcısı zamanında yanıt vermedi. Biraz sonra tekrar deneyin.") from exc
     except FileNotFoundError as exc:
         raise HTTPException(503, str(exc)) from exc
     except httpx.HTTPError as exc:

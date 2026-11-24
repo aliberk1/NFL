@@ -199,3 +199,154 @@ def test_tool_round_trip(database, monkeypatch):
     result = assistant.answer("A Player kim?")
     assert result["evidence"][0]["result"]["data"][0]["nfl_id"] == 1
     assert "Kaynak" in result["answer"]
+
+
+def test_numeric_claims_must_match_tool_data_and_show_scope():
+    evidence = [{"result": {
+        "data": [{
+            "display_name": "A Player", "season": 2023, "season_type": "REG",
+            "pressure_allowed_rate": 0.5, "games": 2, "nfl_id": 1,
+        }],
+        "sources": ["players", "games", "player_play"],
+        "scope": {"season": 2023, "season_type": "REG"},
+    }}]
+    assert assistant.numeric_claims_supported("A Player için oran 50%, maç sayısı 2.", evidence)
+    assert not assistant.numeric_claims_supported("A Player 99 sack yaptı.", evidence)
+    citation = assistant.provenance_line(evidence)
+    assert "A Player" in citation
+    assert "2023" in citation
+    assert "normal sezon" in citation
+    assert "player_play" in citation
+
+
+def test_tool_round_trip_rejects_unsupported_numeric_claim(database, monkeypatch):
+    monkeypatch.setenv("NFL_LLM_API_KEY", "test")
+    monkeypatch.setenv("NFL_LLM_MODEL", "test")
+    replies = [
+        {"role": "assistant", "content": None, "tool_calls": [{
+            "id": "call1", "type": "function", "function": {
+                "name": "player_performance",
+                "arguments": '{"player_ids":[1],"season":2023,"season_type":"REG"}',
+            },
+        }]},
+        {"role": "assistant", "content": "A Player had 99 sacks in the 2023 regular season."},
+    ]
+
+    class FakeClient:
+        timeout = None
+
+        def __init__(self, **kwargs):
+            self.timeout = kwargs["timeout"]
+            assert self.timeout.read == assistant.PROVIDER_READ_TIMEOUT_SECONDS
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return None
+
+        def post(self, url, headers, json):
+            import httpx
+            if len(replies) == 1:
+                assert json["messages"][-1]["role"] == "tool"
+                assert "player_play" in json["messages"][-1]["content"]
+            return httpx.Response(200, json={"choices": [{"message": replies.pop(0)}]},
+                                  request=httpx.Request("POST", url))
+
+    monkeypatch.setattr(assistant.httpx, "Client", FakeClient)
+    result = assistant.answer("A Player 2023 normal sezon")
+    assert "99" not in result["answer"]
+    assert "doğrulayamıyorum" in result["answer"]
+    assert "A Player" in result["answer"]
+    assert "2023" in result["answer"]
+    assert "normal sezon" in result["answer"]
+    assert "player_play" in result["answer"]
+
+
+def test_chat_provider_timeout_returns_gateway_timeout(monkeypatch):
+    import httpx
+    from app import api
+
+    def timed_out(*args, **kwargs):
+        raise httpx.ReadTimeout("provider did not respond")
+
+    monkeypatch.setattr(api, "answer", timed_out)
+    response = TestClient(api.app).post("/chat", json={"question": "A Player kim?"})
+    assert response.status_code == 504
+    assert "zamanında yanıt vermedi" in response.json()["detail"]
+
+
+def test_ambiguous_player_search_asks_user_to_choose(monkeypatch):
+    monkeypatch.setenv("NFL_LLM_API_KEY", "test")
+    monkeypatch.setenv("NFL_LLM_MODEL", "test")
+    monkeypatch.setitem(assistant.FUNCTIONS, "search_players", lambda name: {
+        "data": [
+            {"nfl_id": 1, "display_name": "Alex Smith"},
+            {"nfl_id": 2, "display_name": "Alex Smith Jr."},
+        ],
+        "sources": ["players"],
+    })
+    replies = [
+        {"role": "assistant", "content": None, "tool_calls": [{
+            "id": "find", "type": "function", "function": {
+                "name": "search_players", "arguments": '{"name":"Alex Smith"}',
+            },
+        }]},
+        {"role": "assistant", "content": "Birden fazla eşleşme var; hangisini kastediyorsunuz?"},
+    ]
+
+    class FakeClient:
+        def __init__(self, **kwargs):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return None
+
+        def post(self, url, headers, json):
+            import httpx
+            if len(replies) == 1:
+                assert json["messages"][-1]["role"] == "tool"
+                assert "Alex Smith Jr." in json["messages"][-1]["content"]
+            return httpx.Response(200, json={"choices": [{"message": replies.pop(0)}]},
+                                  request=httpx.Request("POST", url))
+
+    monkeypatch.setattr(assistant.httpx, "Client", FakeClient)
+    result = assistant.answer("Alex Smith kim?")
+    assert "hangisini" in result["answer"]
+    assert "Alex Smith" in result["answer"]
+    assert len(result["evidence"]) == 1
+
+
+def test_tool_call_limit_stops_oversized_provider_batch(monkeypatch):
+    monkeypatch.setenv("NFL_LLM_API_KEY", "test")
+    monkeypatch.setenv("NFL_LLM_MODEL", "test")
+    calls = [{
+        "id": f"call-{index}", "type": "function", "function": {
+            "name": "search_players", "arguments": '{"name":"Smith"}',
+        },
+    } for index in range(assistant.MAX_TOOL_CALLS + 1)]
+
+    class FakeClient:
+        def __init__(self, **kwargs):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return None
+
+        def post(self, url, headers, json):
+            import httpx
+            return httpx.Response(200, json={"choices": [{"message": {
+                "role": "assistant", "content": None, "tool_calls": calls,
+            }}]}, request=httpx.Request("POST", url))
+
+    monkeypatch.setattr(assistant.httpx, "Client", FakeClient)
+    monkeypatch.setitem(assistant.FUNCTIONS, "search_players", lambda name: pytest.fail("tool should not run"))
+    result = assistant.answer("Smith")
+    assert result["evidence"] == []
+    assert "sınırına ulaşıldı" in result["answer"]

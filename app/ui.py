@@ -366,7 +366,19 @@ if DB.exists():
                 for m in st.session_state.messages
             )
             st.download_button("Konuşmayı indir", transcript, file_name="nfl_analiz.md", mime="text/markdown")
+        st.caption("Örnek sorular")
+        example_columns = st.columns(3)
+        examples = [
+            ("Veri kapsamı", "Dataset hangi sezonları ve maç türlerini içeriyor?"),
+            ("Oyuncu karşılaştır", "<Oyuncu A> ve <Oyuncu B>'yi aynı sezon ve maç türünde karşılaştır."),
+            ("Kanıt sınırı", "Üçüncü hakta 3–6 yard mesafede hangi rota daha çok first down kazandırıyor?"),
+        ]
+        for column, (label, prompt) in zip(example_columns, examples):
+            if column.button(label, key=f"chat_example_{label}"):
+                st.session_state.pending_chat_example = prompt
         question = st.chat_input("Dataset hakkında bir soru sorun")
+        if st.session_state.get("pending_chat_example"):
+            question = st.session_state.pop("pending_chat_example")
         if question:
             history = st.session_state.messages[-12:]
             with st.chat_message("user"):
