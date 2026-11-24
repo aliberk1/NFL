@@ -101,9 +101,13 @@ def player_performance(player_ids, season=None, season_type=None):
                count(pp.pressure_allowed) AS pressure_labeled_plays,
                avg(CAST(pp.pressure_allowed AS INTEGER)) AS pressure_allowed_rate,
                sum(pp.rec_yards) AS receiving_yards,
+               count(pp.rec_yards) AS receiving_labeled_plays,
                sum(pp.rush_yards) AS rushing_yards,
+               count(pp.rush_yards) AS rushing_labeled_plays,
                sum(pp.sack) AS sacks,
                count(pp.sack) AS sack_labeled_plays,
+               sum(pp.tackle) AS tackles,
+               count(pp.tackle) AS tackle_labeled_plays,
                sum(pp.sack) / count(DISTINCT pp.game_id) AS sacks_per_observed_game
         FROM player_play pp JOIN players p USING (nfl_id) JOIN games g USING (game_id)
         WHERE pp.nfl_id IN ({marks}) {season_filter}
@@ -116,11 +120,15 @@ def player_performance(player_ids, season=None, season_type=None):
         "player_play_rows": "Oyuncu–oyun kayıt sayısı. Bir maçta birden çok kayıt bulunur. Maç sayısı değildir.",
         "sacks": "Datasetin sack alanındaki sayısal değerlerin toplamı; 0.5 gibi kesirli krediler korunur. Resmi istatistikle aynı olduğu varsayılmaz.",
         "sack_labeled_plays": "sack alanı dolu kayıtların sayısı. Toplam satırdan azsa sack ölçümünün kapsamı kısmi olabilir.",
+        "tackles": "Datasetin tackle alanındaki sayısal değerlerin toplamı; yalnızca etiketli oyunları kapsar.",
+        "tackle_labeled_plays": "tackle alanı dolu oyun sayısı; ölçüm kapsamını gösterir.",
         "sacks_per_observed_game": "Kodda hesaplanan sacks / games. Birimi gözlenen maç başına sack; pas baskısı fırsatı veya snap başına oran değildir.",
         "pressure_labeled_plays": "pressure_allowed alanı dolu kayıtların sayısı; pressure_allowed_rate paydasıdır.",
         "pressure_allowed_rate": "Etiketli kayıtlardaki baskı verme oranı (0–1). Savunmacının baskı üretme oranı değildir.",
         "receiving_yards": "Dolu rec_yards değerlerinin toplamı; tümü eksikse null.",
+        "receiving_labeled_plays": "rec_yards alanı dolu oyun sayısı; pas yardı ölçümünün kapsamıdır.",
         "rushing_yards": "Dolu rush_yards değerlerinin toplamı; tümü eksikse null.",
+        "rushing_labeled_plays": "rush_yards alanı dolu oyun sayısı; koşu yardı ölçümünün kapsamıdır.",
     }
     payload["interpretation_rules"] = [
         "PRE, REG ve POST gruplarını karıştırma. Farklı takımlardaki oranları basitçe ortalama.",

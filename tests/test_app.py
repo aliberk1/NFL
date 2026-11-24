@@ -16,12 +16,13 @@ def database(tmp_path, monkeypatch):
     con.execute("INSERT INTO games VALUES (10, 2023, 'REG'), (20, 2024, 'REG')")
     con.execute("""CREATE TABLE player_play (
         game_id INTEGER, play_id INTEGER, nfl_id INTEGER, team_abbr VARCHAR,
-        pressure_allowed BOOLEAN, rec_yards DOUBLE, rush_yards DOUBLE, sack DOUBLE)""")
+        pressure_allowed BOOLEAN, rec_yards DOUBLE, rush_yards DOUBLE, sack DOUBLE,
+        tackle BIGINT)""")
     con.execute("""INSERT INTO player_play VALUES
-        (10, 1, 1, 'X', true, NULL, NULL, NULL),
-        (10, 2, 1, 'X', false, NULL, NULL, NULL),
-        (10, 1, 2, 'X', NULL, NULL, NULL, NULL),
-        (20, 1, 1, 'X', false, NULL, NULL, NULL)""")
+        (10, 1, 1, 'X', true, NULL, NULL, NULL, NULL),
+        (10, 2, 1, 'X', false, NULL, NULL, NULL, NULL),
+        (10, 1, 2, 'X', NULL, NULL, NULL, NULL, NULL),
+        (20, 1, 1, 'X', false, NULL, NULL, NULL, NULL)""")
     con.close()
     monkeypatch.setattr(analytics, "DB", path)
 
@@ -40,7 +41,7 @@ def test_distinct_games_and_computed_sack_rate(database):
     with duckdb.connect(str(analytics.DB)) as con:
         con.execute("UPDATE player_play SET sack = (play_id = 1) WHERE nfl_id = 1")
         con.execute("INSERT INTO games VALUES (30, 2023, 'POST')")
-        con.execute("INSERT INTO player_play VALUES (30, 1, 1, 'X', false, NULL, NULL, true)")
+        con.execute("INSERT INTO player_play VALUES (30, 1, 1, 'X', false, NULL, NULL, true, NULL)")
     response = analytics.player_performance([1], 2023, "REG")
     row = response["data"][0]
     assert len(response["data"]) == 1
