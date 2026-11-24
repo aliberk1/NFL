@@ -14,7 +14,7 @@ from app.config import DB
 from app.observability import configure_logging
 from app.player_view import (
     CAREER_FIELDS, COMBINE_FIELDS, PLAYER_FIELDS, ROLE_METRICS,
-    TEAM_NAMES, comparison_groups, formatted_fields, position_label, team_label,
+    comparison_groups, formatted_fields, position_label, team_label,
 )
 
 configure_logging()
