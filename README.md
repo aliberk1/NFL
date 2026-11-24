@@ -47,9 +47,10 @@ Wide Receiver (**WR**, pas yakalayıcı) çalışması, Combine hız ölçümler
 Streamlit arayüzünde:
 
 - Oyuncuları adlarına göre arayabilir, profillerini ve Combine bilgilerini inceleyebilirsiniz.
-- En fazla 10 oyuncunun kayıtlı sezon performansını karşılaştırabilirsiniz.
+- Aynı pozisyon ve draft sınıfından en fazla 10 oyuncunun kayıtlı sezon performansını karşılaştırabilirsiniz.
 - Normal sezon, play-off ve sezon öncesi kayıtlarını ayrı görüntüleyebilirsiniz.
 - Veri setinde hangi takım ve sezonların ne ölçüde temsil edildiğini görebilirsiniz.
+- **Araştırma** sekmesinde OL mirror fazlarını zaman/hız grafiğinde inceleyebilir; WR hız aktarım sonuçlarını, kohortları ve sınırlarını görebilirsiniz. Araştırma çıktıları manifestteki SHA-256 özetleriyle doğrulanır; bu sekme temel DuckDB veritabanı oluşturulmadan da açılır.
 - Bir LLM sağlayıcısı bağlayarak veri seti hakkında Türkçe sorular sorabilir, cevabın dayandığı araç çıktılarını açabilir ve konuşmayı indirebilirsiniz.
 
 **Veri akışı:** Yerel CSV dosyaları → DuckDB → analiz fonksiyonları → Streamlit arayüzü / FastAPI. Sohbet modeli, analiz araçlarının sonuçlarını kullanarak açıklama üretir.
@@ -58,7 +59,7 @@ Oyuncu analizi ve veri kapsamı ekranları LLM anahtarı olmadan çalışır. So
 
 ### Mevcut sınırlar
 
-- Uygulama bir MVP'dir; araştırma notebook'larındaki modeller henüz uygulamaya entegre değildir.
+- Uygulama bir MVP'dir; Araştırma sekmesi sürümlenmiş sonuçları ve mevcut OL inceleyicisini sunar, notebook modellerini uygulama içinde yeniden eğitmez.
 - Uygulamanın veri yükleyicisi beş temel CSV'yi yükler; ayrıntılı tracking verisini yüklemez. Tracking analizi araştırma kodları ve notebook'larda yapılır.
 - Takım kapsam tabloları tam kadroyu, takım gücünü veya maç kazanma olasılığını göstermez.
 - Kariyer toplamları zaman damgasızdır; geçmişe dönük tahmin modellerinde doğrudan girdi olarak kullanılmamalıdır.

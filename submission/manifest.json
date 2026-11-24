@@ -88,7 +88,7 @@
     },
     {
       "file": "reports/data_audit.json",
-      "sha256": "8e9262285da147053228f753b6ce1b3f39b319e0867a389eaeb080ba4f250027"
+      "sha256": "dad5c08800ee46c661977fe2cd6cb3a2626d0f330bd9cbd9a8fa779d16f30607"
     },
     {
       "file": "reports/experiment_register.md",
@@ -96,7 +96,7 @@
     },
     {
       "file": "reports/speed_study/combine_rejected.csv",
-      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
     },
     {
       "file": "reports/speed_study/combine_repeatability.png",
@@ -104,35 +104,35 @@
     },
     {
       "file": "reports/speed_study/combine_repeatability_intervals.csv",
-      "sha256": "3c7ca3985379db696144855b786bc59c6c28f25d7c2697f56d0794b47501ae37"
+      "sha256": "657a2282ede97162dc598f4133caedb2665419136ea2d2c0c5b0bb5509495ac1"
     },
     {
       "file": "reports/speed_study/correlation_diagnostics.csv",
-      "sha256": "172c1b14ac42e66a22f1f4a4ab3ad5971dcd1c00f1fe1af4d80a3b979a7cb107"
+      "sha256": "d73d9809975e3a6f42a18c746c94b8f88fa33f934ea31c52d79e5e47d19f7deb"
     },
     {
       "file": "reports/speed_study/descriptive_correlations.csv",
-      "sha256": "f3634d8389e48bf37b4607e1dc52ffec870b1e0d2dbdd8c7b4ed533eb7836ae0"
+      "sha256": "6f09f76c8be7a1eb593befabfdbfb3dbdee8a48eaead47b4685f90a43773019f"
     },
     {
       "file": "reports/speed_study/descriptive_player_means.csv",
-      "sha256": "8b2377889ff2ceedb2c1b17a137c16187453075759ca87bd4b5f5cfb7149128d"
+      "sha256": "8861a33d8f7d959aa651f0d24eb14c29dcb31f66ec0af569e976edacdd12079c"
     },
     {
       "file": "reports/speed_study/extraction_audit.json",
-      "sha256": "d086b065ae9ab5523f8b2a5f87afec7aea3385b49ba30a8ae2a8c27e58a18f8e"
+      "sha256": "f06d3a920a25f3c62aecd8b10922cca702a2c868b85b26acea3dfeae318c76c1"
     },
     {
       "file": "reports/speed_study/forward_year_predictions.csv",
-      "sha256": "33deecf440647310f5076171f61bcbe990480e04a23ecba39c46965020d1b7cc"
+      "sha256": "70cb41fae7aa3e875f4d3fcf707c57748004f5be11ababc156ffb5728c19ee51"
     },
     {
       "file": "reports/speed_study/forward_year_scores.csv",
-      "sha256": "fb997a0db9c09b8a0d0d8f347841f949f3b1f38556664e700dd01525ee301c30"
+      "sha256": "61a4f35c103f40f256f7983b9db3f74ba98bdb8cf5019d73eb55fc4cf64ac4ca"
     },
     {
       "file": "reports/speed_study/game_rejected.csv",
-      "sha256": "da31ba6603e699640b8751c20f1402ddf862f24eaaa9c6789059dbceeda7df85"
+      "sha256": "5964540ce6033578cec34d5583201f93bb9470b2c556bc15a7ca1fa7a248b700"
     },
     {
       "file": "reports/speed_study/game_speed_reliability.png",
@@ -140,27 +140,27 @@
     },
     {
       "file": "reports/speed_study/game_split_half_means.csv",
-      "sha256": "72b9453a830e01d0a0ce4abe12a4675fb944fdfcca67ebe6e772e107b9a02fb5"
+      "sha256": "6df951cd9df9c0e96bc5fca96a2c3a1a78983e55b2ddbfd5710e776133796ec1"
     },
     {
       "file": "reports/speed_study/model_coefficients.csv",
-      "sha256": "d138450808b6dbfb9f30a44c2617e9e14101e59bfba33df24b1ee6be848d3fe7"
+      "sha256": "6a1b03aa92bdb5c8f13876c3cbde4d6d70e51ae00e00f7f1b8636790058770ee"
     },
     {
       "file": "reports/speed_study/player_features.csv",
-      "sha256": "6cfc528aa500ac539df98593fc9e554ef4a838f03c6f341505fb879351e73e00"
+      "sha256": "4ad5ea03395f510a6abefd374348b30f7f810ffa4284ec30c88cd8d48fbb5415"
     },
     {
       "file": "reports/speed_study/post_hoc_peak_only_ablation.csv",
-      "sha256": "ef240b10c0493a0f59f853317fabeb3e34a664d045c7ab066db4894cff1558f5"
+      "sha256": "595c720061393a868d23e35950be125c9979a02e427271dd4f7821a5e98d0c60"
     },
     {
       "file": "reports/speed_study/robustness.json",
-      "sha256": "7544a4f0839695926a72dd5ed1ac28d5d92d1032d8f54f26d8c76b2c5eb725f6"
+      "sha256": "102141e6fedb1eb5a8fd4e99e43946b7bf0ab80462c7cf77fb70c6d79d5a2b8f"
     },
     {
       "file": "reports/speed_study/speed_feature_year_distributions.csv",
-      "sha256": "74f83542e0c68bfbd6758bb01d43ec56cb7afada59e24c57cb7784cdcddcfe09"
+      "sha256": "6ae3c3c7fcdd693fa6b34b5cdac7eee1f69d1af198476b2097b8bf440950f550"
     },
     {
       "file": "reports/speed_study/speed_transfer_results.png",
@@ -168,7 +168,7 @@
     },
     {
       "file": "reports/speed_study/summary.json",
-      "sha256": "4c2f1ffad9887e8eff8f0898acc56d9209ce5f46734332ffd6bc48d93e507f8c"
+      "sha256": "c6f46405891e6bd4c4859594ca1e9e795bf0c631d75c2ed03d2f8adc4ae612a5"
     },
     {
       "file": "reports/speed_study_design.md",
@@ -176,19 +176,19 @@
     },
     {
       "file": "reports/trenches/coverage_audit.json",
-      "sha256": "584775e18a5a435556d48a1bdbf0e7c803fabb8e5d51f81c956f25d1a4ecdc2e"
+      "sha256": "bdd4623012db6e28f4e6fe9f12981ba564e076b528dd60cc38e3a2c1a0787ff4"
     },
     {
       "file": "reports/trenches/dl_rookie_coverage.csv",
-      "sha256": "e822a0207a43a048b18229e73d34b9bd962d847e71305472b51bb5fdee451487"
+      "sha256": "a035ec8aa57076d502d856254b1f1e08cb80861a0695a6146e694e3b105b08c0"
     },
     {
       "file": "reports/trenches/dl_rookie_plays.csv",
-      "sha256": "e499497c6e73a0196f88a03c264eda5b131efc80e65823af14ca88d0ebf264b2"
+      "sha256": "71feb49ddf2786acbb5f584b1519e7657011f7a21ae62a10d5041b8c3436e5b7"
     },
     {
       "file": "reports/trenches/drill_attempt_coverage.csv",
-      "sha256": "b153de8e720d8517b88fbd945fd0995ce9a7be6b8a1945c2c2ced149131e4a90"
+      "sha256": "fdb5c24f497838d25cd08c4aafcfd9cdc29f3b602e1c262b16f3a40b7ca9358a"
     },
     {
       "file": "reports/trenches/hoop_trajectory_audit.png",
@@ -200,39 +200,39 @@
     },
     {
       "file": "reports/trenches/mirror_attempt_features.csv",
-      "sha256": "879df71a53e4f2214b7daed42b2fa7b756432fb7d5eb6f36f4bcf77daf49aada"
+      "sha256": "2ca5154bed7820ea228517e7a66da572755c02967010618a97dfb916c290b754"
     },
     {
       "file": "reports/trenches/mirror_boundary_sensitivity.csv",
-      "sha256": "ad10de42b0e8e0e750437627c44201069059aba096cd42f375e1e4d864c350f5"
+      "sha256": "069e92c038b7956228e52c521d65a1831fba51f30ce70f836fb116cedea2ab52"
     },
     {
       "file": "reports/trenches/mirror_context_checks.csv",
-      "sha256": "ed7767c96ccd99d15e17111dd0e64fdb06a3e503d33ebe958d47355692a3e717"
+      "sha256": "882b41f84cfc80cc0522444268bfa5609ebc659f85e5e0ff509bc695cc3a2253"
     },
     {
       "file": "reports/trenches/mirror_explorer.html",
-      "sha256": "28b7fd703ebf90bf18b9633ff536a9ddab61c619859bc081580256c3be87c456"
+      "sha256": "88e27223ff6416d3bacc6641d357150dc3bd96d111ed9234d0c545a6b1a63935"
     },
     {
       "file": "reports/trenches/mirror_feature_audit.json",
-      "sha256": "5d2c540a7ac08c6085faa9efb22b276b67eda68ea2bfa0f28c4c446f8c46570a"
+      "sha256": "d3ce371326667ffd05cc66d1331e484b1b8f20c0b07d84a6007d4e4732351ead"
     },
     {
       "file": "reports/trenches/mirror_forward_year_scores.csv",
-      "sha256": "f84f52c3ec35fcf85a132a4781a60bd7e99728cbf5c2c7973cf3c37ad920a38c"
+      "sha256": "e622cfe1efa06195bf6152cd894df374185b99150008ea86f7444868680f00bd"
     },
     {
       "file": "reports/trenches/mirror_full_refit_bootstrap.csv",
-      "sha256": "e4394d84f424febd490b338584be2895d86531e85215ac213ee385dd3677d305"
+      "sha256": "6d0c834884fe9f8ca88b2c05c37e78208efd9b6783655f0cc87f7327ee166491"
     },
     {
       "file": "reports/trenches/mirror_measurement_rank_comparison.csv",
-      "sha256": "42fe85418bfcf91af798117033259f19777d9969c4ed0da985661e2927753bcc"
+      "sha256": "eeda3f277a3b39634912db7fd10de61677ed4bf855e01f8c137d87211a434583"
     },
     {
       "file": "reports/trenches/mirror_measurement_summary.json",
-      "sha256": "e2654a628c7d0da7a339b5f60eeb2ed97c393be874d2309efa754e2562dca412"
+      "sha256": "77e1d593ce755f4afa9d903a6a64762f155f006442d1060b8a041f26442bf900"
     },
     {
       "file": "reports/trenches/mirror_model_comparison.png",
@@ -240,7 +240,7 @@
     },
     {
       "file": "reports/trenches/mirror_model_players.csv",
-      "sha256": "8e613bf95044d34040e8cd32963a6737691ba755a3112a2b33333a20c9406079"
+      "sha256": "6a5d7de5f80cac0e86918974905effd807740f332ae35d7d0fbfdc78a3ba01ce"
     },
     {
       "file": "reports/trenches/mirror_phase_examples.png",
@@ -252,11 +252,11 @@
     },
     {
       "file": "reports/trenches/mirror_player_features.csv",
-      "sha256": "ca737c8da75d218417d657a58ebc248276abb40292b28d05be884049221ad0bc"
+      "sha256": "d74d0b1af642f62bae3876c251ab9c481d53fc7ec1263e2b0387821fc3e51c1d"
     },
     {
       "file": "reports/trenches/mirror_predictions.csv",
-      "sha256": "a92f132c1e73730e6a9936540720678a55b19d20fc09cb43c0e44996727230ad"
+      "sha256": "32cf65dd385cc8d04711327b1cc401a93c5dc00dff507d4549a811ea149f6e22"
     },
     {
       "file": "reports/trenches/mirror_ranking_shift.png",
@@ -264,7 +264,7 @@
     },
     {
       "file": "reports/trenches/mirror_rejected.csv",
-      "sha256": "2c8b20237c1955cba830668d11df02b0a9e5ce0cabe560d44d6fd19771271fd2"
+      "sha256": "1a1cf4d91d63858cbcb8f9faad510937f08935fb760e81a59096d4c922d627c1"
     },
     {
       "file": "reports/trenches/mirror_study_design.md",
@@ -272,7 +272,7 @@
     },
     {
       "file": "reports/trenches/mirror_summary.json",
-      "sha256": "23af45e70fa93c4ae5ae5e1a023a05c1f508710eccb42c0bbbe8e19bbe046dad"
+      "sha256": "4ea3218ffb4c1a69f63d9a7b1da88de51794f227058eaf00067ca1e0988829b2"
     },
     {
       "file": "reports/trenches/mirror_trajectory_audit.png",
@@ -280,7 +280,7 @@
     },
     {
       "file": "reports/trenches/mirror_validation.json",
-      "sha256": "161a0868632729bae3a7d8e42257201ce3b4b53b304ed7ed51d6fe82874b891e"
+      "sha256": "8cc8aa6522bf194d528b34407097cab822f5bdd8288b86c751aa926df6a80f88"
     },
     {
       "file": "reports/trenches/movement_bridge_design.md",
@@ -292,51 +292,51 @@
     },
     {
       "file": "reports/trenches/movement_correlations.csv",
-      "sha256": "8d29a401d159f647525b745b7048452cb7c0a66410ea1b5ee144ec4d058f5dc0"
+      "sha256": "76ecededa759d95ff2f70380232e6fe63010420119809e4d631a4b027d1a923f"
     },
     {
       "file": "reports/trenches/movement_forward_year_scores.csv",
-      "sha256": "accdf63251dc99cef3c7edd840e70d7c7348f99908247d980f481ccf1fee538e"
+      "sha256": "61053cc463ee084578822734e101ef497e6e9e0edb5ec0709c747a675168a957"
     },
     {
       "file": "reports/trenches/movement_model_players.csv",
-      "sha256": "95eb7301716f0c67cc018b5155093f2240d2f822a40477f553d91dcba9b30909"
+      "sha256": "8e75e5c6c94486c7edc2d31013ebb44528db2bb21cf77e70c89df87bc2e08a01"
     },
     {
       "file": "reports/trenches/movement_player_means.csv",
-      "sha256": "c3d0600747f4ba298bc395fe6683d1da9ea91d22028cb081784fc0966215c89b"
+      "sha256": "2f81dc980371f19dc8c737ca6b19ae2ecf874f81f9f99a90b2c4adebddf2c77b"
     },
     {
       "file": "reports/trenches/movement_predictions.csv",
-      "sha256": "234fb07d719e21d635bd0160e18ff9d49e0f661d76ae317dcdc69f8795f34e6a"
+      "sha256": "40c8fb07edfb27509ff5a60ac944f7b693cc8ad2027aa86278d6a8fc5dccbdf8"
     },
     {
       "file": "reports/trenches/movement_summary.json",
-      "sha256": "7fea9e38ba0931bd454df1058c99b0d6ac421f5c0cbb3175783bc9f69cfc6c94"
+      "sha256": "558fb7c32d8a72b8046cc2cece95d92c855be9d03dd6e84e6a72d696231bcded"
     },
     {
       "file": "reports/trenches/ol_drill_suite_audit.csv",
-      "sha256": "0298ed1f1ec139454c81975d90afcab54eaf4cb1ff29a1aabb35908f3d73928c"
+      "sha256": "abb2f7d163bf97b867496eacc949041e2b635aa9203603ccd85984dbe926c486"
     },
     {
       "file": "reports/trenches/ol_early_movement.csv",
-      "sha256": "d492b351957d2cde399bc8d13416efd89233a01178315a9e074f63def5add542"
+      "sha256": "d05e2dc157f8201619b7fdb482ce1cc2ddf85db97fd420aae47c31ed4c73f677"
     },
     {
       "file": "reports/trenches/ol_early_movement_exclusions.csv",
-      "sha256": "8c70af86b8f14864fe97f7a4938865b1138941be74c3b5444570aaaa6ebd2369"
+      "sha256": "3b03640985f066405d95aca043695c883d40d31844427e5e0af16db7c101218c"
     },
     {
       "file": "reports/trenches/ol_movement_extraction_audit.json",
-      "sha256": "d8a88f89c8a1d1cd1ea59b72706a17da9efc1dd93629b64d7ba9aaa0d5ab0844"
+      "sha256": "8b432de465a6e1a04a197d0a4057625a6ab56a270312da637f11e1cd63b56ad8"
     },
     {
       "file": "reports/trenches/ol_rookie_coverage.csv",
-      "sha256": "131bd5e05869fdcc43325a83b72d87014d97887b549323940024387fd05b93f9"
+      "sha256": "27d27eca4e7747a98d739d50850fc9284dcfb179b1b4f272180232011fdd4758"
     },
     {
       "file": "reports/trenches/ol_rookie_plays.csv",
-      "sha256": "dc9ff2cb05cfcc4984801fe09bafa744d67f18a413b3308ba9dcdd9e7c27ced1"
+      "sha256": "90732e0d69ed7a5e1b1dfa2a07694b8f6e49940db0751610288034c224306bd6"
     },
     {
       "file": "reports/trenches/README_TR.md",
@@ -344,11 +344,11 @@
     },
     {
       "file": "reports/wr_pilot/combine_attempt_features.csv",
-      "sha256": "773f713a8e843217ca0081db9c86f829aa21b3d5c50c76bd6041c4ccf61da5e2"
+      "sha256": "1d1406e67be1f296140499ca4c6787b57072a0d9fea5b4e177eec145cbf36b6e"
     },
     {
       "file": "reports/wr_pilot/held_out_predictions.csv",
-      "sha256": "f84f28fc1b601948e481290e0a8e76e23e3b1a928568c7657953a81975b4ae86"
+      "sha256": "da5f3f5fe6c7e6b6ea5daae716bcea4ee4825814f9e07eb7e76cc2b181d342b5"
     },
     {
       "file": "reports/wr_pilot/model_comparison.png",
@@ -356,7 +356,7 @@
     },
     {
       "file": "reports/wr_pilot/player_features.csv",
-      "sha256": "3d402edea940199e27f458fc63a21d75dfb3ad33a03189c9ccb53b1ad0308cc6"
+      "sha256": "73432025f9d81a0111168ddc0069eab0b2a854d7eade3680837036efeebc60bc"
     },
     {
       "file": "reports/wr_pilot/README.md",
@@ -364,11 +364,11 @@
     },
     {
       "file": "reports/wr_pilot/rejected_attempts.csv",
-      "sha256": "3b557654192c32f236a3e4e88ef99ffc28861b513b2403c12a41e424d05b211d"
+      "sha256": "c6f2b7e11a96b785a470283bdcceb470eda27f9ea704aed564c180657e659329"
     },
     {
       "file": "reports/wr_pilot/summary.json",
-      "sha256": "529cfca1f2009a75fa3f7135f21566aeb11aa05c02755d69cb3e1e85bc2c551c"
+      "sha256": "e4bd427bf8145fe1007fa4d1973aa5af1c5b437e43e2b46da40bf648b1ab54ff"
     },
     {
       "file": "reports/wr_pilot/turn_detection.png",
@@ -376,11 +376,11 @@
     },
     {
       "file": "reports/wr_route_analysis/design.json",
-      "sha256": "9b2f1f4ba1cd031bd48cd13d06a97f10470173cbc9eb5972cc58fbace8311d43"
+      "sha256": "9540d0e00554d624e216c44782f3598d3b9dae192b9580574bc627f93d7c86b2"
     },
     {
       "file": "reports/wr_route_analysis/feature_quality_by_year.csv",
-      "sha256": "d8e0e69903e49e14d56c154b46e275419a9e4eb9361650360cc445602b041d25"
+      "sha256": "7626e5697bb75834fd6caf676d98e9ced5521ee29deec7bd20a97b5b3c02b2f6"
     },
     {
       "file": "reports/wr_route_analysis/forward_year_comparison.png",
@@ -388,15 +388,15 @@
     },
     {
       "file": "reports/wr_route_analysis/forward_year_predictions.csv",
-      "sha256": "4095d7b48ec3b5769e277a0686de192b2f4cbe354906edced8efc0d80e77efb9"
+      "sha256": "84bf6d135ea0465d841d6035ddffb15bd5ee154d768082ea975dfe466b80e08c"
     },
     {
       "file": "reports/wr_route_analysis/forward_year_scores.csv",
-      "sha256": "ad9803e8f8199b0707996db60a84959fc0aeb9e87d4ec48006994c66f699f9f8"
+      "sha256": "9e88aa4da070a2e94e4da64b32c3c2a5379fafddd735abfd7488e42388283c19"
     },
     {
       "file": "reports/wr_route_analysis/outcome_reliability.csv",
-      "sha256": "ac64b497e96b8956212f8375d86148b7bad67ab08d6ee5308d80e11cb1ce934c"
+      "sha256": "bf933558a22a3dd2cdee6d70c89bed85f8583d9c8a9a5705e679cb1b9fabbf45"
     },
     {
       "file": "reports/wr_route_analysis/README.md",
@@ -404,11 +404,11 @@
     },
     {
       "file": "reports/wr_route_analysis/rejections_by_year.csv",
-      "sha256": "742a22952b63660a218758c2a9d0196eb43704b2796fc93e3bdff50117d47a86"
+      "sha256": "e79322a2a8ec5f275c7aee4e6165a92cfb7fde52bd2d3a6e7f14899b9ff08078"
     },
     {
       "file": "reports/wr_route_analysis/route_coverage_counts.csv",
-      "sha256": "9bea5f07654b4821e92db4d06390b0595829812e16e61d4ad0d170ddae8c3a9d"
+      "sha256": "bf444d78eba8d71099f48d3a7191448a09de8c11641bfd47aaa682378ab3d55c"
     },
     {
       "file": "requirements-notebook.txt",
@@ -504,7 +504,7 @@
     },
     {
       "file": "SONUC.html",
-      "sha256": "d06c2bb35fc34aab02b76cd6e3123c4f24885759bad6f089ca76cb9c7d796e21"
+      "sha256": "2b1173d3fc2cbc18c60a6fc6d018a9fb08c3e5f38bef57f760c68d3239a6737f"
     },
     {
       "file": "submission/figures/combine_repeatability.png",
@@ -528,7 +528,7 @@
     },
     {
       "file": "submission/verification.json",
-      "sha256": "9cf838f01d388f96b10f8980c15bad928b5bfa6688e367ab65b7e47153686a0f"
+      "sha256": "6958df5c5edfdee1bd68b4c99d0c9bfac3ef1d1f37c6bc6b9869ceb921da5c2b"
     },
     {
       "file": "submission/writeup_en.md",

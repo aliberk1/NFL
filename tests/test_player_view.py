@@ -1,5 +1,6 @@
 import duckdb
 from pathlib import Path
+import streamlit
 from streamlit.testing.v1 import AppTest
 
 from app import analytics, config
@@ -46,6 +47,8 @@ def test_comparison_uses_role_metric_and_weighted_rate():
 
 
 def test_main_flow_preserves_selection_across_search_and_filters(tmp_path, monkeypatch):
+    monkeypatch.setattr(streamlit, "image", lambda *args, **kwargs: None)
+    monkeypatch.setattr(streamlit, "dataframe", lambda *args, **kwargs: None)
     path = tmp_path / "ui.duckdb"
     with duckdb.connect(str(path)) as con:
         con.execute("CREATE TABLE players (nfl_id BIGINT, display_name VARCHAR, nfl_position VARCHAR, draft_year BIGINT)")
@@ -72,7 +75,7 @@ def test_main_flow_preserves_selection_across_search_and_filters(tmp_path, monke
             GROUP BY pp.team_abbr, g.season""")
     monkeypatch.setattr(analytics, "DB", path)
     monkeypatch.setattr(config, "DB", path)
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app" / "ui.py",
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app" / "ui.py"),
                             default_timeout=20).run()
     assert not app.exception
     app.text_input[0].set_value("Test Receiver").run()
@@ -83,14 +86,14 @@ def test_main_flow_preserves_selection_across_search_and_filters(tmp_path, monke
     assert not app.exception
     assert app.multiselect[0].value == [1]
     app.text_input[0].set_value("").run()
-    app.selectbox[1].set_value("MIN").run()
+    next(item for item in app.selectbox if item.label == "Takım").set_value("MIN").run()
     assert not app.exception
     assert app.multiselect[0].value == [1]
     assert any("Minnesota Vikings (MIN)" in item.value for item in app.caption)
-    app.selectbox[0].set_value("T").run()
+    next(item for item in app.selectbox if item.label == "Pozisyon").set_value("T").run()
     assert not app.exception
     assert app.multiselect[0].value == [1]
     assert any("Bu pozisyonda seçili oyuncu yok" in item.value for item in app.info)
-    app.selectbox[0].set_value("Tümü").run()
-    app.selectbox[2].set_value(2024).run()
+    next(item for item in app.selectbox if item.label == "Pozisyon").set_value("Tümü").run()
+    next(item for item in app.selectbox if item.label == "Sezon").set_value(2024).run()
     assert any("kayıt bulunamadı" in item.value for item in app.info)

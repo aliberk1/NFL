@@ -5,12 +5,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import streamlit as st
 import pandas as pd
+import streamlit.components.v1 as components
 
 from app import analytics
 from app.assistant import answer
 from app.config import DB
 from app.player_view import (
-    CAREER_FIELDS, COMBINE_FIELDS, PLAYER_FIELDS, POSITION_NAMES, ROLE_METRICS,
+    CAREER_FIELDS, COMBINE_FIELDS, PLAYER_FIELDS, ROLE_METRICS,
     TEAM_NAMES, comparison_groups, formatted_fields, position_label, team_label,
 )
 
@@ -29,6 +30,25 @@ LABELS = {
     "rushing_yards": "Koşuyla kazanılan yard",
 }
 SEASON_TYPES = {"REG": "Normal sezon", "POST": "Play-off", "PRE": "Sezon öncesi"}
+
+
+OL_LIMITATION_LABELS = {
+    "One mirror attempt per player; boundary robustness is not repeatability.": "Oyuncu başına tek mirror denemesi vardır; sınır duyarlılığı, tekrar ölçüm güvenilirliği değildir.",
+    "Small cohorts and multiple research questions across the project.": "Örneklemler küçüktür ve projede birden fazla araştırma sorusu incelenmiştir.",
+    "Pressure labels and dropback duration are supplied game outcomes; context adjustment is not causal.": "Baskı etiketleri ve dropback süresi maç verisinden gelir; bağlam düzeltmesi nedensellik göstermez.",
+    "Conditional bootstrap excludes training uncertainty.": "Koşullu bootstrap eğitim belirsizliğini kapsamaz.",
+    "Mirror phase includes the transition into exit until the geometric threshold is crossed.": "Geometrik eşik geçilene kadarki çıkışa geçiş, mirror fazına dahildir.",
+    "The drill is coach-directed; faster movement can reflect different instructions.": "Dril koç yönlendirmelidir; daha hızlı hareket farklı talimatları yansıtabilir.",
+}
+WR_LIMITATION_LABELS = {
+    "Route speed is not overall football success or receiver separation.": "Rota hızı genel futbol başarısı veya receiver separation ölçüsü değildir.",
+    "All analyses exploratory; earlier outcomes from these years were inspected.": "Analizler keşifseldir; bu yılların sonuçları daha önce incelenmiştir.",
+    "Bootstrap is conditional on fitted folds and ignores training uncertainty.": "Bootstrap eğitilmiş fold'lara koşulludur ve eğitim belirsizliğini kapsamaz.",
+    "Only participating Combine players and observed rookie pass routes are included.": "Yalnız Combine'a katılan oyuncular ve gözlenen çaylak pas rotaları dahildir.",
+    "Pre-throw window restriction selects longer-developing pass plays.": "Pas öncesi pencere kısıtı, daha uzun gelişen pas oyunlarını seçer.",
+    "Additive context model does not remove all team, route depth, or tactical effects.": "Toplamsal bağlam modeli takım, rota derinliği ve taktik etkilerin tümünü gidermez.",
+    "Official speed units are not yet verified.": "Resmî hız birimleri henüz doğrulanmamıştır.",
+}
 
 
 def show_performance(payload, rows=None):
@@ -56,7 +76,7 @@ def show_profile(player_id, directory_entry, expanded=False):
                      expanded=expanded):
         st.caption("Kayıtlı takımlar: " + (", ".join(teams) if teams else "Bilgi yok") +
                    " · Bu liste güncel kadroyu göstermez.")
-        profile_tab, combine_tab, career_tab = st.tabs(["Profil", "Combine", "Kariyer"])
+        profile_tab, combine_tab, career_tab, technical_tab = st.tabs(["Profil", "Combine", "Kariyer", "Teknik"])
         with profile_tab:
             st.table(pd.DataFrame(formatted_fields(player, PLAYER_FIELDS)))
         with combine_tab:
@@ -74,7 +94,7 @@ def show_profile(player_id, directory_entry, expanded=False):
                 st.table(pd.DataFrame(formatted_fields(career[0], CAREER_FIELDS)))
             else:
                 st.info("Bu oyuncu için kariyer özeti yok.")
-        with st.expander("Teknik kayıtlar"):
+        with technical_tab:
             st.json(profile)
 
 
@@ -122,14 +142,188 @@ def show_evidence(evidence):
         st.json(evidence)
 
 
+
+def show_limitations(items, translations):
+    with st.expander("Kapsam ve araştırma sınırları", expanded=True):
+        for item in items:
+            st.markdown(f"- {translations.get(item, item)}")
+
+
+def show_research_source(digests):
+    labels = " · ".join(f"{name}: {digest[:12]}" for name, digest in digests.items())
+    st.caption(f"Kaynak: manifest ile doğrulanmış yerel araştırma çıktıları · SHA-256 {labels}")
+
+
+def show_ol_research(study):
+    summary = study["summary"]
+    measurements = study["measurements"]
+    mirror_drill = next(
+        drill for drill in measurements["ol_drill_suite"]
+        if drill["drill"] == "Pass-Pro Mirror Drill"
+    )
+    st.subheader("Hücum hattı · Pass-Pro Mirror faz ayrıştırması")
+    st.markdown(
+        "Mirror drilindeki yanal ayna hareketi ile sondaki düz çıkış sprinti "
+        "ayrı ölçülür. İnceleyici oyuncuya göre saha izini ve zaman içindeki "
+        "toplam/yanal hızı gösterir; turuncu alan çıkış fazını belirtir."
+    )
+    metric_columns = st.columns(3)
+    metric_columns[0].metric("Kabul edilen mirror oyuncusu", f'{mirror_drill["accepted_players"]}')
+    metric_columns[1].metric("Zirve hız çıkış fazında", f'{mirror_drill["peak_in_exit_fraction"]:.0%}')
+    metric_columns[2].metric(
+        "Yanal / tüm hız sıralaması",
+        f'ρ = {mirror_drill["phase_vs_whole_spearman"]:+.3f}',
+    )
+    st.caption(
+        "Bu örneklemde zirve hız çıkış sprintinde oluştu; yanal faz ölçümü "
+        "tüm dril hız sıralamasını temsil etmiyor. Bu, oyuncu yeteneği sıralaması değildir."
+    )
+
+    primary_scores = [
+        score for score in summary["scores"]
+        if score["variant"] == "primary_with_duration" and score["test_year"] == 2025
+    ]
+    classic = next(score for score in primary_scores if score["model"] == "classic")
+    phase = next(score for score in primary_scores if score["model"] == "mirror_phase")
+    score_columns = st.columns(2)
+    score_columns[0].metric("2025 klasik ölçümler MAE", f'{classic["mae_pp"]:.3f} pp')
+    score_columns[1].metric("2025 mirror fazı MAE", f'{phase["mae_pp"]:.3f} pp')
+    st.caption(
+        f"Faz modelinin klasik modele göre hata azalması {phase['improvement_over_classic_pp']:+.3f} pp; "
+        f"koşullu %95 aralık [{phase['ci_low']:+.3f}, {phase['ci_high']:+.3f}] pp. "
+        "Aralık sıfırı kapsadığı için ek tahmin üstünlüğü kanıtlanmış değildir."
+    )
+    st.image(study["model_chart"], caption="İleri yıl pas koruma model karşılaştırması", use_container_width=True)
+    show_research_source(study["digests"])
+
+    st.markdown("#### Aynı pozisyon ve draft sınıfında oyuncu karşılaştırması")
+    cohort = pd.DataFrame(study["cohort"])
+    cohort["draft_year"] = pd.to_numeric(cohort["draft_year"])
+    position_col, year_col = st.columns(2)
+    positions = sorted(cohort["nfl_position"].dropna().unique())
+    draft_years = sorted(cohort["draft_year"].dropna().astype(int).unique())
+    with position_col:
+        selected_position = st.selectbox("OL pozisyonu", positions, key="research_ol_position")
+    with year_col:
+        selected_year = st.selectbox("Draft sınıfı", draft_years, key="research_ol_draft_year")
+    cohort = cohort[
+        (cohort["nfl_position"] == selected_position)
+        & (cohort["draft_year"] == selected_year)
+    ]
+    st.caption(f"{len(cohort)} oyuncu · aynı pozisyon ve draft sınıfı")
+    st.dataframe(
+        cohort[[
+            "display_name", "nfl_position", "draft_year", "lateral_speed_p75",
+            "whole_drill_speed", "lateral_speed_p75_percentile",
+            "whole_drill_speed_percentile", "rank_difference_pp",
+        ]].rename(columns={
+            "display_name": "Oyuncu",
+            "nfl_position": "Pozisyon",
+            "draft_year": "Draft yılı",
+            "lateral_speed_p75": "Yanal hız p75 (yd/s)",
+            "whole_drill_speed": "Tüm dril hızı (yd/s)",
+            "lateral_speed_p75_percentile": "Yanal hız yüzdeliği",
+            "whole_drill_speed_percentile": "Tüm dril yüzdeliği",
+            "rank_difference_pp": "Yüzdelik farkı (puan)",
+        }).round(2),
+        hide_index=True,
+        width="stretch",
+    )
+    with st.expander("Etkileşimli faz ve zaman-hız inceleyicisi", expanded=False):
+        components.html(study["explorer_html"], height=1300, scrolling=True)
+    show_limitations(summary["limitations"], OL_LIMITATION_LABELS)
+
+
+def show_wr_research(study):
+    summary = study["summary"]
+    st.subheader("Wide receiver · Combine hızının maç rotalarına aktarımı")
+    st.markdown(
+        "Bu çalışma Combine hız ölçümleri ile çaylak sezonundaki rota hızını "
+        "karşılaştırır. Rota hızı genel oyuncu başarısı veya receiver separation değildir."
+    )
+    metric_columns = st.columns(3)
+    metric_columns[0].metric("WR oyuncusu", f'{summary["primary_players"]}')
+    metric_columns[1].metric("Gözlenen rota oyunu", f'{summary["primary_plays"]:,}')
+    metric_columns[2].metric("Combine / maç hızı korelasyonu", f'{summary["raw_peak_game_correlation"]:+.3f}')
+    st.caption(
+        "Korelasyon betimseldir. Tracking hızlarının resmî birimi doğrulanmadığı için "
+        "bu değerler birim adı olmadan karşılaştırılır."
+    )
+
+    rows = []
+    for score in summary["scores"]:
+        rows.append({
+            "Test draft sınıfı": score["test_year"],
+            "Eğitim / test oyuncusu": f'{score["train_players"]} / {score["test_players"]}',
+            "Klasik MAE": score["traditional_mae"],
+            "Klasik + hareket MAE": score["with_tracking_mae"],
+            "MAE azalması": score["movement_mae_improvement"],
+            "%95 aralık alt": score["ci_low"],
+            "%95 aralık üst": score["ci_high"],
+        })
+    st.markdown("#### İleri draft sınıfında model karşılaştırması")
+    st.dataframe(pd.DataFrame(rows).round(4), hide_index=True, width="stretch")
+    st.caption(
+        "2024 testinde MAE azalmış, 2025 testinde azalmamıştır; iki aralık da sıfırı kapsar. "
+        "Tutarlı ek tahmin katkısı gösterilmemiştir."
+    )
+    st.image(study["model_chart"], caption="WR hız aktarımı: ileri yıl model sonuçları", use_container_width=True)
+    show_research_source(study["digests"])
+
+    st.markdown("#### Aynı WR draft sınıfında Combine ve rota ölçümleri")
+    cohort = pd.DataFrame(study["cohort"])
+    cohort["draft_year"] = pd.to_numeric(cohort["draft_year"])
+    draft_years = sorted(cohort["draft_year"].dropna().astype(int).unique())
+    selected_year = st.selectbox("WR draft sınıfı", draft_years, key="research_wr_draft_year")
+    cohort = cohort[(cohort["nfl_position"] == "WR") & (cohort["draft_year"] == selected_year)]
+    st.caption(f"{len(cohort)} oyuncu · WR pozisyonu, {selected_year} draft sınıfı")
+    columns = [
+        "display_name", "draft_year", "forty", "combine_peak_speed",
+        "combine_early_speed", "valid_game_plays",
+    ]
+    if "game_peak_speed" in cohort.columns:
+        columns.insert(-1, "game_peak_speed")
+    else:
+        st.caption("Oyuncu bazlı rota zirve hızı bu araştırma çıktısında bulunmuyor.")
+    st.dataframe(
+        cohort[columns].rename(columns={
+            "display_name": "Oyuncu",
+            "draft_year": "Draft yılı",
+            "forty": "40-yard süresi",
+            "combine_peak_speed": "Combine zirve hızı",
+            "combine_early_speed": "Combine erken hız",
+            "game_peak_speed": "Maç rota zirve hızı",
+            "valid_game_plays": "Geçerli rota oyunu",
+        }).round(3),
+        hide_index=True,
+        width="stretch",
+    )
+    show_limitations(summary["limitations"], WR_LIMITATION_LABELS)
+
+
+
+def show_research():
+    studies = analytics.research_snapshot()
+    ol_research, wr_research = st.tabs(["OL faz ayr\u0131\u015ft\u0131rmas\u0131", "WR h\u0131z aktar\u0131m\u0131"])
+    with ol_research:
+        show_ol_research(studies["ol"])
+    with wr_research:
+        show_wr_research(studies["wr"])
+
+
 st.set_page_config(page_title="NFL Veri Asistanı", page_icon="🏈", layout="wide")
 st.title("🏈 NFL Veri Asistanı")
 st.caption("Yalnızca yerel dataset • Gözlenen veriler ve kaynaklı analiz • MVP 0.1")
 if not DB.exists():
-    st.info("Önce terminalde `python -m pipelines.ingest` çalıştırın.")
+    st.info("Oyuncu analizi i\u00e7in \u00f6nce `python -m pipelines.ingest` \u00e7al\u0131\u015ft\u0131r\u0131n. Ara\u015ft\u0131rma sonu\u00e7lar\u0131 manifestlerden g\u00f6r\u00fcnt\u00fclenebilir.")
+    research, = st.tabs(["Ara\u015ft\u0131rma"])
+    with research:
+        show_research()
     st.stop()
 
-players, chat, coverage = st.tabs(["Oyuncu analizi", "Sohbet", "Veri kapsamı"])
+players, research, chat, coverage = st.tabs(["Oyuncu analizi", "Ara\u015ft\u0131rma", "Sohbet", "Veri kapsam\u0131"])
+with research:
+    show_research()
 with coverage:
     summary = analytics.dataset_summary()
     st.warning(analytics.COVERAGE_NOTE)
