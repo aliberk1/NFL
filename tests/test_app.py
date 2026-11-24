@@ -16,7 +16,7 @@ def database(tmp_path, monkeypatch):
     con.execute("INSERT INTO games VALUES (10, 2023, 'REG'), (20, 2024, 'REG')")
     con.execute("""CREATE TABLE player_play (
         game_id INTEGER, play_id INTEGER, nfl_id INTEGER, team_abbr VARCHAR,
-        pressure_allowed BOOLEAN, rec_yards DOUBLE, rush_yards DOUBLE, sack BOOLEAN)""")
+        pressure_allowed BOOLEAN, rec_yards DOUBLE, rush_yards DOUBLE, sack DOUBLE)""")
     con.execute("""INSERT INTO player_play VALUES
         (10, 1, 1, 'X', true, NULL, NULL, NULL),
         (10, 2, 1, 'X', false, NULL, NULL, NULL),
@@ -52,6 +52,17 @@ def test_distinct_games_and_computed_sack_rate(database):
     assert response["scope"]["season_type"] == "REG"
     assert "benzersiz" in response["metric_definitions"]["games"]
     assert analytics.player_performance([2], 2023, "REG")["data"][0]["sacks_per_observed_game"] is None
+
+
+def test_fractional_sacks_and_multiple_historical_teams(database):
+    with duckdb.connect(str(analytics.DB)) as con:
+        con.execute("UPDATE player_play SET sack = 0.5 WHERE game_id = 10 AND play_id = 1 AND nfl_id = 1")
+        con.execute("UPDATE player_play SET sack = 0 WHERE game_id = 10 AND play_id = 2 AND nfl_id = 1")
+        con.execute("UPDATE player_play SET team_abbr = 'Y' WHERE game_id = 20 AND nfl_id = 1")
+    rows = analytics.player_performance([1])["data"]
+    assert [(row["team_abbr"], row["sacks"]) for row in rows] == [("X", 0.5), ("Y", None)]
+    assert rows[0]["sacks_per_observed_game"] == 0.5
+    assert analytics.player_directory()["data"][0]["teams"] == "X, Y"
 
 
 def test_invalid_season_type(database):

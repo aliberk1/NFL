@@ -110,6 +110,8 @@ Araştırma notebook'ları bunlara ek olarak yarışmanın ilgili Combine ve ma�
 
 Arayüz varsayılan olarak `http://127.0.0.1:8501` adresindedir. Veri yükleyici anahtar tekilliğini ve oyuncu/maç bağlantılarını kontrol eder; veritabanını `data/curated/nfl.duckdb` konumunda oluşturur.
 
+Yükleme; şema, eksik değer ve anahtar eşleşmelerini denetler. Kaynak ve veri sürümü data/curated/catalog.json, ayrıntılı kalite raporu data/curated/quality_report.json dosyasına yazılır. Metriklerin kapsamı ve yorum sınırları için [veri kalitesi rehberine](docs/VERI_KALITESI.md) bakın.
+
 ### 4. İsteğe bağlı sohbet bağlantısı
 
 Arayüzü başlatacağınız terminalde:

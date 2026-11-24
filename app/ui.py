@@ -57,6 +57,13 @@ players, chat, coverage = st.tabs(["Oyuncu analizi", "Sohbet", "Veri kapsamı"])
 with coverage:
     summary = analytics.dataset_summary()
     st.warning(analytics.COVERAGE_NOTE)
+    provenance = summary.get("provenance")
+    if provenance:
+        st.caption(
+            f"Kaynak: {provenance['source']} · Yükleme (UTC): {provenance['loaded_at_utc']} "
+            f"· Veri sürümü (SHA-256): {provenance['data_version'][:12]}"
+        )
+        st.caption("Veri kalite raporu: data/curated/quality_report.json")
     st.dataframe(summary["data"]["seasons"], hide_index=True)
     st.dataframe(summary["data"]["coverage"], hide_index=True)
 with players:
