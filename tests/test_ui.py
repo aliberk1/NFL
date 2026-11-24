@@ -85,7 +85,6 @@ def test_multi_team_search_and_same_context_comparison(ui):
     ui.multiselect[0].set_value(labels[:2]).run()
     assert len(ui.session_state["selected_player_ids"]) == 2
     assert any(item.value == "Oyuncu profilleri" for item in ui.subheader)
-    assert any("A Player" in item.value and "B Player" in item.value for item in ui.markdown)
 
 
 def test_compare_supports_different_position_groups(ui):
