@@ -180,6 +180,8 @@ Uygulama testleri:
 
 ## Sunumlar ve ek açıklamalar
 
+Ekip görev alma, bağımlılık kilidi ve PR süreci: [Ekip çalışma düzeni](docs/EKIP_CALISMA_DUZENI.md).
+
 - [Güncel araştırma durumu](CALISMA_DURUMU.md)
 - [Deney kayıt defteri](reports/experiment_register.md)
 - [Görsel terimler ve kavramlar rehberi](TERIMLER_VE_KAVRAMLAR_REHBERI.html)
