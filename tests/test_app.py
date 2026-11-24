@@ -105,6 +105,23 @@ def test_research_artifact_rejects_manifest_hash_mismatch(tmp_path, monkeypatch)
         analytics._read_verified_research_artifact("package", "reports/result.json")
 
 
+def test_research_text_artifact_hash_is_line_ending_independent(tmp_path, monkeypatch):
+    monkeypatch.setattr(analytics, "ROOT", tmp_path)
+    (tmp_path / "package").mkdir()
+    artifact = tmp_path / "reports" / "result.json"
+    artifact.parent.mkdir()
+    artifact.write_bytes(b'{\r\n  "value": 1\r\n}')
+    canonical = b'{\n  "value": 1\n}'
+    (tmp_path / "package" / "manifest.json").write_text(json.dumps({
+        "verification": {"status": "passed"},
+        "files": [{"path": "reports/result.json", "sha256": hashlib.sha256(canonical).hexdigest()}],
+    }), encoding="utf-8")
+
+    content, digest = analytics._read_verified_research_artifact("package", "reports/result.json")
+    assert content == b'{\r\n  "value": 1\r\n}'
+    assert digest == hashlib.sha256(canonical).hexdigest()
+
+
 @pytest.mark.parametrize("players,expected", [
     ([{"nfl_position": "WR", "draft_year": 2024},
       {"nfl_position": "WR", "draft_year": 2024}], True),

@@ -113,7 +113,10 @@ def _read_verified_research_artifact(package: str, relative_path: str) -> tuple[
     if not artifact_path.is_relative_to(ROOT.resolve()):
         raise ValueError(f"{relative_path} proje dizininin dışına çıkıyor.")
     content = artifact_path.read_bytes()
-    actual_digest = hashlib.sha256(content).hexdigest()
+    hash_content = content
+    if artifact_path.suffix.lower() in {".csv", ".html", ".json", ".md", ".txt"}:
+        hash_content = content.replace(b"\r\n", b"\n")
+    actual_digest = hashlib.sha256(hash_content).hexdigest()
     if actual_digest != entry["sha256"]:
         raise ValueError(f"{relative_path} manifestteki SHA-256 özetiyle eşleşmiyor.")
     return content, actual_digest
