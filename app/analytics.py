@@ -1,9 +1,13 @@
+import csv
+import hashlib
+import io
 import json
 from contextlib import contextmanager
+from typing import Any
 
 import duckdb
 
-from app.config import DB
+from app.config import DB, ROOT
 
 COVERAGE_NOTE = (
     "Sonuçlar yalnızca dataset içindeki oyuncu ve oyun kayıtlarını kapsar; "
@@ -70,6 +74,124 @@ def player_profile(player_id):
         "combine": query("SELECT * FROM combine_results WHERE nfl_id = ?", [player_id]),
         "career_snapshot": query("SELECT * FROM player_career_successes WHERE nfl_id = ?", [player_id]),
     }, ["players", "combine_results", "player_career_successes"])
+
+
+def _read_verified_research_artifact(package: str, relative_path: str) -> tuple[bytes, str]:
+    manifest_path = ROOT / package / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        raise ValueError(f"{manifest_path} geçerli bir araştırma manifesti değil.")
+    verification = manifest.get("verification")
+    if not isinstance(verification, dict) or verification.get("status") != "passed":
+        raise ValueError(f"{manifest_path} doğrulamadan geçmemiş.")
+
+    artifacts = manifest.get("files")
+    if artifacts is None:
+        artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, list):
+        raise ValueError(f"{manifest_path} sürümlü dosya listesini içermiyor.")
+    entry = next(
+        (
+            item for item in artifacts
+            if isinstance(item, dict)
+            and item.get("path", item.get("file")) == relative_path
+        ),
+        None,
+    )
+    if entry is None or not isinstance(entry.get("sha256"), str):
+        raise ValueError(f"{relative_path} {manifest_path} içinde sürümlenmemiş.")
+
+    artifact_path = (ROOT / relative_path).resolve()
+    if not artifact_path.is_relative_to(ROOT.resolve()):
+        raise ValueError(f"{relative_path} proje dizininin dışına çıkıyor.")
+    content = artifact_path.read_bytes()
+    actual_digest = hashlib.sha256(content).hexdigest()
+    if actual_digest != entry["sha256"]:
+        raise ValueError(f"{relative_path} manifestteki SHA-256 özetiyle eşleşmiyor.")
+    return content, actual_digest
+
+
+def _verified_research_json(package: str, relative_path: str) -> tuple[dict[str, Any], str]:
+    content, digest = _read_verified_research_artifact(package, relative_path)
+    data = json.loads(content)
+    if not isinstance(data, dict):
+        raise ValueError(f"{relative_path} bir JSON nesnesi olmalıdır.")
+    return data, digest
+
+
+def _verified_research_csv(package: str, relative_path: str) -> tuple[list[dict[str, str]], str]:
+    content, digest = _read_verified_research_artifact(package, relative_path)
+    reader = csv.DictReader(io.StringIO(content.decode("utf-8-sig")))
+    if reader.fieldnames is None:
+        raise ValueError(f"{relative_path} CSV başlık satırı içermiyor.")
+    return list(reader), digest
+
+
+def research_snapshot() -> dict[str, Any]:
+    ol_summary, ol_summary_digest = _verified_research_json(
+        "submission_mirror", "reports/trenches/mirror_summary.json"
+    )
+    ol_measurements, ol_measurements_digest = _verified_research_json(
+        "submission_mirror", "reports/trenches/mirror_measurement_summary.json"
+    )
+    ol_cohort, ol_cohort_digest = _verified_research_csv(
+        "submission_mirror", "reports/trenches/mirror_measurement_rank_comparison.csv"
+    )
+    ol_explorer, ol_explorer_digest = _read_verified_research_artifact(
+        "submission_mirror", "submission_mirror/mirror_explorer.html"
+    )
+    ol_chart, ol_chart_digest = _read_verified_research_artifact(
+        "submission_mirror", "submission_mirror/figures/mirror_model_comparison.png"
+    )
+    wr_summary, wr_summary_digest = _verified_research_json(
+        "submission", "reports/speed_study/summary.json"
+    )
+    wr_cohort, wr_cohort_digest = _verified_research_csv(
+        "submission", "reports/speed_study/player_features.csv"
+    )
+    wr_chart, wr_chart_digest = _read_verified_research_artifact(
+        "submission", "submission/figures/speed_transfer_results.png"
+    )
+
+    return {
+        "ol": {
+            "summary": ol_summary,
+            "measurements": ol_measurements,
+            "cohort": ol_cohort,
+            "explorer_html": ol_explorer.decode("utf-8"),
+            "model_chart": ol_chart,
+            "digests": {
+                "summary": ol_summary_digest,
+                "measurements": ol_measurements_digest,
+                "cohort": ol_cohort_digest,
+                "explorer": ol_explorer_digest,
+                "model_chart": ol_chart_digest,
+            },
+        },
+        "wr": {
+            "summary": wr_summary,
+            "cohort": wr_cohort,
+            "model_chart": wr_chart,
+            "digests": {
+                "summary": wr_summary_digest,
+                "cohort": wr_cohort_digest,
+                "model_chart": wr_chart_digest,
+            },
+        },
+    }
+
+
+def same_comparison_context(players: list[dict[str, Any]]) -> bool:
+    if not players:
+        return False
+    contexts = set()
+    for player in players:
+        position = player.get("nfl_position")
+        draft_year = player.get("draft_year")
+        if position is None or draft_year is None:
+            return False
+        contexts.add((position, draft_year))
+    return len(contexts) == 1
 
 
 def player_performance(player_ids, season=None, season_type=None):
