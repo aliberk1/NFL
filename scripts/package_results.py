@@ -64,7 +64,7 @@ Ancak klasik 40-yard süresi, boy ve kilo modeline eklenen sensör özellikleri 
 <img src="submission/figures/speed_transfer_results.png" alt="Combine-maç hız ilişkisi ve ileri yıl tahmin hataları">
 <p><b>Sonuç:</b> Bu verilerle yeni bir oyuncu sıralaması veya klasik testlerden kesin üstün bir model önermiyoruz.</p></section>
 <section class="box"><h2>Dosyalar hazır</h2><ul>
-<li><a href="SONUC.md">Ayrıntılı Türkçe sonuç</a></li>
+<li><a href="CALISMA_DURUMU.md">Türkçe araştırma özeti</a></li>
 <li><a href="submission/writeup_en.md">İngilizce yarışma yazısı</a> · {len(writeup.split())} kelime</li>
 <li><a href="submission/receiver_speed_translation.executed.ipynb">Çıktılarıyla notebook</a></li>
 <li><a href="submission/receiver_speed_translation.ipynb">Temiz notebook</a></li>
@@ -76,7 +76,7 @@ Ancak klasik 40-yard süresi, boy ve kilo modeline eklenen sensör özellikleri 
 <p>Kaggle'a yükleme yapılmadı. Çalışma keşifseldir; bir yarışma derecesi veya gelecekteki başarı garantisi değildir.</p></section>
 </main></body></html>"""
     (ROOT / "SONUC.html").write_text(page, encoding="utf-8")
-    files = [ROOT / p for p in ["SONUC.md", "SONUC.html", "requirements.txt", "requirements-notebook.txt"]]
+    files = [ROOT / p for p in ["CALISMA_DURUMU.md", "SONUC.html", "requirements.txt", "requirements-notebook.txt"]]
     files += [p for directory in ["submission", "scripts", "reports"]
               for p in (ROOT / directory).rglob("*") if p.is_file() and "__pycache__" not in p.parts
               and p.name != "manifest.json"]

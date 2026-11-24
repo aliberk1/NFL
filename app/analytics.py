@@ -51,6 +51,19 @@ def search_players(name):
     ), ["players"])
 
 
+def player_directory():
+    return result(query("""
+        WITH teams AS (
+            SELECT nfl_id, string_agg(DISTINCT team_abbr, ', ' ORDER BY team_abbr) AS teams
+            FROM player_play GROUP BY nfl_id
+        )
+        SELECT p.nfl_id, p.display_name, p.nfl_position, p.draft_year,
+               coalesce(t.teams, 'Takım kaydı yok') AS teams
+        FROM players p LEFT JOIN teams t USING (nfl_id)
+        ORDER BY p.display_name, p.nfl_id
+    """), ["players", "player_play"])
+
+
 def player_profile(player_id):
     return result({
         "player": query("SELECT * FROM players WHERE nfl_id = ?", [player_id]),

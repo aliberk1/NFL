@@ -2,7 +2,7 @@
 
 ## Önce sonucu oku
 
-Proje kökündeki `SONUC.md` Türkçe özettir. İngilizce yarışma yazısı
+Proje kökündeki `CALISMA_DURUMU.md` iki araştırmanın Türkçe özetidir. Bu WR çalışmasının İngilizce yarışma yazısı
 `writeup_en.md` içindedir. Sonuç: ölçülebilir bir hız ilişkisi var; klasik
 testlere tutarlı ek tahmin faydası gösterilemedi.
 

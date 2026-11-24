@@ -10,3 +10,5 @@ models/
 *.duckdb*
 *.parquet
 *.log
+verification/notebook_run/
+verification/mirror_notebook_run/

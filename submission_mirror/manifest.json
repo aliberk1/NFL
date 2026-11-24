@@ -249,6 +249,10 @@
       "sha256": "1920401adb947cf99e1a7f858545a51120dd63d089c211479f1e1a7d5b63590f"
     },
     {
+      "path": "scripts/build_animations.py",
+      "sha256": "1b21942ac07e1ed5ef53071220fa7706d8b37d6e670764450006b4bf6b5c6863"
+    },
+    {
       "path": "scripts/build_mirror_notebook.py",
       "sha256": "9b00ded3972a4824abc57e36845008d4a45df5f69aa3719f628418ea241e5584"
     },
@@ -278,7 +282,7 @@
     },
     {
       "path": "scripts/package_results.py",
-      "sha256": "4df3eb0b7e0b0428130dc4e237a1f208dd38ca3b0738fa4bb9b78ada95e2f7be"
+      "sha256": "0fedd7cfd423fb295973d26bbc088b81ecce3507bacc57d043114c1f263315b3"
     },
     {
       "path": "scripts/prepare_ol_metadata.py",
@@ -315,6 +319,10 @@
     {
       "path": "submission_mirror/figures/mirror_model_comparison.png",
       "sha256": "e6fa21235b562af2774e26fb5539607d065ed4b5be25837d0e140a2c26ac8dfe"
+    },
+    {
+      "path": "submission_mirror/figures/mirror_phase_animation.gif",
+      "sha256": "51d4342f36b546ce8a01dc10d2916c58b9d5ef4ee2b60feac2ba2dbde44ca676"
     },
     {
       "path": "submission_mirror/figures/mirror_phase_story.png",

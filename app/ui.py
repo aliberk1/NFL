@@ -53,24 +53,65 @@ if not DB.exists():
     st.info("Önce terminalde `python -m pipelines.ingest` çalıştırın.")
     st.stop()
 
-chat, players, coverage = st.tabs(["Sohbet", "Oyuncu analizi", "Veri kapsamı"])
+players, chat, coverage = st.tabs(["Oyuncu analizi", "Sohbet", "Veri kapsamı"])
 with coverage:
     summary = analytics.dataset_summary()
     st.warning(analytics.COVERAGE_NOTE)
     st.dataframe(summary["data"]["seasons"], hide_index=True)
     st.dataframe(summary["data"]["coverage"], hide_index=True)
 with players:
-    season_type = st.selectbox("Maç türü", list(SEASON_TYPES), format_func=SEASON_TYPES.get)
-    name = st.text_input("Oyuncu adında ara", placeholder="Will")
-    if name:
-        matches = analytics.search_players(name)["data"]
-        lookup = {p["nfl_id"]: f'{p["display_name"]} — {p["nfl_position"]} ({p["draft_year"]})' for p in matches}
-        selected = st.multiselect("En fazla 10 oyuncu seç", list(lookup), format_func=lookup.get, max_selections=10)
-        if selected:
-            show_performance(analytics.player_performance(selected, season_type=season_type))
-            for player_id in selected:
-                with st.expander(lookup[player_id]):
-                    st.json(analytics.player_profile(player_id))
+    st.subheader("Oyuncu bul ve karşılaştır")
+    st.caption("İsim veya takımla ara, ardından tablonun solundaki kutudan oyuncu seç.")
+    directory = analytics.player_directory()["data"]
+    lookup = {
+        p["nfl_id"]: f'{p["display_name"]} — {p["teams"]} — {p["nfl_position"]} — Draft: {p["draft_year"]}'
+        for p in directory
+    }
+    search_col, position_col = st.columns([3, 1])
+    with search_col:
+        search = st.text_input("Oyuncu veya takım ara", placeholder="Örnek: Alan Ali veya MIN")
+    with position_col:
+        position = st.selectbox("Pozisyon", ["Tümü"] + sorted({
+            p["nfl_position"] for p in directory if p["nfl_position"]
+        }))
+    matches = [
+        p for p in directory
+        if (not search.strip() or search.strip().casefold() in lookup[p["nfl_id"]].casefold())
+        and (position == "Tümü" or p["nfl_position"] == position)
+    ]
+    selected = []
+    if matches:
+        st.caption(f"{len(matches)} oyuncu · Karşılaştırmak için en fazla 10 oyuncu seç")
+        selection = st.dataframe(
+            pd.DataFrame(matches)[["display_name", "teams", "nfl_position", "draft_year"]].rename(columns={
+                "display_name": "Oyuncu", "teams": "Kayıtlı takımlar",
+                "nfl_position": "Pozisyon", "draft_year": "Draft yılı",
+            }),
+            hide_index=True, width="stretch",
+            height=min(390, 36 * (len(matches) + 1) + 4),
+            column_config={"Draft yılı": st.column_config.NumberColumn(format="%d")},
+            on_select="rerun", selection_mode="multi-row",
+            key=f"player_table:{search.strip().casefold()}:{position}",
+        )
+        selected = [matches[i]["nfl_id"] for i in selection.selection.rows]
+        st.caption("Takımlar verideki geçmiş kayıtlardır; güncel kadro bilgisi değildir.")
+    else:
+        st.info("Oyuncu bulunamadı. Başka bir isim veya takım dene ya da pozisyon filtresini değiştir.")
+    if len(selected) > 10:
+        st.info("Karşılaştırma için en fazla 10 oyuncu seçebilirsin. Lütfen bazı seçimleri kaldır.")
+    elif selected:
+        st.divider()
+        st.subheader("Sezon performansı")
+        st.write("**Seçilenler:** " + ", ".join(
+            p["display_name"] for p in matches if p["nfl_id"] in selected
+        ))
+        season_type = st.selectbox("Gösterilecek maçlar", list(SEASON_TYPES), format_func=SEASON_TYPES.get)
+        show_performance(analytics.player_performance(selected, season_type=season_type))
+        for player_id in selected:
+            with st.expander("Detaylı oyuncu kaydı · " + lookup[player_id]):
+                st.json(analytics.player_profile(player_id))
+    elif matches:
+        st.info("Bir oyuncu seçtiğinde sezon istatistikleri burada açılacak.")
 with chat:
     st.caption("Sohbet, yapılandırılmış bir LLM bağlantısı gerektirir. Oyuncu analizi ve veri kapsamı anahtarsız kullanılabilir.")
     if st.button("Konuşmayı temizle"):

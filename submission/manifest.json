@@ -83,6 +83,10 @@
   ],
   "artifacts": [
     {
+      "file": "CALISMA_DURUMU.md",
+      "sha256": "e8041f98833176c150a3f82c97daaead862e83f3f392c58ef2a144f97642e39b"
+    },
+    {
       "file": "reports/data_audit.json",
       "sha256": "8e9262285da147053228f753b6ce1b3f39b319e0867a389eaeb080ba4f250027"
     },
@@ -435,6 +439,10 @@
       "sha256": "1920401adb947cf99e1a7f858545a51120dd63d089c211479f1e1a7d5b63590f"
     },
     {
+      "file": "scripts/build_animations.py",
+      "sha256": "1b21942ac07e1ed5ef53071220fa7706d8b37d6e670764450006b4bf6b5c6863"
+    },
+    {
       "file": "scripts/build_mirror_notebook.py",
       "sha256": "9b00ded3972a4824abc57e36845008d4a45df5f69aa3719f628418ea241e5584"
     },
@@ -464,7 +472,7 @@
     },
     {
       "file": "scripts/package_results.py",
-      "sha256": "4df3eb0b7e0b0428130dc4e237a1f208dd38ca3b0738fa4bb9b78ada95e2f7be"
+      "sha256": "0fedd7cfd423fb295973d26bbc088b81ecce3507bacc57d043114c1f263315b3"
     },
     {
       "file": "scripts/prepare_ol_metadata.py",
@@ -496,11 +504,7 @@
     },
     {
       "file": "SONUC.html",
-      "sha256": "4060afb1a51acac006e88f0a5e686212c3672a8a288d53a20dc0f3e832d8ccdb"
-    },
-    {
-      "file": "SONUC.md",
-      "sha256": "ea01bca75448b1ae22f483da78af1a71cf34e95fdf3d9fa953ce618421f115e0"
+      "sha256": "d06c2bb35fc34aab02b76cd6e3123c4f24885759bad6f089ca76cb9c7d796e21"
     },
     {
       "file": "submission/figures/combine_repeatability.png",
@@ -512,7 +516,7 @@
     },
     {
       "file": "submission/README_TR.md",
-      "sha256": "84d4db68269717b93a4088ea1270d486aad4f337d0b1a136a135866381abb56c"
+      "sha256": "90d3757e766c18e50913dc05e72df13d0ee4e477f9aadafd51ec4980b2216128"
     },
     {
       "file": "submission/receiver_speed_translation.executed.ipynb",

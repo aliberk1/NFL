@@ -64,6 +64,8 @@ Oyuncu analizi ve veri kapsamı ekranları LLM anahtarı olmadan çalışır. So
 - Kariyer toplamları zaman damgasızdır; geçmişe dönük tahmin modellerinde doğrudan girdi olarak kullanılmamalıdır.
 - Harici LLM kullanıldığında soru ve seçilen araç sonuçları sağlayıcıya gönderilir.
 
+Sonraki geliştirmeler: gerçek LLM bağlantısıyla uçtan uca sohbet doğrulaması, araştırma özelliklerinin uygulamaya aktarılması ve sayısal yanıtların araç çıktılarıyla otomatik karşılaştırılması.
+
 ## Kurulum ve çalıştırma
 
 ### 1. Projeyi ve bağımlılıkları hazırlayın
@@ -152,7 +154,7 @@ WR çalışması için:
 .\.venv\Scripts\python.exe scripts/verify_submission.py
 ```
 
-Doğrulama betikleri notebook'ları yeniden çalıştırır ve üretilen sonuçları referans tablolarla karşılaştırır. Önceki çalıştırmaların kayıtları `verification/` ve teslim klasörlerindeki `verification.json` dosyalarındadır.
+Doğrulama betikleri notebook'ları yeniden çalıştırır ve üretilen sonuçları referans tablolarla karşılaştırır. Doğrulama özetleri `verification/` içindeki JSON dosyalarında ve teslim klasörlerindeki `verification.json` dosyalarındadır. Yeniden üretilen `verification/notebook_run/` ve `verification/mirror_notebook_run/` çalışma klasörleri yerelde tutulur, GitHub'a yüklenmez. Paketleme betiklerinden önce ilgili doğrulama betiğini çalıştırın.
 
 Notebook'lar Kaggle'a içe aktarılarak yarışma verisi bağlandıktan sonra da çalıştırılabilir. Yerel çalıştırma ve teslim ayrıntıları ilgili teslim klasörlerinin rehberlerinde bulunur.
 
@@ -172,19 +174,17 @@ Uygulama testleri:
 | `reports/` | Araştırma tabloları, grafikler ve deney kayıtları |
 | `submission_mirror/` | Ana OL faz ayrıştırma çalışması ve teslim dosyaları |
 | `submission/` | WR hız transferi çalışması ve teslim dosyaları |
-| `verification/` | Notebook yeniden çalıştırma ve sonuç karşılaştırma kayıtları |
+| `verification/` | Doğrulama özetleri; yeniden çalıştırma klasörleri Git dışında tutulur |
 | `tests/` | Uygulama testleri |
 | `docs/` | Sağlayıcı kurulumu, koç soruları ve yanıt kalitesi belgeleri |
 
 ## Sunumlar ve ek açıklamalar
 
 - [Güncel araştırma durumu](CALISMA_DURUMU.md)
-- [Sonuç değerlendirmesi](SONUC.md)
 - [Deney kayıt defteri](reports/experiment_register.md)
-- [Çalışma planı ve yol haritası](MASTER_CALISMA_KAGIDI_VE_YOL_HARITASI.md)
-- [Terimler ve kavramlar](TERIMLER_VE_KAVRAMLAR_REHBERI.md)
+- [Görsel terimler ve kavramlar rehberi](TERIMLER_VE_KAVRAMLAR_REHBERI.html)
 - [Sunum](SUNUM_HOCALARA.html) ve [konuşma rehberi](SUNUM_REHBERI_VE_KONUSMA_METNI.md)
 - [Animasyon simülatörü](ANIMASYON_SIMULATORU.html)
-- [Uygulama geliştirme durumu](GELISTIRME_DURUMU.md) ve [koç soruları](docs/KOC_SORULARI.md)
+- [Koç soruları ve geliştirme hedefleri](docs/KOC_SORULARI.md)
 
 HTML sunum ve inceleyicilerini kullanmak için dosyaları yerel olarak tarayıcıda açın.
