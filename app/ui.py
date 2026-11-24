@@ -12,6 +12,10 @@ from app import analytics
 from app.assistant import answer
 from app.config import DB
 from app.observability import configure_logging
+from app.player_view import (
+    CAREER_FIELDS, COMBINE_FIELDS, PLAYER_FIELDS, ROLE_METRICS,
+    TEAM_NAMES, comparison_groups, formatted_fields, position_label, team_label,
+)
 
 configure_logging()
 logger = logging.getLogger("nfl.ui")
@@ -21,31 +25,17 @@ LABELS = {
     "season_type": "Sezon türü", "team_abbr": "Takım",
     "games": "Kayıtlı maç", "player_play_rows": "Kayıtlı oyun",
     "sacks": "Sack", "sacks_per_observed_game": "Maç başına sack",
+    "tackles": "Tackle", "tackle_labeled_plays": "Tackle etiketi bulunan oyun",
     "pressure_allowed_rate": "Baskı verme oranı (0–1)",
     "pressure_labeled_plays": "Baskı etiketi bulunan oyun",
+    "receiving_labeled_plays": "Pas yardı etiketi bulunan oyun",
+    "rushing_labeled_plays": "Koşu yardı etiketi bulunan oyun",
     "sack_labeled_plays": "Sack etiketi bulunan oyun",
     "receiving_yards": "Pas yakalamayla kazanılan yard",
     "rushing_yards": "Koşuyla kazanılan yard",
 }
 SEASON_TYPES = {"REG": "Normal sezon", "POST": "Play-off", "PRE": "Sezon öncesi"}
-COMBINE_LABELS = {
-    "combine_position": "Combine pozisyonu",
-    "combine_height": "Boy (inç)",
-    "combine_weight": "Ağırlık (lb)",
-    "hand_size": "El ölçüsü (inç)",
-    "arm_length": "Kol uzunluğu (inç)",
-    "wing_span": "Kanat açıklığı (inç)",
-    "ten_yd_split": "10-yard split (sn)",
-    "forty": "40-yard koşusu (sn)",
-    "vertical": "Dikey sıçrama (inç)",
-    "broad_jump": "Uzun atlama (inç)",
-    "three_cone": "Üç koni drili (sn)",
-    "short_shuttle": "Kısa shuttle (sn)",
-    "bench_reps": "Bench tekrar sayısı",
-    "ngs_athleticism_score": "NGS atletizm puanı",
-    "ngs_college_production_score": "NGS kolej üretim puanı",
-    "ngs_final_score": "NGS genel puanı",
-}
+
 
 OL_LIMITATION_LABELS = {
     "One mirror attempt per player; boundary robustness is not repeatability.": "Oyuncu başına tek mirror denemesi vardır; sınır duyarlılığı, tekrar ölçüm güvenilirliği değildir.",
@@ -66,15 +56,84 @@ WR_LIMITATION_LABELS = {
 }
 
 
-def show_performance(payload):
-    rows = payload.get("data", [])
+def show_performance(payload, rows=None):
+    rows = payload.get("data", []) if rows is None else rows
     if not rows:
         st.info("Bu seçim için kayıt bulunamadı.")
         return
     frame = pd.DataFrame(rows).drop(columns=["nfl_id"], errors="ignore")
     frame["season_type"] = frame["season_type"].replace(SEASON_TYPES)
-    st.dataframe(frame.rename(columns=LABELS).round(2), hide_index=True)
+    frame["team_abbr"] = frame["team_abbr"].map(team_label)
+    display = frame.rename(columns=LABELS).round(2).fillna("Bilgi yok").astype(str)
+    st.dataframe(display, hide_index=True, width="stretch")
     st.caption("Kayıtlı maç: oyuncunun yer aldığı benzersiz maç. Kayıtlı oyun: maçların içindeki oyuncu–oyun kayıtları. Boş alan, sıfır değil eksik bilgidir.")
+
+
+def show_profile(player_id, directory_entry, expanded=False):
+    profile = analytics.player_profile(player_id)
+    player = next(iter(profile["data"]["player"]), None)
+    if not player:
+        st.info("Bu oyuncu için profil kaydı bulunamadı.")
+        return
+    teams = [team_label(team.strip()) for team in directory_entry["teams"].split(",")
+             if team.strip() and team.strip() != "Takım kaydı yok"]
+    with st.expander(f"{player['display_name']} · {position_label(player['nfl_position'])}",
+                     expanded=expanded):
+        st.caption("Kayıtlı takımlar: " + (", ".join(teams) if teams else "Bilgi yok") +
+                   " · Bu liste güncel kadroyu göstermez.")
+        profile_tab, combine_tab, career_tab, technical_tab = st.tabs(["Profil", "Combine", "Kariyer", "Teknik"])
+        with profile_tab:
+            st.table(pd.DataFrame(formatted_fields(player, PLAYER_FIELDS)))
+        with combine_tab:
+            combine = profile["data"]["combine"]
+            if combine:
+                for record in combine:
+                    st.caption(f"Draft yılı: {record.get('draft_year') or 'Bilgi yok'}")
+                    st.table(pd.DataFrame(formatted_fields(record, COMBINE_FIELDS)))
+            else:
+                st.info("Bu oyuncu için Combine kaydı yok.")
+        with career_tab:
+            career = profile["data"]["career_snapshot"]
+            if career:
+                st.caption("Kariyer toplamları zaman damgası olmayan anlık görüntüdür.")
+                st.table(pd.DataFrame(formatted_fields(career[0], CAREER_FIELDS)))
+            else:
+                st.info("Bu oyuncu için kariyer özeti yok.")
+        with technical_tab:
+            st.json(profile)
+
+
+def show_comparisons(rows):
+    groups = comparison_groups(rows)
+    for role, players in groups.items():
+        metric, title, unit = ROLE_METRICS[role]
+        st.subheader(role)
+        st.caption(f"{title} ({unit}) · Aynı sezon, maç türü ve takım filtresi içinde")
+        if metric == "pressure_allowed_rate":
+            st.caption("Daha düşük oran daha az baskı izni anlamına gelir.")
+        measured = [p for p in players if p["Değer"] is not None]
+        if measured:
+            chart = pd.DataFrame({"Oyuncu": [p["Oyuncu"] for p in measured],
+                                  title: [p["Değer"] for p in measured]}).set_index("Oyuncu")
+            st.bar_chart(chart, horizontal=True, x_label="Oyuncu",
+                         y_label=f"{title} ({unit})",
+                         height=min(560, max(240, 72 * len(measured) + 80)))
+        else:
+            st.info("Bu pozisyon grubu için seçilen bağlamda ölçülebilir metrik yok.")
+        table = pd.DataFrame([{
+            "Oyuncu": p["Oyuncu"], "Pozisyon": p["Pozisyon"],
+            title: f"{p['Değer']:.2f} {unit}" if p["Değer"] is not None else "Bilgi yok",
+            "Gözlenen maç": p["Gözlenen maç"],
+            "Ölçüm kapsamı": (
+                "Bilgi yok" if p["Etiketli kayıt"] is None
+                else f"{p['Etiketli kayıt']} gözlenen maç" if metric == "games"
+                else f"{p['Etiketli kayıt']} etiketli oyun"
+            ),
+            "Veri uyarısı": "Az gözlem" if p["Az veri"] else "",
+        } for p in players])
+        st.dataframe(table, hide_index=True, width="stretch")
+        if any(p["Az veri"] for p in players):
+            st.warning("Ölçüm kapsamı bilinmiyorsa veya gözlem azsa oranlar ve toplamlar güçlü performans kanıtı sayılmamalı.")
 
 
 def show_evidence(evidence):
@@ -87,31 +146,6 @@ def show_evidence(evidence):
         st.caption("Aşağıdaki araç çıktıları hesaplanan verilerdir; sohbet metni modelin yorumudur.")
         st.json(evidence)
 
-
-def show_combine_measurements(profile, player_label):
-    rows = profile.get("data", {}).get("combine", [])
-    with st.expander("Combine ölçümleri · " + player_label):
-        if not rows:
-            st.info("Bu oyuncu için Combine ölçümü bulunamadı.")
-            return
-        st.caption("— eksik ölçümdür; sıfır değerinden farklıdır.")
-        for row in rows:
-            draft_year = row.get("draft_year")
-            st.markdown(f"**Draft sınıfı: {draft_year if draft_year is not None else 'Bilinmiyor'}**")
-            measurements = [
-                (key, value) for key, value in row.items()
-                if key not in {"nfl_id", "draft_year"}
-            ]
-            columns = st.columns(3)
-            for index, (key, value) in enumerate(measurements):
-                if isinstance(value, float):
-                    display_value = f"{value:,.3f}".rstrip("0").rstrip(".")
-                elif value is None:
-                    display_value = "—"
-                else:
-                    display_value = str(value)
-                with columns[index % 3]:
-                    st.metric(COMBINE_LABELS.get(key, key.replace("_", " ").title()), display_value)
 
 
 def show_limitations(items, translations):
@@ -248,11 +282,16 @@ def show_wr_research(study):
     selected_year = st.selectbox("WR draft sınıfı", draft_years, key="research_wr_draft_year")
     cohort = cohort[(cohort["nfl_position"] == "WR") & (cohort["draft_year"] == selected_year)]
     st.caption(f"{len(cohort)} oyuncu · WR pozisyonu, {selected_year} draft sınıfı")
+    columns = [
+        "display_name", "draft_year", "forty", "combine_peak_speed",
+        "combine_early_speed", "valid_game_plays",
+    ]
+    if "game_peak_speed" in cohort.columns:
+        columns.insert(-1, "game_peak_speed")
+    else:
+        st.caption("Oyuncu bazlı rota zirve hızı bu araştırma çıktısında bulunmuyor.")
     st.dataframe(
-        cohort[[
-            "display_name", "draft_year", "forty", "combine_peak_speed",
-            "combine_early_speed", "game_peak_speed", "valid_game_plays",
-        ]].rename(columns={
+        cohort[columns].rename(columns={
             "display_name": "Oyuncu",
             "draft_year": "Draft yılı",
             "forty": "40-yard süresi",
@@ -267,138 +306,175 @@ def show_wr_research(study):
     show_limitations(summary["limitations"], WR_LIMITATION_LABELS)
 
 
-st.set_page_config(page_title="NFL Veri Asistanı", page_icon="🏈", layout="wide")
-st.title("🏈 NFL Veri Asistanı")
-st.caption("Yalnızca yerel dataset • Gözlenen veriler ve kaynaklı analiz • MVP 0.1")
-if DB.exists():
-    players, research, chat, coverage = st.tabs(["Oyuncu analizi", "Araştırma", "Sohbet", "Veri kapsamı"])
-else:
-    st.info("Oyuncu analizi ve veri kapsamı için önce `python -m pipelines.ingest` çalıştırın. Araştırma sonuçları manifestlerden görüntülenebilir.")
-    research, = st.tabs(["Araştırma"])
-with research:
+
+def show_research():
     studies = analytics.research_snapshot()
-    ol_research, wr_research = st.tabs(["OL faz ayrıştırması", "WR hız aktarımı"])
+    ol_research, wr_research = st.tabs(["OL faz ayr\u0131\u015ft\u0131rmas\u0131", "WR h\u0131z aktar\u0131m\u0131"])
     with ol_research:
         show_ol_research(studies["ol"])
     with wr_research:
         show_wr_research(studies["wr"])
-if DB.exists():
-    with coverage:
-        summary = analytics.dataset_summary()
-        st.warning(analytics.COVERAGE_NOTE)
-        st.dataframe(summary["data"]["seasons"], hide_index=True)
-        st.dataframe(summary["data"]["coverage"], hide_index=True)
-    with players:
-        st.subheader("Oyuncu bul ve karşılaştır")
-        st.caption("İsim veya takım ara; ardından listeden en fazla 10 oyuncu seç.")
-        options = analytics.player_filter_options()["data"]
-        search_col, position_col, draft_col = st.columns([3, 1, 1])
-        with search_col:
-            search = st.text_input("Oyuncu veya takım ara", placeholder="Örnek: Alan Ali veya MIN")
-        with position_col:
-            position = st.selectbox("Pozisyon", ["Tümü"] + [row["nfl_position"] for row in options["positions"]])
-        with draft_col:
-            draft_years = [str(row["draft_year"]) for row in options["draft_years"]]
-            draft_class = st.selectbox("Draft sınıfı", ["Tümü"] + draft_years)
-        draft_year = int(draft_class) if draft_class != "Tümü" else None
-        page_size = 100
-        filters = (search, None if position == "Tümü" else position, draft_year)
-        total = analytics.player_directory(*filters, limit=page_size, offset=0)["data"]["total"]
-        page_count = max(1, (total + page_size - 1) // page_size)
-        page = st.number_input("Sayfa", min_value=1, max_value=page_count, value=1, step=1)
-        directory = analytics.player_directory(*filters, limit=page_size, offset=(page - 1) * page_size)["data"]
-        matches = directory["rows"]
-        lookup = {p["nfl_id"]: f'{p["display_name"]} — {p["teams"]} — {p["nfl_position"]} — Draft: {p["draft_year"]}' for p in matches}
-        selected = []
-        if matches:
-            st.caption(f"{directory['total']} oyuncu · Sayfa {page}/{page_count} · Bu sayfadan en fazla 10 oyuncu seç")
-            st.dataframe(
-                pd.DataFrame(matches)[["display_name", "teams", "nfl_position", "draft_year"]].rename(columns={
-                    "display_name": "Oyuncu", "teams": "Kayıtlı takımlar",
-                    "nfl_position": "Pozisyon", "draft_year": "Draft yılı",
-                }),
-                hide_index=True, width="stretch",
-                height=min(390, 36 * (len(matches) + 1) + 4),
-                column_config={"Draft yılı": st.column_config.NumberColumn(format="%d")},
-                key=f"player_table:{search.strip().casefold()}:{position}:{draft_class}:{page}",
-            )
-            player_options = {
-                f'{player["display_name"]} · {player["nfl_position"]} · {player["draft_year"]} · #{player["nfl_id"]}': player["nfl_id"]
-                for player in matches
-            }
-            selected_labels = st.multiselect(
-                "Karşılaştırılacak oyuncular", list(player_options), max_selections=10,
-                key=f"player_selection:{search.strip().casefold()}:{position}:{draft_class}:{page}",
-            )
-            selected = [player_options[label] for label in selected_labels]
-            selected_players = [p for p in matches if p["nfl_id"] in selected]
-            st.caption("Takımlar verideki geçmiş kayıtlardır; güncel kadro bilgisi değildir.")
+
+
+st.set_page_config(page_title="NFL Veri Asistanı", page_icon="🏈", layout="wide")
+st.title("🏈 NFL Veri Asistanı")
+st.caption("Yalnızca yerel dataset • Gözlenen veriler ve kaynaklı analiz • MVP 0.1")
+if not DB.exists():
+    st.info("Oyuncu analizi i\u00e7in \u00f6nce `python -m pipelines.ingest` \u00e7al\u0131\u015ft\u0131r\u0131n. Ara\u015ft\u0131rma sonu\u00e7lar\u0131 manifestlerden g\u00f6r\u00fcnt\u00fclenebilir.")
+    research, = st.tabs(["Ara\u015ft\u0131rma"])
+    with research:
+        show_research()
+    st.stop()
+
+players, research, chat, coverage = st.tabs(["Oyuncu analizi", "Ara\u015ft\u0131rma", "Sohbet", "Veri kapsam\u0131"])
+with research:
+    show_research()
+with coverage:
+    summary = analytics.dataset_summary()
+    st.warning(analytics.COVERAGE_NOTE)
+    provenance = summary.get("provenance")
+    if provenance:
+        st.caption(
+            f"Kaynak: {provenance['source']} · Yükleme (UTC): {provenance['loaded_at_utc']} "
+            f"· Veri sürümü (SHA-256): {provenance['data_version'][:12]}"
+        )
+        st.caption("Veri kalite raporu: data/curated/quality_report.json")
+    st.dataframe(summary["data"]["seasons"], hide_index=True)
+    st.dataframe(summary["data"]["coverage"], hide_index=True)
+with players:
+    st.subheader("Oyuncu bul ve karşılaştır")
+    st.caption("Oyuncu ara, listeye ekle ve aynı sezon ile maç türündeki kayıtları karşılaştır.")
+    options = analytics.player_filter_options()["data"]
+    filter_cols = st.columns([3, 1, 1, 1])
+    with filter_cols[0]:
+        search = st.text_input("Oyuncu veya takım ara", placeholder="İsim, takım kodu veya adı")
+    with filter_cols[1]:
+        positions = [row["nfl_position"] for row in options["positions"]]
+        position = st.selectbox("Pozisyon", ["Tümü"] + positions,
+                                format_func=lambda value: "Tümü" if value == "Tümü" else position_label(value))
+    with filter_cols[2]:
+        teams = [row["team_abbr"] for row in options["teams"]]
+        team = st.selectbox("Takım", ["Tümü"] + teams,
+                            format_func=lambda value: "Tümü" if value == "Tümü" else team_label(value))
+    with filter_cols[3]:
+        seasons = sorted({r["season"] for r in analytics.dataset_summary()["data"]["seasons"]}, reverse=True)
+        season = st.selectbox("Sezon", seasons, index=0) if seasons else None
+    page_size = 100
+    query_args = (search, None if position == "Tümü" else position)
+    first_page = analytics.player_directory(*query_args, limit=page_size, offset=0,
+                                             team=None if team == "Tümü" else team)["data"]
+    total = first_page["total"]
+    page_count = max(1, (total + page_size - 1) // page_size)
+    page = st.number_input("Oyuncu listesi · sayfa", min_value=1, max_value=page_count, value=1, step=1)
+    directory = first_page if page == 1 else analytics.player_directory(
+        *query_args, limit=page_size, offset=(page - 1) * page_size,
+        team=None if team == "Tümü" else team,
+    )["data"]
+    matches = directory["rows"]
+    selected_ids = st.session_state.setdefault("selected_player_ids", [])
+    selected_records = st.session_state.setdefault("selected_player_records", {})
+    selected_records.update({player["nfl_id"]: player for player in matches})
+    by_id = selected_records
+    if matches:
+        st.caption(f"{total} oyuncu · Sayfa {page}/{page_count} · Bu sayfadan en fazla 10 oyuncu seç")
+        st.dataframe(pd.DataFrame(matches)[["display_name", "teams", "nfl_position", "draft_year"]].rename(columns={
+            "display_name": "Oyuncu", "teams": "Kayıtlı takımlar",
+            "nfl_position": "Pozisyon", "draft_year": "Draft yılı",
+        }), hide_index=True, width="stretch")
+        player_options = {
+            f'{player["display_name"]} · {player["nfl_position"]} · {player["draft_year"]} · #{player["nfl_id"]}': player["nfl_id"]
+            for player in matches
+        }
+        widget_key = f"player_selection:{search.strip().casefold()}:{position}:{team}:{page}"
+        page_defaults = [label for label, player_id in player_options.items() if player_id in selected_ids]
+        st.session_state[widget_key] = page_defaults
+        selected_labels = st.multiselect("Kar\u015f\u0131la\u015ft\u0131r\u0131lacak oyuncular", list(player_options),
+                                         max_selections=10, key=widget_key)
+        page_selected = [player_options[label] for label in selected_labels]
+        current_page_ids = {player["nfl_id"] for player in matches}
+        selected_ids = [player_id for player_id in selected_ids if player_id not in current_page_ids]
+        remaining_slots = max(0, 10 - len(selected_ids))
+        if len(page_selected) > remaining_slots:
+            st.warning("Karşılaştırma listesinde en fazla 10 oyuncu olabilir.")
+        selected_ids.extend(page_selected[:remaining_slots])
+        st.session_state.selected_player_ids = selected_ids
+        selected = list(selected_ids)
+        selected_players = [by_id[player_id] for player_id in selected if player_id in by_id]
+    else:
+        selected = list(selected_ids)
+        selected_players = [by_id[player_id] for player_id in selected if player_id in by_id]
+        st.info("Oyuncu bulunamad\u0131. Arama veya filtreleri de\u011fi\u015ftir.")
+    if selected:
+        active = [player_id for player_id in selected
+                  if position == "Tümü" or by_id[player_id]["nfl_position"] == position]
+        if len(active) < len(selected):
+            st.info("Pozisyon filtresiyle eşleşmeyen seçili oyuncular listede korunur; aşağıdaki sonuçlara katılmaz.")
+        if not active:
+            st.info("Bu pozisyonda seçili oyuncu yok.")
         else:
-            st.info("Oyuncu bulunamadı. Başka bir isim veya takım dene ya da pozisyon filtresini değiştir.")
-        if len(selected) > 10:
-            st.info("Karşılaştırma için en fazla 10 oyuncu seçebilirsin. Lütfen bazı seçimleri kaldır.")
-        elif len(selected) > 1 and not analytics.same_comparison_context(selected_players):
-            st.warning("Adil karşılaştırma için oyuncular aynı pozisyon ve draft sınıfında olmalı. İki filtreyi de seç.")
-        elif selected:
-            st.divider()
-            st.subheader("Sezon performansı")
-            st.write("**Seçilenler:** " + ", ".join(
-                p["display_name"] for p in matches if p["nfl_id"] in selected
-            ))
-            season_type = st.selectbox("Gösterilecek maçlar", list(SEASON_TYPES), format_func=SEASON_TYPES.get)
-            show_performance(analytics.player_performance(selected, season_type=season_type))
-            for player_id in selected:
-                profile = analytics.player_profile(player_id)
-                show_combine_measurements(profile, lookup[player_id])
-                with st.expander("Teknik profil ve kariyer kaydı · " + lookup[player_id]):
-                    st.json({
-                        "player": profile["data"]["player"],
-                        "career_snapshot": profile["data"]["career_snapshot"],
-                    })
-        elif matches:
-            st.info("Bir oyuncu seçtiğinde sezon istatistikleri burada açılacak.")
-    with chat:
-        st.caption("Sohbet, yapılandırılmış bir LLM bağlantısı gerektirir. Oyuncu analizi ve veri kapsamı anahtarsız kullanılabilir.")
-        if st.button("Konuşmayı temizle"):
-            st.session_state.messages = []
-        if "messages" not in st.session_state:
-            st.session_state.messages = []
-        for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-                show_evidence(message.get("evidence"))
-        if st.session_state.messages:
-            transcript = "\n\n".join(
-                f"## {'Kullanıcı' if m['role'] == 'user' else 'Asistan'}\n\n{m['content']}"
-                for m in st.session_state.messages
-            )
-            st.download_button("Konuşmayı indir", transcript, file_name="nfl_analiz.md", mime="text/markdown")
-        st.caption("Örnek sorular")
-        example_columns = st.columns(3)
-        examples = [
-            ("Veri kapsamı", "Dataset hangi sezonları ve maç türlerini içeriyor?"),
-            ("Oyuncu karşılaştır", "<Oyuncu A> ve <Oyuncu B>'yi aynı sezon ve maç türünde karşılaştır."),
-            ("Kanıt sınırı", "Üçüncü hakta 3–6 yard mesafede hangi rota daha çok first down kazandırıyor?"),
-        ]
-        for column, (label, prompt) in zip(example_columns, examples):
-            if column.button(label, key=f"chat_example_{label}"):
-                st.session_state.pending_chat_example = prompt
-        question = st.chat_input("Dataset hakkında bir soru sorun")
-        if st.session_state.get("pending_chat_example"):
-            question = st.session_state.pop("pending_chat_example")
-        if question:
-            history = st.session_state.messages[-12:]
-            with st.chat_message("user"):
-                st.markdown(question)
-            try:
-                with st.spinner("Veriler inceleniyor..."):
-                    response = answer(question, history)
-                st.session_state.messages.extend([{"role": "user", "content": question},
-                                                  {"role": "assistant", "content": response["answer"],
-                                                   "evidence": response["evidence"]}])
-                with st.chat_message("assistant"):
-                    st.markdown(response["answer"])
-                    show_evidence(response["evidence"])
-            except Exception as exc:
-                logger.error("chat_ui_failed", extra={"event": "chat_ui_failed", "error_type": type(exc).__name__})
-                st.error("Sohbet tamamlanamadı. Bağlantı ayarlarını kontrol edip tekrar deneyin.")
+            season_type = st.selectbox("Maç türü", list(SEASON_TYPES), format_func=SEASON_TYPES.get)
+            with st.spinner("Sezon verileri hazırlanıyor..."):
+                payload = analytics.player_performance(active, season=season, season_type=season_type)
+            rows = [row for row in payload["data"] if team == "Tümü" or row["team_abbr"] == team]
+            st.caption(f"Bağlam: {season} · {SEASON_TYPES[season_type]} · "
+                       f"{'Tüm takımlar' if team == 'Tümü' else team_label(team)}")
+            if rows:
+                show_comparisons(rows)
+                with st.expander("Sezon kayıtları ve metrik açıklamaları"):
+                    show_performance(payload, rows)
+                    for label in ("games", "pressure_allowed_rate", "receiving_yards",
+                                  "rushing_yards", "sacks", "tackles"):
+                        st.caption(payload["metric_definitions"][label])
+            else:
+                st.info("Seçilen sezon, maç türü ve takım için kayıt bulunamadı. Filtreleri değiştir.")
+        st.divider()
+        st.subheader("Oyuncu profilleri")
+        for player_id in selected:
+            show_profile(player_id, by_id[player_id], expanded=len(selected) == 1)
+    else:
+        st.info("Karşılaştırmaya başlamak için arama sonucundan bir oyuncu ekle.")
+with chat:
+    st.caption("Sohbet, yapılandırılmış bir LLM bağlantısı gerektirir. Oyuncu analizi ve veri kapsamı anahtarsız kullanılabilir.")
+    if st.button("Konuşmayı temizle"):
+        st.session_state.messages = []
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+            show_evidence(message.get("evidence"))
+    if st.session_state.messages:
+        transcript = "\n\n".join(
+            f"## {'Kullanıcı' if m['role'] == 'user' else 'Asistan'}\n\n{m['content']}"
+            for m in st.session_state.messages
+        )
+        st.download_button("Konuşmayı indir", transcript, file_name="nfl_analiz.md", mime="text/markdown")
+    st.caption("Örnek sorular")
+    example_columns = st.columns(3)
+    examples = [
+        ("Veri kapsamı", "Dataset hangi sezonları ve maç türlerini içeriyor?"),
+        ("Oyuncu karşılaştır", "<Oyuncu A> ve <Oyuncu B>'yi aynı sezon ve maç türünde karşılaştır."),
+        ("Kanıt sınırı", "Üçüncü hakta 3–6 yard mesafede hangi rota daha çok first down kazandırıyor?"),
+    ]
+    for column, (label, prompt) in zip(example_columns, examples):
+        if column.button(label, key=f"chat_example_{label}"):
+            st.session_state.pending_chat_example = prompt
+    question = st.chat_input("Dataset hakkında bir soru sorun")
+    if st.session_state.get("pending_chat_example"):
+        question = st.session_state.pop("pending_chat_example")
+    if question:
+        history = st.session_state.messages[-12:]
+        with st.chat_message("user"):
+            st.markdown(question)
+        try:
+            with st.spinner("Veriler inceleniyor..."):
+                response = answer(question, history)
+            st.session_state.messages.extend([{"role": "user", "content": question},
+                                              {"role": "assistant", "content": response["answer"],
+                                               "evidence": response["evidence"]}])
+            with st.chat_message("assistant"):
+                st.markdown(response["answer"])
+                show_evidence(response["evidence"])
+        except Exception as exc:
+            logger.error("chat_ui_failed", extra={"event": "chat_ui_failed", "error_type": type(exc).__name__})
+            st.error("Sohbet tamamlanamadı. Bağlantı ayarlarını kontrol edip tekrar deneyin.")
