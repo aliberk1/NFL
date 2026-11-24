@@ -79,20 +79,21 @@ def test_main_flow_preserves_selection_across_search_and_filters(tmp_path, monke
                             default_timeout=20).run()
     assert not app.exception
     app.text_input[0].set_value("Test Receiver").run()
-    app.button[0].click().run()
+    selected_label = next(label for label in app.multiselect[0].options if "Test Receiver" in label)
+    app.multiselect[0].set_value([selected_label]).run()
     assert not app.exception
-    assert app.multiselect[0].value == [1]
+    assert app.session_state["selected_player_ids"] == [1]
     app.text_input[0].set_value("not found").run()
     assert not app.exception
-    assert app.multiselect[0].value == [1]
+    assert app.session_state["selected_player_ids"] == [1]
     app.text_input[0].set_value("").run()
     next(item for item in app.selectbox if item.label == "Takım").set_value("MIN").run()
     assert not app.exception
-    assert app.multiselect[0].value == [1]
+    assert app.session_state["selected_player_ids"] == [1]
     assert any("Minnesota Vikings (MIN)" in item.value for item in app.caption)
     next(item for item in app.selectbox if item.label == "Pozisyon").set_value("T").run()
     assert not app.exception
-    assert app.multiselect[0].value == [1]
+    assert app.session_state["selected_player_ids"] == [1]
     assert any("Bu pozisyonda seçili oyuncu yok" in item.value for item in app.info)
     next(item for item in app.selectbox if item.label == "Pozisyon").set_value("Tümü").run()
     next(item for item in app.selectbox if item.label == "Sezon").set_value(2024).run()

@@ -1,4 +1,5 @@
 import sys
+import logging
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -10,10 +11,14 @@ import streamlit.components.v1 as components
 from app import analytics
 from app.assistant import answer
 from app.config import DB
+from app.observability import configure_logging
 from app.player_view import (
     CAREER_FIELDS, COMBINE_FIELDS, PLAYER_FIELDS, ROLE_METRICS,
-    TEAM_NAMES, comparison_groups, formatted_fields, position_label, team_label,
+    comparison_groups, formatted_fields, position_label, team_label,
 )
+
+configure_logging()
+logger = logging.getLogger("nfl.ui")
 
 LABELS = {
     "display_name": "Oyuncu", "nfl_position": "Pozisyon", "season": "Sezon",
@@ -339,69 +344,68 @@ with coverage:
 with players:
     st.subheader("Oyuncu bul ve karşılaştır")
     st.caption("Oyuncu ara, listeye ekle ve aynı sezon ile maç türündeki kayıtları karşılaştır.")
-    with st.spinner("Oyuncu kayıtları yükleniyor..."):
-        directory = analytics.player_directory()["data"]
-    by_id = {p["nfl_id"]: p for p in directory}
-    seasons = sorted({r["season"] for r in analytics.dataset_summary()["data"]["seasons"]}, reverse=True)
-    teams = sorted({team.strip() for p in directory for team in p["teams"].split(",")
-                    if team.strip() and team.strip() != "Takım kaydı yok"})
-    filter_cols = st.columns([2, 1, 1, 1])
+    options = analytics.player_filter_options()["data"]
+    filter_cols = st.columns([3, 1, 1, 1])
     with filter_cols[0]:
         search = st.text_input("Oyuncu veya takım ara", placeholder="İsim, takım kodu veya adı")
     with filter_cols[1]:
-        position = st.selectbox("Pozisyon", ["Tümü"] + sorted({
-            p["nfl_position"] for p in directory if p["nfl_position"]
-        }), format_func=lambda value: "Tümü" if value == "Tümü" else position_label(value))
+        positions = [row["nfl_position"] for row in options["positions"]]
+        position = st.selectbox("Pozisyon", ["Tümü"] + positions,
+                                format_func=lambda value: "Tümü" if value == "Tümü" else position_label(value))
     with filter_cols[2]:
+        teams = [row["team_abbr"] for row in options.get("teams", [])]
         team = st.selectbox("Takım", ["Tümü"] + teams,
                             format_func=lambda value: "Tümü" if value == "Tümü" else team_label(value))
     with filter_cols[3]:
+        seasons = sorted({r["season"] for r in analytics.dataset_summary()["data"]["seasons"]}, reverse=True)
         season = st.selectbox("Sezon", seasons, index=0) if seasons else None
-    search_term = search.strip().casefold()
-    matches = [
-        p for p in directory
-        if (not search_term or search_term in (
-            f"{p['display_name']} {p['teams']} " +
-            " ".join(TEAM_NAMES.get(code.strip(), "") for code in p["teams"].split(","))
-        ).casefold())
-        and (position == "Tümü" or p["nfl_position"] == position)
-        and (team == "Tümü" or team in {code.strip() for code in p["teams"].split(",")})
-    ]
+    page_size = 100
+    query_args = (search, None if position == "Tümü" else position)
+    team_filter = {} if team == "Tümü" else {"team": team}
+    first_page = analytics.player_directory(*query_args, limit=page_size, offset=0,
+                                             paginated=True, **team_filter)["data"]
+    total = first_page["total"]
+    page_count = max(1, (total + page_size - 1) // page_size)
+    page = st.number_input("Oyuncu listesi · sayfa", min_value=1, max_value=page_count, value=1, step=1)
+    directory = first_page if page == 1 else analytics.player_directory(
+        *query_args, limit=page_size, offset=(page - 1) * page_size,
+        paginated=True, **team_filter,
+    )["data"]
+    matches = directory["rows"]
+    selected_ids = st.session_state.setdefault("selected_player_ids", [])
+    selected_records = st.session_state.setdefault("selected_player_records", {})
+    selected_records.update({player["nfl_id"]: player for player in matches})
+    by_id = selected_records
     if matches:
-        st.caption(f"{len(matches)} sonuç · İlk 20 oyuncu gösteriliyor")
-        preview = pd.DataFrame([{
-            "Oyuncu": p["display_name"],
-            "Pozisyon": position_label(p["nfl_position"]),
-            "Kayıtlı takımlar": ", ".join(team_label(t.strip()) for t in p["teams"].split(",")
-                                        if t.strip() != "Takım kaydı yok") or "Bilgi yok",
-            "Draft yılı": p["draft_year"] if p["draft_year"] is not None else "Bilgi yok",
-        } for p in matches[:20]])
-        st.dataframe(preview, hide_index=True, width="stretch")
-        add_col, button_col = st.columns([3, 1])
-        with add_col:
-            candidate = st.selectbox(
-                "Sonuçlardan ekle", [p["nfl_id"] for p in matches],
-                format_func=lambda player_id: f"{by_id[player_id]['display_name']} · "
-                                              f"{position_label(by_id[player_id]['nfl_position'])}",
-                key="candidate_player",
-            )
-        with button_col:
-            st.write("")
-            if st.button("Listeye ekle", disabled=len(st.session_state.get("selected_player_ids", [])) >= 10):
-                selected_now = st.session_state.get("selected_player_ids", [])
-                if candidate not in selected_now:
-                    st.session_state.selected_player_ids = selected_now + [candidate]
-                    st.rerun()
+        st.caption(f"{total} oyuncu · Sayfa {page}/{page_count} · Bu sayfadan en fazla 10 oyuncu seç")
+        st.dataframe(pd.DataFrame(matches)[["display_name", "teams", "nfl_position", "draft_year"]].rename(columns={
+            "display_name": "Oyuncu", "teams": "Kayıtlı takımlar",
+            "nfl_position": "Pozisyon", "draft_year": "Draft yılı",
+        }), hide_index=True, width="stretch")
+        player_options = {
+            f'{player["display_name"]} · {player["nfl_position"]} · {player["draft_year"]} · #{player["nfl_id"]}': player["nfl_id"]
+            for player in matches
+        }
+        widget_key = f"player_selection:{search.strip().casefold()}:{position}:{team}:{page}"
+        page_defaults = [label for label, player_id in player_options.items() if player_id in selected_ids]
+        if widget_key not in st.session_state:
+            st.session_state[widget_key] = page_defaults
+        selected_labels = st.multiselect("Kar\u015f\u0131la\u015ft\u0131r\u0131lacak oyuncular", list(player_options),
+                                         max_selections=10, key=widget_key)
+        page_selected = [player_options[label] for label in selected_labels]
+        current_page_ids = {player["nfl_id"] for player in matches}
+        selected_ids = [player_id for player_id in selected_ids if player_id not in current_page_ids]
+        remaining_slots = max(0, 10 - len(selected_ids))
+        if len(page_selected) > remaining_slots:
+            st.warning("Karşılaştırma listesinde en fazla 10 oyuncu olabilir.")
+        selected_ids.extend(page_selected[:remaining_slots])
+        st.session_state.selected_player_ids = selected_ids
+        selected = list(selected_ids)
+        selected_players = [by_id[player_id] for player_id in selected if player_id in by_id]
     else:
-        st.info("Bu arama ve filtrelerle oyuncu bulunamadı. İsim, takım veya pozisyon filtresini değiştir.")
-    selected = st.multiselect(
-        "Seçilen oyuncular (en fazla 10)",
-        options=list(by_id),
-        format_func=lambda player_id: f"{by_id[player_id]['display_name']} · "
-                                      f"{position_label(by_id[player_id]['nfl_position'])}",
-        key="selected_player_ids", max_selections=10,
-    )
-    st.caption("Takımlar verideki geçmiş kayıtlardır; güncel kadro bilgisi değildir. Seçim arama değişince korunur.")
+        selected = list(selected_ids)
+        selected_players = [by_id[player_id] for player_id in selected if player_id in by_id]
+        st.info("Oyuncu bulunamad\u0131. Arama veya filtreleri de\u011fi\u015ftir.")
     if selected:
         active = [player_id for player_id in selected
                   if position == "Tümü" or by_id[player_id]["nfl_position"] == position]
@@ -474,4 +478,5 @@ with chat:
                 st.markdown(response["answer"])
                 show_evidence(response["evidence"])
         except Exception as exc:
-            st.error(f"İşlem tamamlanamadı: {exc}")
+            logger.error("chat_ui_failed", extra={"event": "chat_ui_failed", "error_type": type(exc).__name__})
+            st.error("Sohbet tamamlanamadı. Bağlantı ayarlarını kontrol edip tekrar deneyin.")

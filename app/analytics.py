@@ -2,12 +2,26 @@ import csv
 import hashlib
 import io
 import json
-from contextlib import contextmanager
+import logging
+from copy import deepcopy
+from functools import lru_cache
 from typing import Any
 
 import duckdb
 
 from app.config import DB, ROOT
+
+logger = logging.getLogger("nfl")
+
+
+@lru_cache(maxsize=128)
+def _cached_query(database: str, version: tuple[int, int], sql: str, params_json: str):
+    """Cache read-only results by database identity and on-disk version."""
+    del version  # Included in the LRU key; intentionally not used in SQL.
+    with duckdb.connect(database, read_only=True) as con:
+        cursor = con.execute(sql, json.loads(params_json))
+        columns = [c[0] for c in cursor.description]
+        return tuple(dict(zip(columns, row)) for row in cursor.fetchall())
 
 COVERAGE_NOTE = (
     "Sonuçlar yalnızca dataset içindeki oyuncu ve oyun kayıtlarını kapsar; "
@@ -16,22 +30,16 @@ COVERAGE_NOTE = (
 )
 
 
-@contextmanager
-def connection():
-    if not DB.exists():
-        raise FileNotFoundError("Veritabanı hazır değil. python -m pipelines.ingest çalıştırın.")
-    con = duckdb.connect(str(DB), read_only=True)
-    try:
-        yield con
-    finally:
-        con.close()
-
-
 def query(sql, params=None):
-    with connection() as con:
-        cursor = con.execute(sql, params or [])
-        columns = [c[0] for c in cursor.description]
-        return [dict(zip(columns, row)) for row in cursor.fetchall()]
+    if not DB.exists():
+        raise FileNotFoundError("Veritabanı hazır değil. Önce veri kurulumunu çalıştırın.")
+    try:
+        stat = DB.stat()
+        version = (stat.st_mtime_ns, stat.st_size)
+        return list(deepcopy(_cached_query(str(DB.resolve()), version, sql, json.dumps(params or [], default=str))))
+    except Exception as exc:
+        logger.error("analytics_query_failed", extra={"event": "analytics_query_failed", "error_type": type(exc).__name__})
+        raise
 
 
 def result(data, sources):
@@ -63,17 +71,62 @@ def search_players(name):
     ), ["players"])
 
 
-def player_directory():
-    return result(query("""
+def player_filter_options():
+    return result({
+        "positions": query("SELECT DISTINCT nfl_position FROM players WHERE nfl_position IS NOT NULL ORDER BY nfl_position"),
+        "draft_years": query("SELECT DISTINCT draft_year FROM players WHERE draft_year IS NOT NULL ORDER BY draft_year DESC"),
+        "teams": query("SELECT DISTINCT team_abbr FROM player_play WHERE team_abbr IS NOT NULL ORDER BY team_abbr"),
+    }, ["players", "player_play"])
+
+
+def player_directory(search="", position=None, draft_year=None, limit=100, offset=0, team=None, paginated=False):
+    if limit < 1 or limit > 250 or offset < 0:
+        raise ValueError("Sayfa boyutu 1–250, başlangıç değeri sıfır veya üzeri olmalıdır.")
+    filters = []
+    params = []
+    if search.strip():
+        filters.append("(contains(lower(p.display_name), lower(?)) OR contains(lower(coalesce(t.teams, '')), lower(?)))")
+        params.extend([search.strip(), search.strip()])
+    if position:
+        filters.append("p.nfl_position = ?")
+        params.append(position)
+    if draft_year is not None:
+        filters.append("p.draft_year = ?")
+        params.append(int(draft_year))
+    if team:
+        filters.append("list_contains(string_split(coalesce(t.teams, ''), ', '), ?)")
+        params.append(team)
+    where = " WHERE " + " AND ".join(filters) if filters else ""
+    rows = query(f"""
         WITH teams AS (
             SELECT nfl_id, string_agg(DISTINCT team_abbr, ', ' ORDER BY team_abbr) AS teams
             FROM player_play GROUP BY nfl_id
         )
         SELECT p.nfl_id, p.display_name, p.nfl_position, p.draft_year,
+               count(*) OVER () AS total_count,
                coalesce(t.teams, 'Takım kaydı yok') AS teams
-        FROM players p LEFT JOIN teams t USING (nfl_id)
-        ORDER BY p.display_name, p.nfl_id
-    """), ["players", "player_play"])
+        FROM players p LEFT JOIN teams t USING (nfl_id){where}
+        ORDER BY p.display_name, p.nfl_id LIMIT ? OFFSET ?
+    """, [*params, limit, offset])
+    if rows:
+        total = rows[0]["total_count"]
+    elif offset:
+        total_rows = query(f"""
+            WITH teams AS (
+                SELECT nfl_id, string_agg(DISTINCT team_abbr, ', ' ORDER BY team_abbr) AS teams
+                FROM player_play GROUP BY nfl_id
+            )
+            SELECT count(*) AS total FROM players p LEFT JOIN teams t USING (nfl_id){where}
+        """, params)
+        total = total_rows[0]["total"]
+    else:
+        total = 0
+    for row in rows:
+        row.pop("total_count")
+    data = {"rows": rows, "total": total, "limit": limit, "offset": offset}
+    is_paginated = (paginated or bool(search.strip()) or position is not None or
+                    draft_year is not None or team is not None or limit != 100 or offset != 0)
+    return result(data if is_paginated else rows, ["players", "player_play"])
 
 
 def player_profile(player_id):
