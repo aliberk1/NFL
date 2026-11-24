@@ -1,0 +1,51 @@
+{
+  "status": "exploratory; turn detector requires visual review; no tuning performed",
+  "curl_players": 102,
+  "accepted_attempts": 99,
+  "rejected_attempts": 10,
+  "players_with_features": 97,
+  "model_players": 58,
+  "rookie_play_rows": 12798,
+  "folds": [
+    {
+      "held_out_year": 2023,
+      "train_players": 35,
+      "test_players": 23
+    },
+    {
+      "held_out_year": 2024,
+      "train_players": 39,
+      "test_players": 19
+    },
+    {
+      "held_out_year": 2025,
+      "train_players": 42,
+      "test_players": 16
+    }
+  ],
+  "scores": {
+    "mean_reference": {
+      "MAE": 0.21029769614079272,
+      "RMSE": 0.2716367360046974
+    },
+    "traditional": {
+      "MAE": 0.16827474184257663,
+      "RMSE": 0.23484144467566515
+    },
+    "with_movement": {
+      "MAE": 0.17535834235754874,
+      "RMSE": 0.2402054818850191
+    }
+  },
+  "movement_MAE_improvement": -0.007083600514972079,
+  "paired_player_bootstrap_95_interval": [
+    -0.016928205406470113,
+    0.002360574499649956
+  ],
+  "caveats": [
+    "Bootstrap conditions on fitted folds and is not full training uncertainty.",
+    "Separation at pass release is contextual, not a causal measure of skill.",
+    "Only observed rookie routes and Combine participants are represented.",
+    "Tracking speed units must be confirmed from the official data dictionary."
+  ]
+}

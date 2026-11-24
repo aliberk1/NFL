@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "execution_seconds": 63.99,
+  "executed_code_cells": 6,
+  "comparison_checks": [
+    {
+      "file": "data/processed/rookie_wr_route_speed.csv",
+      "rows": 12688,
+      "match": true
+    },
+    {
+      "file": "data/processed/combine_speed_players.csv",
+      "rows": 93,
+      "match": true
+    },
+    {
+      "file": "reports/speed_study/forward_year_scores.csv",
+      "rows": 2,
+      "match": true
+    },
+    {
+      "file": "reports/speed_study/forward_year_predictions.csv",
+      "rows": 36,
+      "match": true
+    },
+    {
+      "file": "reports/speed_study/post_hoc_peak_only_ablation.csv",
+      "rows": 4,
+      "match": true
+    },
+    {
+      "file": "reports/speed_study/correlation_diagnostics.csv",
+      "rows": 6,
+      "match": true
+    }
+  ],
+  "all_eligible_plays_accounted_for": true,
+  "notebook_errors": 0,
+  "executed_notebook": "D:\\NFL\\submission\\receiver_speed_translation.executed.ipynb"
+}

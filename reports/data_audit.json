@@ -1,0 +1,947 @@
+{
+  "player_count": 510,
+  "positions": {
+    "DE": 36,
+    "T": 50,
+    "G": 51,
+    "OLB": 30,
+    "WR": 106,
+    "CB": 60,
+    "TE": 42,
+    "SS": 28,
+    "FS": 25,
+    "DT": 47,
+    "C": 20,
+    "NT": 5,
+    "RB": 1,
+    "MLB": 1,
+    "ILB": 2,
+    "DB": 5,
+    "FB": 1
+  },
+  "draft_years": {
+    "2023": 160,
+    "2024": 177,
+    "2025": 173
+  },
+  "combine_result_rows": 510,
+  "combine_results_nonmissing": {
+    "draft_year": 510,
+    "nfl_id": 510,
+    "combine_position": 510,
+    "combine_height": 510,
+    "combine_weight": 510,
+    "hand_size": 510,
+    "arm_length": 510,
+    "wing_span": 510,
+    "ten_yd_split": 425,
+    "forty": 424,
+    "vertical": 438,
+    "broad_jump": 423,
+    "three_cone": 180,
+    "short_shuttle": 201,
+    "bench_reps": 192,
+    "ngs_athleticism_score": 510,
+    "ngs_college_production_score": 509,
+    "ngs_final_score": 509
+  },
+  "combine_tracking_rows": 463189,
+  "combine_tracking_players": 510,
+  "combine_and_regular_season_players_by_position": {
+    "CB": 50,
+    "DT": 37,
+    "OLB": 26,
+    "T": 37,
+    "TE": 33,
+    "WR": 82,
+    "MLB": 1,
+    "G": 39,
+    "FS": 19,
+    "SS": 24,
+    "DE": 30,
+    "C": 15,
+    "NT": 5,
+    "RB": 1,
+    "ILB": 1,
+    "FB": 1
+  },
+  "drills": {
+    "BACK_PEDAL_AND_90_DEGREE_BREAK_TO_BALL": {
+      "players": 122,
+      "positions": {
+        "SS": 28,
+        "FS": 25,
+        "CB": 60,
+        "ILB": 2,
+        "DB": 5,
+        "MLB": 1,
+        "RB": 1
+      }
+    },
+    "BACK_PEDAL_AND_REACT": {
+      "players": 59,
+      "positions": {
+        "OLB": 28,
+        "DE": 29,
+        "DT": 2
+      }
+    },
+    "BACK_PEDAL_AND_TRANSITION_45_DEGREE_REACTION": {
+      "players": 122,
+      "positions": {
+        "SS": 28,
+        "FS": 25,
+        "CB": 60,
+        "ILB": 2,
+        "DB": 5,
+        "MLB": 1,
+        "RB": 1
+      }
+    },
+    "BLOCK_EXPLOSION": {
+      "players": 39,
+      "positions": {
+        "TE": 38,
+        "FB": 1
+      }
+    },
+    "BODY_CONTROL_DRILL": {
+      "players": 111,
+      "positions": {
+        "DT": 46,
+        "OLB": 27,
+        "NT": 5,
+        "DE": 33
+      }
+    },
+    "BOX_DRILL": {
+      "players": 122,
+      "positions": {
+        "SS": 28,
+        "FS": 25,
+        "CB": 60,
+        "ILB": 2,
+        "DB": 5,
+        "MLB": 1,
+        "RB": 1
+      }
+    },
+    "CIRCUS_ROUTE_LEFT": {
+      "players": 37,
+      "positions": {
+        "WR": 37
+      }
+    },
+    "COMEBACK_ROUTE_RIGHT": {
+      "players": 98,
+      "positions": {
+        "WR": 97,
+        "TE": 1
+      }
+    },
+    "CORNER_ROUTE": {
+      "players": 30,
+      "positions": {
+        "TE": 29,
+        "FB": 1
+      }
+    },
+    "CURL_ROUTE_RIGHT": {
+      "players": 103,
+      "positions": {
+        "WR": 102,
+        "TE": 1
+      }
+    },
+    "DAGGER_ROUTE_LEFT": {
+      "players": 107,
+      "positions": {
+        "WR": 106,
+        "TE": 1
+      }
+    },
+    "END_ZONE_FADE_RIGHT": {
+      "players": 28,
+      "positions": {
+        "TE": 27,
+        "FB": 1
+      }
+    },
+    "FIVE_YARD_WAVE_DRILL_SLIDE_AND_SHUFFLE": {
+      "players": 120,
+      "positions": {
+        "T": 50,
+        "G": 50,
+        "C": 20
+      }
+    },
+    "FLAT_ROUTE_LEFT": {
+      "players": 42,
+      "positions": {
+        "TE": 41,
+        "FB": 1
+      }
+    },
+    "FORTY_YARD_DASH": {
+      "players": 418,
+      "positions": {
+        "DT": 37,
+        "CB": 51,
+        "OLB": 22,
+        "T": 39,
+        "TE": 34,
+        "G": 40,
+        "WR": 93,
+        "MLB": 1,
+        "FS": 21,
+        "SS": 24,
+        "DE": 30,
+        "C": 16,
+        "NT": 4,
+        "RB": 1,
+        "DB": 3,
+        "ILB": 1,
+        "FB": 1
+      }
+    },
+    "FOUR_BAG_AGILITY_DRILL": {
+      "players": 112,
+      "positions": {
+        "DT": 47,
+        "OLB": 27,
+        "NT": 5,
+        "DE": 33
+      }
+    },
+    "FOUR_BAG_SHUFFLE_DRILL": {
+      "players": 3,
+      "positions": {
+        "DE": 2,
+        "OLB": 1
+      }
+    },
+    "FRONT_START_WAVE_DRILL_AND_LATERAL_REACTION": {
+      "players": 112,
+      "positions": {
+        "DT": 45,
+        "OLB": 29,
+        "NT": 5,
+        "DE": 33
+      }
+    },
+    "GAUNTLET_DRILL": {
+      "players": 267,
+      "positions": {
+        "SS": 28,
+        "FS": 23,
+        "CB": 59,
+        "WR": 106,
+        "ILB": 2,
+        "TE": 41,
+        "DB": 5,
+        "MLB": 1,
+        "FB": 1,
+        "RB": 1
+      }
+    },
+    "GO_ROUTE_RIGHT": {
+      "players": 98,
+      "positions": {
+        "WR": 97,
+        "TE": 1
+      }
+    },
+    "HOOK_ROUTE_RIGHT": {
+      "players": 41,
+      "positions": {
+        "TE": 40,
+        "FB": 1
+      }
+    },
+    "IN_ROUTE_LEFT": {
+      "players": 40,
+      "positions": {
+        "TE": 39,
+        "FB": 1
+      }
+    },
+    "LINE": {
+      "players": 33,
+      "positions": {
+        "FS": 7,
+        "CB": 14,
+        "SS": 12
+      }
+    },
+    "LINE_DRILL": {
+      "players": 85,
+      "positions": {
+        "SS": 15,
+        "ILB": 2,
+        "DB": 5,
+        "CB": 44,
+        "FS": 17,
+        "MLB": 1,
+        "RB": 1
+      }
+    },
+    "OL_PULL_DRILL_DEEP_SHORT_PULL_LEFT": {
+      "players": 98,
+      "positions": {
+        "T": 37,
+        "G": 44,
+        "C": 17
+      }
+    },
+    "OL_PULL_DRILL_FOLD_BLOCK_RIGHT": {
+      "players": 119,
+      "positions": {
+        "T": 49,
+        "G": 51,
+        "C": 19
+      }
+    },
+    "OL_PULL_DRILL_LONG_PULL_RIGHT": {
+      "players": 93,
+      "positions": {
+        "T": 36,
+        "G": 43,
+        "C": 14
+      }
+    },
+    "OVER_SHOULDER_ADJUST": {
+      "players": 130,
+      "positions": {
+        "WR": 99,
+        "TE": 30,
+        "FB": 1
+      }
+    },
+    "OVER_THE_SHOULDER_ADJUST": {
+      "players": 12,
+      "positions": {
+        "TE": 12
+      }
+    },
+    "PASS_PRO-MIRROR_DRILL": {
+      "players": 84,
+      "positions": {
+        "T": 37,
+        "G": 34,
+        "C": 13
+      }
+    },
+    "PASS_PRO_MIRROR_DRILL": {
+      "players": 37,
+      "positions": {
+        "G": 17,
+        "T": 13,
+        "C": 7
+      }
+    },
+    "PASS_RUSH_DRILL": {
+      "players": 118,
+      "positions": {
+        "DT": 47,
+        "OLB": 30,
+        "DE": 36,
+        "NT": 5
+      }
+    },
+    "PASS_RUSH_DROP": {
+      "players": 120,
+      "positions": {
+        "T": 50,
+        "G": 50,
+        "C": 20
+      }
+    },
+    "POST_CORNER_ROUTE_LEFT": {
+      "players": 70,
+      "positions": {
+        "WR": 69,
+        "TE": 1
+      }
+    },
+    "POST_CORNER_ROUTE_RIGHT": {
+      "players": 96,
+      "positions": {
+        "WR": 95,
+        "TE": 1
+      }
+    },
+    "RED_ZONE_FADE_RIGHT": {
+      "players": 98,
+      "positions": {
+        "WR": 97,
+        "TE": 1
+      }
+    },
+    "RUN_AND_CLUB_DRILL": {
+      "players": 112,
+      "positions": {
+        "OLB": 29,
+        "DT": 45,
+        "NT": 5,
+        "DE": 33
+      }
+    },
+    "RUN_THE_HOOP_DRILL": {
+      "players": 109,
+      "positions": {
+        "DT": 43,
+        "OLB": 29,
+        "NT": 4,
+        "DE": 33
+      }
+    },
+    "SCREEN_DRILL": {
+      "players": 119,
+      "positions": {
+        "T": 48,
+        "G": 51,
+        "C": 20
+      }
+    },
+    "SHORT_SHUTTLE": {
+      "players": 170,
+      "positions": {
+        "SS": 7,
+        "OLB": 10,
+        "ILB": 1,
+        "T": 18,
+        "TE": 20,
+        "DT": 16,
+        "WR": 29,
+        "G": 25,
+        "DE": 12,
+        "C": 11,
+        "CB": 16,
+        "FB": 1,
+        "FS": 4
+      }
+    },
+    "SHORT_ZONE_BREAKS": {
+      "players": 40,
+      "positions": {
+        "OLB": 16,
+        "DE": 22,
+        "DT": 2
+      }
+    },
+    "SHORT_ZONE_BREAK_FLAT_WHEEL": {
+      "players": 20,
+      "positions": {
+        "OLB": 12,
+        "DE": 8
+      }
+    },
+    "SHORT_ZONE_BREAK_FORWARD": {
+      "players": 20,
+      "positions": {
+        "OLB": 12,
+        "DE": 8
+      }
+    },
+    "SHORT_ZONE_BREAK_INSIDE": {
+      "players": 18,
+      "positions": {
+        "OLB": 12,
+        "DE": 6
+      }
+    },
+    "SHUFFLE_SPRINT_AND_COD_DRILL": {
+      "players": 4,
+      "positions": {
+        "DE": 3,
+        "OLB": 1
+      }
+    },
+    "SLANT_ROUTE_LEFT": {
+      "players": 107,
+      "positions": {
+        "WR": 106,
+        "TE": 1
+      }
+    },
+    "SLOT_SAIL_ROUTE_RIGHT": {
+      "players": 98,
+      "positions": {
+        "WR": 97,
+        "TE": 1
+      }
+    },
+    "SLOT_STRIKE_ROUTE_LEFT": {
+      "players": 101,
+      "positions": {
+        "WR": 100,
+        "TE": 1
+      }
+    },
+    "SPEED_OUT_LEFT": {
+      "players": 31,
+      "positions": {
+        "WR": 31
+      }
+    },
+    "SPEED_OUT_ROUTE_LEFT": {
+      "players": 76,
+      "positions": {
+        "WR": 75,
+        "TE": 1
+      }
+    },
+    "TERYL_AUSTIN_DRILL_1": {
+      "players": 101,
+      "positions": {
+        "SS": 17,
+        "CB": 58,
+        "ILB": 2,
+        "DB": 5,
+        "FS": 17,
+        "MLB": 1,
+        "RB": 1
+      }
+    },
+    "TERYL_AUSTIN_DRILL_2": {
+      "players": 111,
+      "positions": {
+        "SS": 28,
+        "FS": 22,
+        "CB": 53,
+        "ILB": 2,
+        "DB": 4,
+        "MLB": 1,
+        "RB": 1
+      }
+    },
+    "THREE_CONE_DRILL": {
+      "players": 160,
+      "positions": {
+        "SS": 7,
+        "OLB": 10,
+        "ILB": 1,
+        "T": 17,
+        "TE": 18,
+        "DT": 18,
+        "CB": 13,
+        "WR": 24,
+        "DE": 16,
+        "G": 20,
+        "C": 11,
+        "FB": 1,
+        "FS": 3,
+        "NT": 1
+      }
+    },
+    "WAVE_DRILL": {
+      "players": 4,
+      "positions": {
+        "DE": 3,
+        "OLB": 1
+      }
+    },
+    "WHEEL_ROUTE_LEFT": {
+      "players": 40,
+      "positions": {
+        "TE": 39,
+        "FB": 1
+      }
+    },
+    "W_DRILL": {
+      "players": 121,
+      "positions": {
+        "SS": 27,
+        "FS": 25,
+        "CB": 60,
+        "ILB": 2,
+        "DB": 5,
+        "MLB": 1,
+        "RB": 1
+      }
+    }
+  },
+  "regular_season_outcomes": {
+    "C": {
+      "nonmissing_rows": {
+        "player_play_rows": 11140,
+        "pressure_allowed": 6293,
+        "yards_after_catch": 1,
+        "separation_at_pass_forward": 2,
+        "route_ran": 2
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 1,
+        "route_ran": 1,
+        "yards_after_catch": 1,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 15
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 1,
+        "route_ran": 1,
+        "yards_after_catch": 1,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 15
+      }
+    },
+    "CB": {
+      "nonmissing_rows": {
+        "player_play_rows": 36328,
+        "player_get_off": 167,
+        "time_to_pressure": 73
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 32,
+        "time_to_pressure": 22,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 32,
+        "time_to_pressure": 22,
+        "pressure_allowed": 0
+      }
+    },
+    "DE": {
+      "nonmissing_rows": {
+        "player_play_rows": 18262,
+        "player_get_off": 12580,
+        "time_to_pressure": 1028
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 30,
+        "time_to_pressure": 28,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 30,
+        "time_to_pressure": 28,
+        "pressure_allowed": 0
+      }
+    },
+    "DT": {
+      "nonmissing_rows": {
+        "player_play_rows": 15014,
+        "player_get_off": 8607,
+        "time_to_pressure": 556
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 37,
+        "time_to_pressure": 33,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 37,
+        "time_to_pressure": 33,
+        "pressure_allowed": 0
+      }
+    },
+    "FB": {
+      "nonmissing_rows": {
+        "player_play_rows": 31,
+        "separation_at_pass_forward": 26,
+        "route_ran": 31,
+        "pressure_allowed": 1
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 1,
+        "route_ran": 1,
+        "yards_after_catch": 0,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 1
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 1,
+        "route_ran": 1,
+        "yards_after_catch": 0,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 1
+      }
+    },
+    "FS": {
+      "nonmissing_rows": {
+        "player_play_rows": 10726,
+        "player_get_off": 54,
+        "time_to_pressure": 31
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 12,
+        "time_to_pressure": 11,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 12,
+        "time_to_pressure": 11,
+        "pressure_allowed": 0
+      }
+    },
+    "G": {
+      "nonmissing_rows": {
+        "player_play_rows": 39115,
+        "pressure_allowed": 21897,
+        "yards_after_catch": 2,
+        "separation_at_pass_forward": 4,
+        "route_ran": 4
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 4,
+        "route_ran": 4,
+        "yards_after_catch": 2,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 39
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 4,
+        "route_ran": 4,
+        "yards_after_catch": 2,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 39
+      }
+    },
+    "ILB": {
+      "nonmissing_rows": {
+        "player_play_rows": 190,
+        "player_get_off": 14,
+        "time_to_pressure": 2
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 1,
+        "time_to_pressure": 1,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 1,
+        "time_to_pressure": 1,
+        "pressure_allowed": 0
+      }
+    },
+    "MLB": {
+      "nonmissing_rows": {
+        "player_play_rows": 244,
+        "player_get_off": 18,
+        "time_to_pressure": 2
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 1,
+        "time_to_pressure": 1,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 1,
+        "time_to_pressure": 1,
+        "pressure_allowed": 0
+      }
+    },
+    "NT": {
+      "nonmissing_rows": {
+        "player_play_rows": 1993,
+        "player_get_off": 893,
+        "time_to_pressure": 54
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 5,
+        "time_to_pressure": 5,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 5,
+        "time_to_pressure": 5,
+        "pressure_allowed": 0
+      }
+    },
+    "OLB": {
+      "nonmissing_rows": {
+        "player_play_rows": 17340,
+        "player_get_off": 11337,
+        "time_to_pressure": 1066
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 26,
+        "time_to_pressure": 24,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 26,
+        "time_to_pressure": 24,
+        "pressure_allowed": 0
+      }
+    },
+    "RB": {
+      "nonmissing_rows": {
+        "player_play_rows": 27,
+        "separation_at_pass_forward": 9,
+        "route_ran": 9,
+        "yards_after_catch": 2,
+        "pressure_allowed": 1
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 1,
+        "route_ran": 1,
+        "yards_after_catch": 1,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 1
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 1,
+        "route_ran": 1,
+        "yards_after_catch": 1,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 1
+      }
+    },
+    "SS": {
+      "nonmissing_rows": {
+        "player_play_rows": 19401,
+        "player_get_off": 267,
+        "time_to_pressure": 143
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 17,
+        "time_to_pressure": 15,
+        "pressure_allowed": 0
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 0,
+        "route_ran": 0,
+        "yards_after_catch": 0,
+        "player_get_off": 17,
+        "time_to_pressure": 15,
+        "pressure_allowed": 0
+      }
+    },
+    "T": {
+      "nonmissing_rows": {
+        "player_play_rows": 36327,
+        "pressure_allowed": 20508,
+        "separation_at_pass_forward": 4,
+        "route_ran": 4,
+        "yards_after_catch": 1
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 4,
+        "route_ran": 4,
+        "yards_after_catch": 1,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 35
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 4,
+        "route_ran": 4,
+        "yards_after_catch": 1,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 35
+      }
+    },
+    "TE": {
+      "nonmissing_rows": {
+        "player_play_rows": 8242,
+        "separation_at_pass_forward": 7224,
+        "route_ran": 8242,
+        "yards_after_catch": 1005,
+        "pressure_allowed": 425
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 33,
+        "route_ran": 33,
+        "yards_after_catch": 28,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 29
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 33,
+        "route_ran": 33,
+        "yards_after_catch": 28,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 29
+      }
+    },
+    "WR": {
+      "nonmissing_rows": {
+        "player_play_rows": 34889,
+        "separation_at_pass_forward": 30566,
+        "route_ran": 34889,
+        "yards_after_catch": 4034,
+        "pressure_allowed": 76
+      },
+      "players_with_outcome": {
+        "separation_at_pass_forward": 82,
+        "route_ran": 82,
+        "yards_after_catch": 78,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 28
+      },
+      "combine_players_with_outcome": {
+        "separation_at_pass_forward": 82,
+        "route_ran": 82,
+        "yards_after_catch": 78,
+        "player_get_off": 0,
+        "time_to_pressure": 0,
+        "pressure_allowed": 28
+      }
+    }
+  }
+}

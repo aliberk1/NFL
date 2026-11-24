@@ -1,0 +1,68 @@
+{
+  "status": "exploratory",
+  "primary_players": 58,
+  "primary_plays": 10944,
+  "players_by_year": {
+    "2023": 22,
+    "2024": 20,
+    "2025": 16
+  },
+  "missing_classic_features": {
+    "forty": 0,
+    "combine_height": 0,
+    "combine_weight": 0
+  },
+  "game_split_half_players": 58,
+  "game_split_half_correlation": 0.6202118587095797,
+  "combine_repeat_correlations": {
+    "combine_peak_speed": 0.8931452350329658,
+    "combine_early_speed": 0.15267261194472365
+  },
+  "combine_players_with_two_attempts": 81,
+  "raw_peak_game_correlation": 0.3822496201825323,
+  "scores": [
+    {
+      "test_year": 2024,
+      "train_players": 22,
+      "test_players": 20,
+      "train_plays": 4173,
+      "test_plays": 3795,
+      "movement_mae_improvement": 0.027302466726190477,
+      "ci_low": -0.0007834662335713567,
+      "ci_high": 0.0538835502984431,
+      "context_play_test_mae": 0.7910185694210973,
+      "mean_reference_mae": 0.1937610255876501,
+      "mean_reference_rmse": 0.22635546106439539,
+      "traditional_mae": 0.18083966135295892,
+      "traditional_rmse": 0.21236557913654244,
+      "with_tracking_mae": 0.15353719462676846,
+      "with_tracking_rmse": 0.19269963920757216
+    },
+    {
+      "test_year": 2025,
+      "train_players": 42,
+      "test_players": 16,
+      "train_plays": 7968,
+      "test_plays": 2976,
+      "movement_mae_improvement": -0.003717647471435536,
+      "ci_low": -0.021071345168105663,
+      "ci_high": 0.014158378098554013,
+      "context_play_test_mae": 0.7503378740394838,
+      "mean_reference_mae": 0.1568568719122509,
+      "mean_reference_rmse": 0.1937829070703824,
+      "traditional_mae": 0.1405116268797802,
+      "traditional_rmse": 0.17171588276438124,
+      "with_tracking_mae": 0.1442292743512157,
+      "with_tracking_rmse": 0.16997857085093687
+    }
+  ],
+  "limitations": [
+    "Route speed is not overall football success or receiver separation.",
+    "All analyses exploratory; earlier outcomes from these years were inspected.",
+    "Bootstrap is conditional on fitted folds and ignores training uncertainty.",
+    "Only participating Combine players and observed rookie pass routes are included.",
+    "Pre-throw window restriction selects longer-developing pass plays.",
+    "Additive context model does not remove all team, route depth, or tactical effects.",
+    "Official speed units are not yet verified."
+  ]
+}

@@ -1,0 +1,360 @@
+{
+  "status": "verified local research candidate; not a finalized or published competition entry",
+  "writeup_words": 1929,
+  "writeup_images": 3,
+  "verification": {
+    "status": "passed",
+    "execution_seconds": 133.42,
+    "code_cells": 11,
+    "notebook_errors": 0,
+    "comparison_checks": [
+      {
+        "file": "mirror_attempt_features.csv",
+        "rows": 113,
+        "match": true
+      },
+      {
+        "file": "mirror_forward_year_scores.csv",
+        "rows": 24,
+        "match": true
+      },
+      {
+        "file": "mirror_predictions.csv",
+        "rows": 99,
+        "match": true
+      },
+      {
+        "file": "movement_forward_year_scores.csv",
+        "rows": 8,
+        "match": true
+      },
+      {
+        "file": "movement_predictions.csv",
+        "rows": 33,
+        "match": true
+      },
+      {
+        "file": "mirror_measurement_rank_comparison.csv",
+        "rows": 113,
+        "match": true
+      },
+      {
+        "file": "mirror_full_refit_bootstrap.csv",
+        "rows": 400,
+        "match": true
+      },
+      {
+        "file": "ol_drill_suite_audit.csv",
+        "rows": 3,
+        "match": true
+      }
+    ],
+    "all_movement_opportunities_accounted_for": true
+  },
+  "files": [
+    {
+      "path": "CALISMA_DURUMU.html",
+      "sha256": "03916973a4eb14fb245b349b0b0e061b3504cd588cfe131c79626188497aea5e"
+    },
+    {
+      "path": "CALISMA_DURUMU.md",
+      "sha256": "e8041f98833176c150a3f82c97daaead862e83f3f392c58ef2a144f97642e39b"
+    },
+    {
+      "path": "reports/experiment_register.md",
+      "sha256": "66b78f4fb023d96247cb37199e6b27d4bb2e983238eda3e7e4005fd2521ab30d"
+    },
+    {
+      "path": "reports/trenches/coverage_audit.json",
+      "sha256": "584775e18a5a435556d48a1bdbf0e7c803fabb8e5d51f81c956f25d1a4ecdc2e"
+    },
+    {
+      "path": "reports/trenches/dl_rookie_coverage.csv",
+      "sha256": "e822a0207a43a048b18229e73d34b9bd962d847e71305472b51bb5fdee451487"
+    },
+    {
+      "path": "reports/trenches/drill_attempt_coverage.csv",
+      "sha256": "b153de8e720d8517b88fbd945fd0995ce9a7be6b8a1945c2c2ced149131e4a90"
+    },
+    {
+      "path": "reports/trenches/hoop_trajectory_audit.png",
+      "sha256": "0779a5322892870dbd423825811a8aa1a577045594778cd0a426c698d860c00e"
+    },
+    {
+      "path": "reports/trenches/mirror_all_phase_checks.pdf",
+      "sha256": "d92e55822cad17fb959d4f6fa9210f46b4908bee7468569f62ef1702e3e6f6f7"
+    },
+    {
+      "path": "reports/trenches/mirror_attempt_features.csv",
+      "sha256": "879df71a53e4f2214b7daed42b2fa7b756432fb7d5eb6f36f4bcf77daf49aada"
+    },
+    {
+      "path": "reports/trenches/mirror_boundary_sensitivity.csv",
+      "sha256": "ad10de42b0e8e0e750437627c44201069059aba096cd42f375e1e4d864c350f5"
+    },
+    {
+      "path": "reports/trenches/mirror_context_checks.csv",
+      "sha256": "ed7767c96ccd99d15e17111dd0e64fdb06a3e503d33ebe958d47355692a3e717"
+    },
+    {
+      "path": "reports/trenches/mirror_explorer.html",
+      "sha256": "28b7fd703ebf90bf18b9633ff536a9ddab61c619859bc081580256c3be87c456"
+    },
+    {
+      "path": "reports/trenches/mirror_feature_audit.json",
+      "sha256": "5d2c540a7ac08c6085faa9efb22b276b67eda68ea2bfa0f28c4c446f8c46570a"
+    },
+    {
+      "path": "reports/trenches/mirror_forward_year_scores.csv",
+      "sha256": "f84f52c3ec35fcf85a132a4781a60bd7e99728cbf5c2c7973cf3c37ad920a38c"
+    },
+    {
+      "path": "reports/trenches/mirror_full_refit_bootstrap.csv",
+      "sha256": "e4394d84f424febd490b338584be2895d86531e85215ac213ee385dd3677d305"
+    },
+    {
+      "path": "reports/trenches/mirror_measurement_rank_comparison.csv",
+      "sha256": "42fe85418bfcf91af798117033259f19777d9969c4ed0da985661e2927753bcc"
+    },
+    {
+      "path": "reports/trenches/mirror_measurement_summary.json",
+      "sha256": "e2654a628c7d0da7a339b5f60eeb2ed97c393be874d2309efa754e2562dca412"
+    },
+    {
+      "path": "reports/trenches/mirror_model_comparison.png",
+      "sha256": "e6fa21235b562af2774e26fb5539607d065ed4b5be25837d0e140a2c26ac8dfe"
+    },
+    {
+      "path": "reports/trenches/mirror_model_players.csv",
+      "sha256": "8e613bf95044d34040e8cd32963a6737691ba755a3112a2b33333a20c9406079"
+    },
+    {
+      "path": "reports/trenches/mirror_phase_examples.png",
+      "sha256": "46a7e2318f0483defb14e100e61ba4939897cbc144c71fd053d518c52711d043"
+    },
+    {
+      "path": "reports/trenches/mirror_phase_story.png",
+      "sha256": "156fa809aed1140b06dfd725f1f56451d499b7b9f463ec17e188372d825167bd"
+    },
+    {
+      "path": "reports/trenches/mirror_player_features.csv",
+      "sha256": "ca737c8da75d218417d657a58ebc248276abb40292b28d05be884049221ad0bc"
+    },
+    {
+      "path": "reports/trenches/mirror_predictions.csv",
+      "sha256": "a92f132c1e73730e6a9936540720678a55b19d20fc09cb43c0e44996727230ad"
+    },
+    {
+      "path": "reports/trenches/mirror_ranking_shift.png",
+      "sha256": "3f3fc01d1d418e359b340b5825af9e5f1d4c6784fe44279e6219efbcef7da4c2"
+    },
+    {
+      "path": "reports/trenches/mirror_rejected.csv",
+      "sha256": "2c8b20237c1955cba830668d11df02b0a9e5ce0cabe560d44d6fd19771271fd2"
+    },
+    {
+      "path": "reports/trenches/mirror_study_design.md",
+      "sha256": "b6b875243c988f3f74466232be05f50baad22a03ca322ad3a11d0e869cf2da5a"
+    },
+    {
+      "path": "reports/trenches/mirror_summary.json",
+      "sha256": "23af45e70fa93c4ae5ae5e1a023a05c1f508710eccb42c0bbbe8e19bbe046dad"
+    },
+    {
+      "path": "reports/trenches/mirror_trajectory_audit.png",
+      "sha256": "a834cd066e83f8148183fb7f49a2532cd5435b77e8b03b87a2dfd002b6880691"
+    },
+    {
+      "path": "reports/trenches/mirror_validation.json",
+      "sha256": "161a0868632729bae3a7d8e42257201ce3b4b53b304ed7ed51d6fe82874b891e"
+    },
+    {
+      "path": "reports/trenches/movement_bridge_design.md",
+      "sha256": "0598cd4bacca121130baba1a6027dd3763b1c1afeff927b878d3f681aa6285db"
+    },
+    {
+      "path": "reports/trenches/movement_bridge_results.png",
+      "sha256": "3fa88e4d9d8998ff2f5555f7b39be697c72c7b4530e79ff2ba0e5f2795c67f53"
+    },
+    {
+      "path": "reports/trenches/movement_correlations.csv",
+      "sha256": "8d29a401d159f647525b745b7048452cb7c0a66410ea1b5ee144ec4d058f5dc0"
+    },
+    {
+      "path": "reports/trenches/movement_forward_year_scores.csv",
+      "sha256": "accdf63251dc99cef3c7edd840e70d7c7348f99908247d980f481ccf1fee538e"
+    },
+    {
+      "path": "reports/trenches/movement_model_players.csv",
+      "sha256": "95eb7301716f0c67cc018b5155093f2240d2f822a40477f553d91dcba9b30909"
+    },
+    {
+      "path": "reports/trenches/movement_player_means.csv",
+      "sha256": "c3d0600747f4ba298bc395fe6683d1da9ea91d22028cb081784fc0966215c89b"
+    },
+    {
+      "path": "reports/trenches/movement_predictions.csv",
+      "sha256": "234fb07d719e21d635bd0160e18ff9d49e0f661d76ae317dcdc69f8795f34e6a"
+    },
+    {
+      "path": "reports/trenches/movement_summary.json",
+      "sha256": "7fea9e38ba0931bd454df1058c99b0d6ac421f5c0cbb3175783bc9f69cfc6c94"
+    },
+    {
+      "path": "reports/trenches/ol_drill_suite_audit.csv",
+      "sha256": "0298ed1f1ec139454c81975d90afcab54eaf4cb1ff29a1aabb35908f3d73928c"
+    },
+    {
+      "path": "reports/trenches/ol_early_movement_exclusions.csv",
+      "sha256": "8c70af86b8f14864fe97f7a4938865b1138941be74c3b5444570aaaa6ebd2369"
+    },
+    {
+      "path": "reports/trenches/ol_movement_extraction_audit.json",
+      "sha256": "d8a88f89c8a1d1cd1ea59b72706a17da9efc1dd93629b64d7ba9aaa0d5ab0844"
+    },
+    {
+      "path": "reports/trenches/ol_rookie_coverage.csv",
+      "sha256": "131bd5e05869fdcc43325a83b72d87014d97887b549323940024387fd05b93f9"
+    },
+    {
+      "path": "reports/trenches/README_TR.md",
+      "sha256": "8e6bbe3320c29e6ee1366dd0402b48ba1549a27186247375933d654b424125a1"
+    },
+    {
+      "path": "requirements-notebook.txt",
+      "sha256": "3a998c684adce434bd19a83597525134b1bec2fb9a2b5603ed1ce812710ea847"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "3f61e9d8af78f4bd2a8f22a80458e61e1ce8248737e51cd48b6c749109bf4633"
+    },
+    {
+      "path": "scripts/analyze_mirror_protection.py",
+      "sha256": "46baabffb3e8be57a317241a7bac1593a96d29e92da2428e992bf4e5658bf868"
+    },
+    {
+      "path": "scripts/analyze_ol_movement.py",
+      "sha256": "72d0f9f561deb6f8eb78fb3efb1d5b33a7efbf34260d14075141ea39af626f39"
+    },
+    {
+      "path": "scripts/analyze_speed_transfer.py",
+      "sha256": "c871cf77bff971de919c767023098a0c2e5616e3b5bbc58c91f78cac1a17b790"
+    },
+    {
+      "path": "scripts/audit_data.py",
+      "sha256": "c0724f4dfdf103cc6cd25df8e53603ea28ccf06517cfd0833212530c36d9fb3e"
+    },
+    {
+      "path": "scripts/audit_trenches.py",
+      "sha256": "1920401adb947cf99e1a7f858545a51120dd63d089c211479f1e1a7d5b63590f"
+    },
+    {
+      "path": "scripts/build_mirror_notebook.py",
+      "sha256": "9b00ded3972a4824abc57e36845008d4a45df5f69aa3719f628418ea241e5584"
+    },
+    {
+      "path": "scripts/build_submission_notebook.py",
+      "sha256": "05a4142e69fed83b603cb5a141cc0cf4f4fdfd063d3d46f4ee231ab5c259bccc"
+    },
+    {
+      "path": "scripts/extract_mirror_features.py",
+      "sha256": "94ec2be10129887d2300ddecbd06ee5746bd7de0f0f4f87566ca8e357896e6fb"
+    },
+    {
+      "path": "scripts/extract_ol_movement.py",
+      "sha256": "1822960a14bb8628bc8186148e160da6707a776236231239a8f16c4183586233"
+    },
+    {
+      "path": "scripts/extract_speed_data.py",
+      "sha256": "8c0048a2ebf8b64189fa8d8cb4eab5204b29e183c4d776134c00a19c3fb33204"
+    },
+    {
+      "path": "scripts/mirror_measurement_report.py",
+      "sha256": "b77cc190963cef52040949aef5c40f39f1d83f5a54066ad5179ce0b56bbcdbfb"
+    },
+    {
+      "path": "scripts/package_mirror_study.py",
+      "sha256": "19bfdbf4382bc9da42f38c1fae223ebeaa88eaf707061799dfd63ee2deee16ae"
+    },
+    {
+      "path": "scripts/package_results.py",
+      "sha256": "4df3eb0b7e0b0428130dc4e237a1f208dd38ca3b0738fa4bb9b78ada95e2f7be"
+    },
+    {
+      "path": "scripts/prepare_ol_metadata.py",
+      "sha256": "efcf110f0070f2a080f544b6a249f2e62faa165ad82805ea2615829343350a61"
+    },
+    {
+      "path": "scripts/speed_robustness.py",
+      "sha256": "b03921246d13ecd75ee91b19da962489e8733628a275dd69a41a3b6ea14a8ca7"
+    },
+    {
+      "path": "scripts/validate_mirror_study.py",
+      "sha256": "576b0e80f339a3331e73ffc51380e43bde1cdcefd601fdc64c76dbf78c9fa894"
+    },
+    {
+      "path": "scripts/verify_mirror_notebook.py",
+      "sha256": "fd3a30bf6c05ed7596def448d70bd0601ce4abfcc0d5c77cab7b3fef22e97a9c"
+    },
+    {
+      "path": "scripts/verify_submission.py",
+      "sha256": "1252c287acaf262a208a14b0386a1984c225a09f844dd6bb794e376bb5970a0e"
+    },
+    {
+      "path": "scripts/wr_pilot.py",
+      "sha256": "0e539b1c1684c6815c8c53068c2838eb7b67e17dfa0bcbaecb04a8c498c757d1"
+    },
+    {
+      "path": "scripts/wr_route_analysis.py",
+      "sha256": "33928256ea586655287e155752fe72d63e9faa5d2322c3d894225c1f708446f2"
+    },
+    {
+      "path": "submission/receiver_speed_translation.ipynb",
+      "sha256": "898daacaf1e124a3dc7610ac1347a9f1c4e89cad88b47d02d085c04e5f4189ec"
+    },
+    {
+      "path": "submission_mirror/figures/mirror_model_comparison.png",
+      "sha256": "e6fa21235b562af2774e26fb5539607d065ed4b5be25837d0e140a2c26ac8dfe"
+    },
+    {
+      "path": "submission_mirror/figures/mirror_phase_story.png",
+      "sha256": "156fa809aed1140b06dfd725f1f56451d499b7b9f463ec17e188372d825167bd"
+    },
+    {
+      "path": "submission_mirror/figures/mirror_ranking_shift.png",
+      "sha256": "3f3fc01d1d418e359b340b5825af9e5f1d4c6784fe44279e6219efbcef7da4c2"
+    },
+    {
+      "path": "submission_mirror/figures/movement_bridge_results.png",
+      "sha256": "3fa88e4d9d8998ff2f5555f7b39be697c72c7b4530e79ff2ba0e5f2795c67f53"
+    },
+    {
+      "path": "submission_mirror/mirror_explorer.html",
+      "sha256": "28b7fd703ebf90bf18b9633ff536a9ddab61c619859bc081580256c3be87c456"
+    },
+    {
+      "path": "submission_mirror/mirror_phase_validation.executed.ipynb",
+      "sha256": "a94366d0941d4e24395be5bd36261e16c7698f76d8dea958d96ffa026da8018c"
+    },
+    {
+      "path": "submission_mirror/mirror_phase_validation.ipynb",
+      "sha256": "6eb7b036b7dc597ba35e50af367079839c6fad712d64408460bbcbe8b843d7df"
+    },
+    {
+      "path": "submission_mirror/README_TR.md",
+      "sha256": "a287f4b815b918380501fecb931155fe87ad222bf22ef622bc6d4cf0d2d7e599"
+    },
+    {
+      "path": "submission_mirror/verification.json",
+      "sha256": "5475bc7c8f3f116c55890332adf93cd1656a76394ea0ef0c889eccdacd77ee2d"
+    },
+    {
+      "path": "submission_mirror/writeup_en.md",
+      "sha256": "9e7697a7b5197b42306dc033316790a1b68db8662b9e9d1a8731db31e05fb556"
+    },
+    {
+      "path": "verification/mirror_result.json",
+      "sha256": "5475bc7c8f3f116c55890332adf93cd1656a76394ea0ef0c889eccdacd77ee2d"
+    }
+  ]
+}

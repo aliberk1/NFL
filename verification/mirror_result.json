@@ -1,0 +1,49 @@
+{
+  "status": "passed",
+  "execution_seconds": 133.42,
+  "code_cells": 11,
+  "notebook_errors": 0,
+  "comparison_checks": [
+    {
+      "file": "mirror_attempt_features.csv",
+      "rows": 113,
+      "match": true
+    },
+    {
+      "file": "mirror_forward_year_scores.csv",
+      "rows": 24,
+      "match": true
+    },
+    {
+      "file": "mirror_predictions.csv",
+      "rows": 99,
+      "match": true
+    },
+    {
+      "file": "movement_forward_year_scores.csv",
+      "rows": 8,
+      "match": true
+    },
+    {
+      "file": "movement_predictions.csv",
+      "rows": 33,
+      "match": true
+    },
+    {
+      "file": "mirror_measurement_rank_comparison.csv",
+      "rows": 113,
+      "match": true
+    },
+    {
+      "file": "mirror_full_refit_bootstrap.csv",
+      "rows": 400,
+      "match": true
+    },
+    {
+      "file": "ol_drill_suite_audit.csv",
+      "rows": 3,
+      "match": true
+    }
+  ],
+  "all_movement_opportunities_accounted_for": true
+}

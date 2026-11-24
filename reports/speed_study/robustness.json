@@ -1,0 +1,150 @@
+{
+  "status": "post-hoc diagnostics, not a replacement primary analysis",
+  "correlations": [
+    {
+      "comparison": "combine_peak_vs_game_speed",
+      "year": "pooled",
+      "n": 58,
+      "r": 0.38224962018253106,
+      "ci_low": 0.1939444027754347,
+      "ci_high": 0.5503197449305807
+    },
+    {
+      "comparison": "combine_peak_vs_game_speed",
+      "year": "2023",
+      "n": 22,
+      "r": 0.3825993366954545,
+      "ci_low": -0.044928966274262724,
+      "ci_high": 0.6634101900154693
+    },
+    {
+      "comparison": "combine_peak_vs_game_speed",
+      "year": "2024",
+      "n": 20,
+      "r": 0.38733957320612333,
+      "ci_low": 0.03035319435788228,
+      "ci_high": 0.7190904815023876
+    },
+    {
+      "comparison": "combine_peak_vs_game_speed",
+      "year": "2025",
+      "n": 16,
+      "r": 0.3393325458234563,
+      "ci_low": -0.04153337357771337,
+      "ci_high": 0.6468459461426841
+    },
+    {
+      "comparison": "combine_peak_vs_game_speed",
+      "year": "within_year_demeaned",
+      "n": 58,
+      "r": 0.36518177053005413,
+      "ci_low": 0.18233452967303046,
+      "ci_high": 0.5275436142713084
+    },
+    {
+      "comparison": "combine_peak_vs_official_forty",
+      "year": "pooled",
+      "n": 58,
+      "r": -0.8521804219389743,
+      "ci_low": -0.9074342298084984,
+      "ci_high": -0.7756213175823737
+    }
+  ],
+  "repeatability": [
+    {
+      "feature": "combine_peak_speed",
+      "year": "pooled",
+      "n": 81,
+      "r": 0.8931452350329656,
+      "ci_low": 0.8278546735227147,
+      "ci_high": 0.9392769431898923
+    },
+    {
+      "feature": "combine_peak_speed",
+      "year": "2023",
+      "n": 29,
+      "r": 0.9100820067768063,
+      "ci_low": 0.8323493120347764,
+      "ci_high": 0.9692044764481433
+    },
+    {
+      "feature": "combine_peak_speed",
+      "year": "2024",
+      "n": 20,
+      "r": 0.8059741548561342,
+      "ci_low": 0.5069055125599442,
+      "ci_high": 0.937982465661793
+    },
+    {
+      "feature": "combine_peak_speed",
+      "year": "2025",
+      "n": 32,
+      "r": 0.9372614787990807,
+      "ci_low": 0.8676031424828353,
+      "ci_high": 0.9715428346970183
+    },
+    {
+      "feature": "combine_early_speed",
+      "year": "pooled",
+      "n": 81,
+      "r": 0.15267261194472365,
+      "ci_low": -0.19548710963656982,
+      "ci_high": 0.5363018735895894
+    },
+    {
+      "feature": "combine_early_speed",
+      "year": "2023",
+      "n": 29,
+      "r": 0.2263713493407239,
+      "ci_low": -0.21035182312431533,
+      "ci_high": 0.6948779286912385
+    },
+    {
+      "feature": "combine_early_speed",
+      "year": "2024",
+      "n": 20,
+      "r": -0.05610740825405109,
+      "ci_low": -0.6104022426350474,
+      "ci_high": 0.5270014421717178
+    },
+    {
+      "feature": "combine_early_speed",
+      "year": "2025",
+      "n": 32,
+      "r": 0.4396331519933462,
+      "ci_low": 0.1527630411318474,
+      "ci_high": 0.691986553651723
+    }
+  ],
+  "ablation": [
+    {
+      "test_year": 2024,
+      "model": "traditional",
+      "test_players": 20,
+      "mae": 0.18083966135295892,
+      "rmse": 0.21236557913654244
+    },
+    {
+      "test_year": 2024,
+      "model": "classic_plus_peak_only_POST_HOC",
+      "test_players": 20,
+      "mae": 0.17697404721155946,
+      "rmse": 0.20779769996091876
+    },
+    {
+      "test_year": 2025,
+      "model": "traditional",
+      "test_players": 16,
+      "mae": 0.1405116268797802,
+      "rmse": 0.17171588276438124
+    },
+    {
+      "test_year": 2025,
+      "model": "classic_plus_peak_only_POST_HOC",
+      "test_players": 16,
+      "mae": 0.14146860853427923,
+      "rmse": 0.1669187492481239
+    }
+  ],
+  "interval_note": "Player bootstrap; within-year demeaning fixed before resampling. Exploratory, no multiplicity adjustment."
+}

@@ -1,0 +1,40 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>NFL 2027 — Analiz Sonucu</title>
+<style>body{font:17px/1.65 system-ui,sans-serif;background:#f5f7fa;color:#172638;margin:0}
+main{max-width:1000px;margin:auto;padding:36px 24px}h1,h2{line-height:1.2}h1{font-size:38px}
+.lead{font-size:22px}.box{background:white;border:1px solid #dce4ed;border-radius:12px;padding:24px;margin:22px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+.metric{font-size:32px;font-weight:700;color:#126b68}small{color:#53677d}img{max-width:100%;height:auto}
+table{border-collapse:collapse;width:100%}td,th{padding:10px;text-align:left;border-bottom:1px solid #dce4ed}
+a{color:#126b68}.status{color:#126b68;font-weight:650}code{font-size:14px}</style></head><body><main>
+<small>NFL BIG DATA BOWL 2027 · YEREL ANALİZ VE TESLİM TASLAĞI</small>
+<h1>Hız ilişkisi var.<br>Ek tahmin faydası henüz tutarlı değil.</h1>
+<p class="lead">Combine'daki yüksek koşu hızı maçtaki rota hızıyla ilişkili çıktı.
+Ancak klasik 40-yard süresi, boy ve kilo modeline eklenen sensör özellikleri iki test yılında aynı avantajı sağlamadı.</p>
+<div class="grid"><div class="box"><div class="metric">58</div>analiz edilen pas yakalayıcı</div>
+<div class="box"><div class="metric">10.944</div>uygun çaylak maç kaydı</div>
+<div class="box"><div class="metric">22,65 milyon</div>taranan takip satırı</div></div>
+<section class="box"><h2>Ölçümün tutarlılığı ile tahmin gücü farklı şeyler</h2>
+<ul><li>İki Combine denemesi arasında yüksek hız korelasyonu: <b>0,89</b> (81 oyuncu).</li>
+<li>Bizim erken hız ölçümümüzün tekrar korelasyonu: <b>0,15</b>.</li>
+<li>Combine yüksek hızı ile maçtaki rota hızı korelasyonu: <b>0,38</b> (58 oyuncu).</li></ul>
+<img src="submission/figures/combine_repeatability.png" alt="Yüksek hız ve erken hız ölçümlerinin tekrar denemeleri karşılaştırması">
+<p>Erken hız ölçümü yaklaşık bir başlangıç anına dayanıyor; resmi hızlanma testi olarak yorumlanmamalı.</p></section>
+<section class="box"><h2>Sonraki yılı tahmin etme testi</h2>
+<table><thead><tr><th>Test yılı</th><th>Oyuncu</th><th>Klasik model</th><th>+ Sensör</th><th>MAE sonucu</th></tr></thead>
+<tbody><tr><td>2024</td><td>20</td><td>0.1808</td><td>0.1535</td><td>İyileşti</td></tr><tr><td>2025</td><td>16</td><td>0.1405</td><td>0.1442</td><td>Kötüleşti</td></tr></tbody></table><p>Hata düşükse model daha iyi. 2024'te yaklaşık %15 iyileşme,
+2025'te yaklaşık %3 kötüleşme var. Her iki farkın belirsizlik aralığı sıfırı içeriyor.</p>
+<img src="submission/figures/speed_transfer_results.png" alt="Combine-maç hız ilişkisi ve ileri yıl tahmin hataları">
+<p><b>Sonuç:</b> Bu verilerle yeni bir oyuncu sıralaması veya klasik testlerden kesin üstün bir model önermiyoruz.</p></section>
+<section class="box"><h2>Dosyalar hazır</h2><ul>
+<li><a href="SONUC.md">Ayrıntılı Türkçe sonuç</a></li>
+<li><a href="submission/writeup_en.md">İngilizce yarışma yazısı</a> · 1187 kelime</li>
+<li><a href="submission/receiver_speed_translation.executed.ipynb">Çıktılarıyla notebook</a></li>
+<li><a href="submission/receiver_speed_translation.ipynb">Temiz notebook</a></li>
+<li><a href="submission/README_TR.md">Kaggle'a taşıma adımları</a></li>
+<li><a href="reports/experiment_register.md">Olumlu ve olumsuz bütün denemeler</a></li>
+<li><a href="NFL_2027_teslim_paketi.zip">Teslim paketi ZIP</a></li></ul>
+<p class="status">Yerel doğrulama geçti: 6 kod hücresi,
+6 çıktı karşılaştırması, sıfır notebook hatası.</p>
+<p>Kaggle'a yükleme yapılmadı. Çalışma keşifseldir; bir yarışma derecesi veya gelecekteki başarı garantisi değildir.</p></section>
+</main></body></html>

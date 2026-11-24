@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFL Big Data Bowl 2027 — Master Çalışma Kağıdı ve Yol Haritası</title>
+<style>
+:root {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --ink: #0f172a;
+  --muted: #475569;
+  --teal: #0f627a;
+  --blue: #0284c7;
+  --orange: #d97706;
+  --green: #15803d;
+  --red: #b91c1c;
+  --border: #cbd5e1;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #0f627a 100%);
+  color: #fff;
+  padding: 36px 24px;
+  text-align: center;
+}
+header h1 { margin: 0 0 10px 0; font-size: 30px; }
+header p { margin: 0 auto; max-width: 820px; color: #e2e8f0; font-size: 16px; }
+
+.progress-bar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #0f172a;
+  color: #fff;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #334155;
+}
+.progress-track {
+  flex: 1;
+  height: 12px;
+  background: #334155;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  transition: width 0.25s;
+}
+
+main {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 28px 20px 70px 20px;
+}
+section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px 28px;
+  margin-bottom: 26px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+}
+h2 {
+  margin: 0 0 16px 0;
+  font-size: 22px;
+  color: #0f172a;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+h3 { margin: 16px 0 8px 0; font-size: 18px; color: var(--teal); }
+
+.step-list {
+  display: grid;
+  gap: 14px;
+}
+.step-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+.step-item input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin-top: 3px;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+.step-item.done {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+.btn-link {
+  display: inline-block;
+  margin-top: 6px;
+  margin-right: 8px;
+  padding: 6px 13px;
+  border-radius: 8px;
+  background: var(--teal);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.btn-link.orange { background: var(--orange); }
+.btn-link.blue { background: var(--blue); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  margin-top: 10px;
+}
+th, td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+th { background: #f1f5f9; font-weight: 700; }
+
+.gold-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 14px;
+}
+.gold-card {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.gold-card .num {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0369a1;
+}
+.gold-card .desc {
+  font-size: 13.5px;
+  color: #1e293b;
+  margin-top: 4px;
+}
+
+.fig-guide {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed var(--border);
+}
+@media (max-width: 820px) { .fig-guide { grid-template-columns: 1fr; } }
+.fig-guide img {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.point-box {
+  background: #fffbeb;
+  border-left: 4px solid var(--orange);
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 14.5px;
+  margin-top: 8px;
+}
+
+.qa-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: #f8fafc;
+  cursor: pointer;
+}
+.qa-q {
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  justify-content: space-between;
+}
+.qa-a {
+  display: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #cbd5e1;
+  color: #15803d;
+  font-weight: 500;
+}
+.qa-card.open .qa-a { display: block; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎓 İnanılmaz Bir Sunum İçin Master Çalışma Kağıdı ve Yol Haritası</h1>
+  <p>Neyi, hangi sırayla, hangi dosyadan çalışacağını gösteren; grafikleri nasıl okuyacağını ve hocaların sorularına nasıl cevap vereceğini adım adım öğreten tek sayfalık ana kontrol merkezi.</p>
+</header>
+
+<div class="progress-bar-wrap">
+  <span style="font-weight:700;font-size:14px">Çalışma İlerlemen: <span id="progText">0 / 8 Adım Tamamlandı (%0)</span></span>
+  <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+</div>
+
+<main>
+
+  <!-- BÖLÜM 1: ADIM ADIM ÇALIŞMA PLANI -->
+  <section>
+    <h2>⏱️ Bölüm 1: 60 Dakikalık Çalışma Sırası (Kutucukları İşaretleyerek İlerle!)</h2>
+    <p>Dosyalar arasında kaybolmamak için <b>tam olarak aşağıdaki 1'den 8'e kadar olan sırayla</b> ilerle:</p>
+
+    <div class="step-list">
+      <label class="step-item">
+        <input type="checkbox" class="chk" onchange="updateProg()">
+        <div>
+          <b>Adım 1 (Dakika 00–10): Canlı Animasyonu İzle ve "Çıkış Sprinti Tuzağını" Gözünle Gör</b><br>
+          Aşağıdaki turuncu butona basıp <code>ANIMASYON_SIMULATORU.html</code> dosyasını aç. Sol ekranda <b>Donovan Jackson</b>'ın mavi yanal fazda ne kadar hızlı kaydığını, sağ ekranda ise <b>Tyler Booker</b>'ın yanal fazda yavaş kalıp <code>+1.5 yd</code> çizgisini geçtikten sonraki <b>turuncu çıkış sprintinde</b> nasıl roket gibi fırladığını izle. Sonra 2. sekmeye geçip NFL maç içi <code>1-on-1 Pas Koruması</code> simülasyonunu izle.<br>
+          <a class="btn-link orange" href="ANIMASYON_SIMULATORU.html" target="_blank">🎬 1. ANIMASYON_SIMULATORU.html Dosyasını Aç</a>
+          <a class="btn-link blue" href="MIRROR_FAZ_ANIMASYONU.gif" target="_blank">🖼️ Hazır GIF Animasyonunu Aç</a>
+        </div>
+      </label>
+
+      <label class="step-item">
+        <input type="checkbox" class="chk" onchange="updateProg()">
+        <div>
+          <b>Adım 2 (Dakika 10–25): Görselli Terimler Sözlüğünü Baştan Sona Oku</b><br>
+          <code>TERIMLER_VE_KAVRAMLAR_REHBERI.html</code> dosyasını aç. Amerikan futbolu saha şemasını (<code>QB, C, G, T, DL, WR</code>), 3 OL drilini (<code>Mirror, Wave, Drop</code>), sinyal işleme terimlerini (<code>Savitzky–Golay, lateral_speed_p75, reversal_recovery</code>) ve istatistik kavramlarını (<code>Spearman r, Repeatability, Attenuation, Ridge, Bootstrap</code>) günlük hayat benzetmeleriyle oku.<br>
+          <a class="btn-link" href="TERIMLER_VE_KAVRAMLAR_REHBERI.html" target="_blank">📘 2. TERIMLER_VE_KAVRAMLAR_REHBERI.html Dosyasını Aç</a>
+        </div>
+      </label>
+
+      <label class="step-item">
+        <input type="checkbox" class="chk" onchange="updateProg()">
+        <div>
+          <b>Adım 3 (Dakika 25–35): Bu Sayfadaki "Bölüm 3: Grafik Okuma Rehberini" Çalış</b><br>
+          Hocalar slayttaki grafiklere baktığında senin parmağınla nereyi göstereceğini (mavi çizgi ne, turuncu alan ne, neden 2025'te turuncu sütun kötüleşirken mavi-yeşil sütun iyileşiyor) hemen aşağıdan öğren.
+        </div>
+      </label>
+
+      <label class="step-item">
+        <input type="checkbox" class="chk" onchange="updateProg()">
+        <div>
+          <b>Adım 4 (Dakika 35–45): Bu Sayfadaki "Bölüm 4: 10 Altın Sayıyı" Aklına Yaz</b><br>
+          <code>470 / 470 (%100)</code>, <code>r = +0.005</code>, <code>r = 0.510 vs. 0.104</code>, <code>20.853 snap</code>, <code>r = 0.367 → 0.696</code> gibi 10 anahtar sayıyı ezberle.
+        </div>
+      </label>
+
+      <label class="step-item">
+        <input type="checkbox" class="chk" onchange="updateProg()">
+        <div>
+          <b>Adım 5 (Dakika 45–55): 12 Slaytlık Sunumu Açıp Sesli Prova Yap</b><br>
+          <code>SUNUM_HOCALARA.html</code> dosyasını aç. Sağ taraftaki mavi <b>"Konuşmacı Notları"</b> panelinde her slaytta hocalara söyleyeceğin cümleler hazır yazıyor! 1. slayttan 12. slayta kadar yüksek sesle anlatarak prova yap.<br>
+          <a class="btn-link blue" href="SUNUM_HOCALARA.html" target="_blank">🖥️ 3. SUNUM_HOCALARA.html (12 Slaytlık Sunumu) Aç</a>
+          <a class="btn-link" href="SUNUM_REHBERI_VE_KONUSMA_METNI.md" target="_blank">📄 Konuşma Metni (.md)</a>
+        </div>
+      </label>
+
+      <label class="step-item">
+        <input type="checkbox" class="chk" onchange="updateProg()">
+        <div>
+          <b>Adım 6 (Dakika 55–58): Etkileşimli Oyuncu Faz İnceleyicisini (<code>mirror_explorer.html</code>) Dene</b><br>
+          Sunumun 11. slaytında hocalara <i>"113 oyuncunun tamamını inceleyebilen bir karar destek aracı yazdık"</i> diyerek bu sayfayı açıp sağ üstteki <b><code>EN / TR</code></b> butonuna basmayı ve oyuncu değiştirmeyi dene.<br>
+          <a class="btn-link" href="submission_mirror/mirror_explorer.html" target="_blank">🔍 4. mirror_explorer.html Aracını Aç</a>
+        </div>
+      </label>
+
+      <label class="step-item">
+        <input type="checkbox" class="chk" onchange="updateProg()">
+        <div>
+          <b>Adım 7 (Dakika 58–60): Bu Sayfanın En Altındaki 10 Soruluk Öz-Denetim Testini Çöz</b><br>
+          Soruların üzerine tıklayarak cevaplarını kontrol et.
+        </div>
+      </label>
+
+      <label class="step-item">
+        <input type="checkbox" class="chk" onchange="updateProg()">
+        <div>
+          <b>Adım 8 (İsteğe Bağlı Derin Okuma): Resmi Yarışma Makalesi ve Türkçe Teknik Raporlara Göz At</b><br>
+          Eğer tüm teknik detayları da görmek istersen İngilizce makaleye (<code>submission_mirror/writeup_en.md</code>) ve Türkçe durum panosuna (<code>CALISMA_DURUMU.html</code>) bakabilirsin.<br>
+          <a class="btn-link" href="CALISMA_DURUMU.html" target="_blank">📊 CALISMA_DURUMU.html Özeti</a>
+          <a class="btn-link" href="submission_mirror/writeup_en.md" target="_blank">📝 İngilizce Yarışma Makalesi (writeup_en.md)</a>
+        </div>
+      </label>
+    </div>
+  </section>
+
+  <!-- BÖLÜM 2: DOSYA HARİTASI -->
+  <section>
+    <h2>🗺️ Bölüm 2: Klasördeki Hangi Dosya Ne İşe Yarıyor?</h2>
+    <table>
+      <thead>
+        <tr><th>Dosya Yolu</th><th>Ne Zaman Kullanacaksın?</th><th>İçinde Ne Var?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b><code>SUNUM_HOCALARA.html</code></b></td><td><b>Sunum Günü Projeksiyonda</b></td><td>12 slaytlık akademik sunum + sağ panelde gizlenebilir konuşmacı notları (<code>N</code> tuşu) + tam ekran (<code>F</code> tuşu).</td></tr>
+        <tr><td><b><code>SUNUM_REHBERI_VE_KONUSMA_METNI.md</code></b></td><td><b>Sunum Öncesi & Sırasında</b></td><td>Slayt 1–12 için birebir konuşma metni + hocaların sorabileceği 4 zor sorunun cevabı.</td></tr>
+        <tr><td><b><code>ANIMASYON_SIMULATORU.html</code></b></td><td><b>Arkadaşlarına & Hocalara Şov Yaparken</b></td><td>113 oyuncuyu canlı yarıştıran 60 FPS sensör animasyonu + NFL maç içi <code>1-on-1</code> pas koruma simülasyonu.</td></tr>
+        <tr><td><b><code>MIRROR_FAZ_ANIMASYONU.gif</code></b></td><td><b>WhatsApp / PowerPoint İçin</b></td><td>Donovan Jackson vs. Darnell Wright saha izi ve hız grafiğini canlı çizen hareketli GIF.</td></tr>
+        <tr><td><b><code>TERIMLER_VE_KAVRAMLAR_REHBERI.html</code></b></td><td><b>Kavramları Öğrenirken</b></td><td>Saha dizilişi şeması, 3 OL dril çizimi, Savitzky–Golay şeması ve tüm terimlerin açıklaması.</td></tr>
+        <tr><td><b><code>submission_mirror/mirror_explorer.html</code></b></td><td><b>Yarışma Teslimi & Canlı Demo</b></td><td>113 OL oyuncusunu yıl, pozisyon ve sıralama farkına göre filtreleyen iki dilli (<code>TR/EN</code>) inceleyici.</td></tr>
+        <tr><td><b><code>submission_mirror/writeup_en.md</code></b></td><td><b>Kaggle Yarışma Teslimi</b></td><td><code>1.929</code> kelimelik, 3 grafikli ve 2 tablolu resmi İngilizce yarışma makalesi.</td></tr>
+        <tr><td><b><code>submission_mirror/mirror_phase_validation.executed.ipynb</code></b></td><td><b>Teknik Kanıt / Kod Denetimi</b></td><td>Ham CSV verilerinden 11 kod hücresini <code>0</code> hatayla çalıştırıp tüm tabloları ve grafikleri üreten Notebook.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- BÖLÜM 3: GRAFİK OKUMA REHBERİ -->
+  <section>
+    <h2>📊 Bölüm 3: Grafik Okuma Rehberi ("Slaytta Bu Grafik Çıktığında Nereyi Göstereceksin?")</h2>
+
+    <div class="fig-guide">
+      <img src="reports/trenches/mirror_phase_story.png" alt="Mirror Phase Story">
+      <div>
+        <h3>1. Grafik: <code>mirror_phase_story.png</code> (Slayt 4)</h3>
+        <p><b>Bu Grafik Ne Anlatıyor?</b> 2023, 2024 ve 2025 sınıflarından 3 oyuncunun saha içindeki kuşbakışı hareketini (üst satır) ve saniye saniye hızını (alt satır) gösteriyor.</p>
+        <div class="point-box">
+          <b>👉 Parmağınla Gösterip Şunu Söyle:</b><br>
+          "Üstteki grafiklerde <b>mavi çizgiler</b> oyuncunun sağa-sola kaydığı gerçek Mirror fazıdır; <b>kırmızı noktalar</b> ise yakaladığımız yön değişimleridir. Dikey kesikli çizgi (<code>+1.5 yard</code>) geçildiğinde başlayan <b>turuncu çizgi</b> çıkış sprintidir. Alttaki hız grafiklerine baktığımızda, <b>113 oyuncunun 113'ünde de en yüksek hızın (kırmızı nokta) turuncu çıkış sprintinde oluştuğunu</b> görüyoruz!"
+        </div>
+      </div>
+    </div>
+
+    <div class="fig-guide">
+      <img src="reports/trenches/mirror_ranking_shift.png" alt="Mirror Ranking Shift">
+      <div>
+        <h3>2. Grafik: <code>mirror_ranking_shift.png</code> (Slayt 5)</h3>
+        <p><b>Bu Grafik Ne Anlatıyor?</b> Sol panel tüm-kayıt hızı sıralaması ile yanal hız sıralamasının birbirinden tamamen koptuğunu (<code>r = +0.005</code>); sağ panel ise 3 OL drilinin tamamında (<code>470 / 470</code>) zirve hızın çıkışta olduğunu gösteriyor.</p>
+        <div class="point-box">
+          <b>👉 Parmağınla Gösterip Şunu Söyle:</b><br>
+          "Sol panelde noktalar köşegen üzerinde değil, tamamen rastgele dağılmış (<code>r = +0.005</code>). Sol üstteki <b>Donovan Jackson</b> yanal hızda sınıfın en iyisiyken (<code>94.1.</code> yüzdelik), çıkış sprintini yavaş koştuğu için tüm-kayıt hızında <code>2.9.</code> yüzdeliğe düşmüş (+91 puan fark!). Sağ paneldeki 3 turuncu çubuk ise 3 OL drilinin tamamında (470 kayıtta %100) zirve hızın çıkış sprintinde olduğunu kanıtlıyor."
+        </div>
+      </div>
+    </div>
+
+    <div class="fig-guide" style="margin-bottom:0;border-bottom:none;padding-bottom:0">
+      <img src="reports/trenches/mirror_model_comparison.png" alt="Mirror Model Comparison">
+      <div>
+        <h3>3. Grafik: <code>mirror_model_comparison.png</code> (Slayt 8)</h3>
+        <p><b>Bu Grafik Ne Anlatıyor?</b> 50 çaylak OL oyuncusunun 20.853 bire bir pas koruma pozisyonunda 2024 ve 2025 tahmin hatalarını (MAE — <b>sütun ne kadar kısaysa hata o kadar düşük, yani o kadar iyi!</b>) gösteriyor.</p>
+        <div class="point-box">
+          <b>👉 Parmağınla Gösterip Şunu Söyle:</b><br>
+          "Her üç panelde de sağdaki 2025 grubuna baktığımızda; <b>turuncu sütun</b> (çıkış sprintiyle kirlenmiş hız) mavi klasik modeli bozuyor ve hatayı artırıyor. Bizim <b>koyu mavi-yeşil sütunumuz</b> (izole mirror özellikleri) ise hem birincil ikili baskıda (Panel A: <code>2.50 → 2.48</code>) hem de sürekli NGS baskı olasılığında (Panel C: <code>2.19 → 2.16</code>) hatayı düşürüyor."
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BÖLÜM 4: 10 ALTIN SAYI -->
+  <section>
+    <h2>🏆 Bölüm 4: "Altın Sayılar" Ezber Kartı (Sunumda Söyleyeceğin 8 Anahtar Sayı)</h2>
+    <div class="gold-grid">
+      <div class="gold-card">
+        <div class="num">470 / 470 (%100)</div>
+        <div class="desc">3 OL drilinde (113 Mirror + 118 Wave + 239 Drop) en yüksek hızın çıkış sprintinde çıkma oranı.</div>
+      </div>
+      <div class="gold-card">
+        <div class="num">r = +0.005</div>
+        <div class="desc">Mirror yanal hız sıralaması ile tüm-kayıt hızı sıralaması arasındaki Spearman korelasyonu (tamamen dik!).</div>
+      </div>
+      <div class="gold-card">
+        <div class="num">9'da 1 Oyuncu</div>
+        <div class="desc">2025 sınıfında üst çeyreğe (%25) giren 9 oyuncudan iki sıralamada ortak olan oyuncu sayısı.</div>
+      </div>
+      <div class="gold-card">
+        <div class="num">+1.5 yd & r &gt; 0.99</div>
+        <div class="desc">Çıkış sprinti geometrik eşiği (<code>1.0</code> ve <code>2.0 yd</code> sınırlarında sıralama <code>r = 0.992</code> ve <code>0.998</code> aynı kalır).</div>
+      </div>
+      <div class="gold-card">
+        <div class="num">0.510 vs. 0.104</div>
+        <div class="desc"><code>Pass Rush Drop</code> (118 çift OL) drilinde çıkış sprinti tekrar güvenilirliği (<code>0.510</code>) vs. yanal hız güvenilirliği (<code>0.104</code>).</div>
+      </div>
+      <div class="gold-card">
+        <div class="num">50 OL & 20.853 Snap</div>
+        <div class="desc">NFL çaylak bire bir pas koruma kohortumuz (toplam <code>1.850</code> yenilen baskı).</div>
+      </div>
+      <div class="gold-card">
+        <div class="num">r = 0.367 → 0.696</div>
+        <div class="desc">İkili baskı yerine sürekli NGS baskı olasılığı kullanıldığında maç hedef güvenilirliğinin ~2 katına çıkışı.</div>
+      </div>
+      <div class="gold-card">
+        <div class="num">[−0.264, +0.353] yp</div>
+        <div class="desc">400 tam yeniden eğitimli (full-refit bootstrap) 2025 %95 güven aralığı (bilimsel dürüstlük kanıtı).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BÖLÜM 5: KENDİ KENDİNİ TEST ET -->
+  <section>
+    <h2>✅ Bölüm 5: Kendi Kendini Test Et (Sorulara Tıkla, Cevabı Gör!)</h2>
+    <p>Sunuma çıkmadan önce aşağıdaki sorulara tıklayarak cevaplarını hızlıca kontrol et:</p>
+
+    <div class="qa-card" onclick="this.classList.toggle('open')">
+      <div class="qa-q"><span>1. Projenin tek cümlelik ana keşfi nedir?</span><span>▼</span></div>
+      <div class="qa-a">Offensive Line (C/G/T) Combine ayak işi drillerindeki 470 kaydın %100'ünde en yüksek hız yanal koruma fazında değil, dril sonundaki düz çıkış sprintinde oluşmaktadır; bu yüzden faz ayrımı yapmadan alınan hız metrikleri oyuncu sıralamalarını tamamen bozar (Spearman r = +0.005).</div>
+    </div>
+
+    <div class="qa-card" onclick="this.classList.toggle('open')">
+      <div class="qa-q"><span>2. Ayna (Mirror) fazından hangi 2 matematiksel özelliği çıkardık?</span><span>▼</span></div>
+      <div class="qa-a">5-kare 2. dereceden Savitzky–Golay filtresiyle y(t) konumunu yumuşatıp türev alarak: (1) <code>lateral_speed_p75</code> (ayna fazındaki mutlak yanal hızın 75. yüzdeliği, yd/s) ve (2) <code>reversal_recovery</code> (yön değişiminden 0.3–0.6 s sonraki ortalama yanal hızın, dönüşten 0.5–0.2 s önceki hıza oranı).</div>
+    </div>
+
+    <div class="qa-card" onclick="this.classList.toggle('open')">
+      <div class="qa-q"><span>3. Neden tek tekrarlı yanal dril hızı maç performansını tahmin ederken sınırlı kalıyor?</span><span>▼</span></div>
+      <div class="qa-a">Çünkü dril koçun anlık el/vücut işaretine bağlıdır. İkişer kez koşulan Pass Rush Drop drilinde (118 oyuncu) düz çıkış sprinti r = +0.510 ile tekrarlanırken, koç işaretine bağlı yanal hız yalnız r = +0.104 ile tekrarlanmaktadır. Psikometrik zayıflama teoremine (|r_XY| ≤ √(r_XX · r_YY)) göre düşük tekrar güvenilirliği maç korelasyonuna matematiksel bir tavan koyar.</div>
+    </div>
+
+    <div class="qa-card" onclick="this.classList.toggle('open')">
+      <div class="qa-q"><span>4. Veri sızıntısını (Data Leakage) ve kıdem yanlılığını nasıl önledik?</span><span>▼</span></div>
+      <div class="qa-a">Tüm oyuncuları yalnız çaylak (1. yıl) sezonlarında değerlendirdik. Modelleri 2023 ile eğitip 2024'te, 2023–2024 ile eğitip 2025'te test ettik (out-of-time). Eksik veri doldurma, ölçekleme ve 1. aşama oyun bağlam modelini yalnızca eğitim yıllarında fit ettik.</div>
+    </div>
+
+    <div class="qa-card" onclick="this.classList.toggle('open')">
+      <div class="qa-q"><span>5. Hocalar "Neden Derin Öğrenme veya XGBoost yerine Ridge Regresyonu kullandınız?" derse ne diyeceksin?</span><span>▼</span></div>
+      <div class="qa-a">Oyun düzeyinde 20.853 satır olsa da tahmin birimimiz oyuncudur ve tüm kriterleri geçen çaylak OL sayısı n = 50'dir (test yıllarında 16 ve 17 oyuncu). 50 oyunculuk örneklemde XGBoost veya derin ağlar gürültüyü ezberler (overfitting). Sabit α = 10 cezalı Ridge regresyonu hem aşırı uyumu hem de hiperparametre sızıntısını önler.</div>
+    </div>
+
+    <div class="qa-card" onclick="this.classList.toggle('open')">
+      <div class="qa-q"><span>6. NFL kulüplerine sunduğumuz 3 somut öneri nedir?</span><span>▼</span></div>
+      <div class="qa-a">(1) OL Combine drillerinde 1.5–2.2 yard çıkış sprintini ayırmadan hız yüzdeliği hesaplamayın. (2) Drillerde değişken insan/koç işareti yerine standart ışık veya ekran sinyali kullanın ve oyuncu başına en az 2 tekrar alın. (3) Yeni sensör metriklerini 4-Aşamalı Doğrulama Hunisinden (Faz İzolasyonu → Tekrar Güvenilirliği → Erken Maç Hareketi → İleri-Yıl Tahmin) geçirmeden draft puanına katmayın.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function updateProg() {
+  const chks = Array.from(document.querySelectorAll('.chk'));
+  const done = chks.filter(c => c.checked).length;
+  chks.forEach(c => c.closest('.step-item').classList.toggle('done', c.checked));
+  const pct = Math.round((done / chks.length) * 100);
+  document.getElementById('progText').textContent = `${done} / ${chks.length} Adım Tamamlandı (%${pct})`;
+  document.getElementById('progFill').style.width = pct + '%';
+}
+</script>
+</body>
+</html>
+

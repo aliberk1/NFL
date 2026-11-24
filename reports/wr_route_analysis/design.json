@@ -1,0 +1,26 @@
+{
+  "scenarios": [
+    [
+      "all_routes",
+      30
+    ],
+    [
+      "hitch",
+      10
+    ],
+    [
+      "hitch_man",
+      5
+    ]
+  ],
+  "model": "Ridge alpha=10; no tuning",
+  "duplicate_player_play_keys": 0,
+  "validation": "train draft years strictly before test year; rookie regular season only",
+  "limitations": [
+    "Previously inspected years; not a fresh confirmatory holdout.",
+    "Six overlapping comparisons; intervals are not multiplicity-adjusted.",
+    "Bootstrap conditions on fitted models; small player samples.",
+    "HITCH is a plausible curl analogue, not an exact drill match.",
+    "Official data units remain unverified."
+  ]
+}

@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFL Big Data Bowl 2027 — Görselli Terimler ve Kavramlar Sözlüğü</title>
+<style>
+:root {
+  --bg: #f1f5f9;
+  --card: #ffffff;
+  --ink: #0f172a;
+  --muted: #475569;
+  --teal: #0f627a;
+  --blue: #0284c7;
+  --orange: #d97706;
+  --red: #b91c1c;
+  --green: #15803d;
+  --purple: #6d28d9;
+  --border: #cbd5e1;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+header {
+  background: linear-gradient(135deg, #0f172a 0%, #0f627a 100%);
+  color: #fff;
+  padding: 36px 24px 28px 24px;
+  text-align: center;
+}
+header h1 {
+  margin: 0 0 10px 0;
+  font-size: 30px;
+  line-height: 1.25;
+}
+header p {
+  margin: 0 auto;
+  max-width: 780px;
+  font-size: 16.5px;
+  color: #e2e8f0;
+}
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 20px 60px 20px;
+}
+/* Search & Filter Bar */
+.toolbar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 10px;
+  z-index: 20;
+}
+.search-input {
+  flex: 1;
+  min-width: 240px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 15px;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+}
+.filter-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.filter-btn {
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f8fafc;
+  color: var(--ink);
+  cursor: pointer;
+}
+.filter-btn.active {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+}
+
+/* Section Headers */
+.cat-section {
+  margin-bottom: 36px;
+}
+.cat-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  border-bottom: 3px solid var(--teal);
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+}
+
+/* Big Visual Banner Cards */
+.hero-diagram {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.hero-diagram h3 {
+  margin: 0 0 10px 0;
+  color: var(--teal);
+  font-size: 19px;
+}
+
+/* Term Grid & Cards */
+.term-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 18px;
+}
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.term-badge {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: 99px;
+  margin-bottom: 8px;
+}
+.b-futbol { background: #dcfce7; color: #166534; }
+.b-dril { background: #fef3c7; color: #92400e; }
+.b-sinyal { background: #e0f2fe; color: #075985; }
+.b-model { background: #ede9fe; color: #5b21b6; }
+
+.term-card h4 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  color: #0f172a;
+}
+.term-card .tr-sub {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.term-card p {
+  font-size: 14.5px;
+  margin: 6px 0;
+  color: #1e293b;
+}
+.analogy {
+  background: #f8fafc;
+  border-left: 4px solid var(--orange);
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  margin-top: 10px;
+  color: #334155;
+}
+.project-val {
+  background: #f0f9ff;
+  border-left: 4px solid var(--blue);
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-top: 8px;
+  color: #0c4a6e;
+}
+svg.diagram {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  margin: 10px 0;
+}
+.real-img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏈 NFL Big Data Bowl 2027 — Görselli Terimler ve Kavramlar Rehberi</h1>
+  <p>Amerikan futbolu kurallarını, Combine drillerini, sinyal işleme formüllerini ve makine öğrenmesi terimlerini <b>hiç bilmeyen birinin bile 10 dakikada tam hakim olacağı</b> görsel sözlük.</p>
+</header>
+
+<main>
+  <div class="toolbar">
+    <input type="text" id="searchBox" class="search-input" placeholder="🔍 Terim ara (örn: Mirror, Tackle, Dropback, Savitzky, Ridge, Bootstrap, MAE, Attenuation)...">
+    <div class="filter-btns">
+      <button class="filter-btn active" onclick="filterCat('all', this)">Tümü</button>
+      <button class="filter-btn" onclick="filterCat('futbol', this)">1. Amerikan Futbolu & Pozisyonlar</button>
+      <button class="filter-btn" onclick="filterCat('dril', this)">2. Combine Drilleri & Çıkış Tuzağı</button>
+      <button class="filter-btn" onclick="filterCat('sinyal', this)">3. Sinyal İşleme & Fizik</button>
+      <button class="filter-btn" onclick="filterCat('model', this)">4. İstatistik & Makine Öğrenmesi</button>
+    </div>
+  </div>
+
+  <!-- BÖLÜM 1: AMERİKAN FUTBOLU VE SAHA DİZİLİŞİ -->
+  <section class="cat-section" data-cat="futbol">
+    <div class="cat-title">1. Amerikan Futbolu Pozisyonları ve Maç Terimleri (Saha Şemalı)</div>
+
+    <div class="hero-diagram">
+      <h3>Saha Üzerinde Kim Nerede Duruyor ve Eksenler (x, y) Ne Yöne Bakıyor?</h3>
+      <p>Projede incelediğimiz iki ana grup <b>Offensive Line (OL — C, G, T)</b> ve <b>Wide Receiver (WR)</b> oyuncularıdır. Aşağıdaki saha şemasında kimin ne iş yaptığını görebilirsin:</p>
+      <svg class="diagram" viewBox="0 0 920 320" style="background:#14532d;border-color:#166534">
+        <!-- Yard lines -->
+        <line x1="150" y1="0" x2="150" y2="320" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+        <line x1="300" y1="0" x2="300" y2="320" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+        <line x1="460" y1="0" x2="460" y2="320" stroke="#fde047" stroke-width="3" stroke-dasharray="8,6"/>
+        <text x="468" y="24" fill="#fde047" font-size="13" font-weight="bold">Line of Scrimmage (Oyun Başlangıç Çizgisi / Snap Noktası)</text>
+        <line x1="620" y1="0" x2="620" y2="320" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+        <line x1="770" y1="0" x2="770" y2="320" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+
+        <!-- Coordinate Axes -->
+        <line x1="40" y1="285" x2="120" y2="285" stroke="#fff" stroke-width="2.5"/>
+        <polygon points="120,280 130,285 120,290" fill="#fff"/>
+        <text x="55" y="305" fill="#fff" font-size="12" font-weight="bold">+x (İleri / Derinlik - yard)</text>
+        <line x1="40" y1="285" x2="40" y2="215" stroke="#38bdf8" stroke-width="2.5"/>
+        <polygon points="35,215 40,205 45,215" fill="#38bdf8"/>
+        <text x="48" y="225" fill="#38bdf8" font-size="12" font-weight="bold">+y (Yanal / Enine - yard)</text>
+
+        <!-- Wide Receivers -->
+        <circle cx="440" cy="42" r="16" fill="#0284c7" stroke="#fff" stroke-width="2"/>
+        <text x="440" y="47" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">WR</text>
+        <path d="M 456 42 L 640 42 L 690 80" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="5,4"/>
+        <text x="545" y="32" fill="#bae6fd" font-size="12" font-weight="bold">WR Pas Rotası (Route Speed)</text>
+
+        <circle cx="440" cy="278" r="16" fill="#0284c7" stroke="#fff" stroke-width="2"/>
+        <text x="440" y="283" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">WR</text>
+
+        <!-- Offensive Line (T, G, C, G, T) -->
+        <g>
+          <circle cx="435" cy="100" r="17" fill="#0f627a" stroke="#fff" stroke-width="2.5"/>
+          <text x="435" y="105" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">T</text>
+          <circle cx="440" cy="135" r="17" fill="#0f627a" stroke="#fff" stroke-width="2.5"/>
+          <text x="440" y="140" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">G</text>
+          <rect x="423" y="153" width="34" height="34" rx="6" fill="#0f627a" stroke="#fff" stroke-width="2.5"/>
+          <text x="440" y="175" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">C</text>
+          <circle cx="440" cy="205" r="17" fill="#0f627a" stroke="#fff" stroke-width="2.5"/>
+          <text x="440" y="210" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">G</text>
+          <circle cx="435" cy="240" r="17" fill="#0f627a" stroke="#fff" stroke-width="2.5"/>
+          <text x="435" y="245" fill="#fff" font-size="13" font-weight="middle">T</text>
+        </g>
+        <!-- OL Lateral movement arrows -->
+        <line x1="405" y1="90" x2="405" y2="250" stroke="#38bdf8" stroke-width="3"/>
+        <text x="315" y="125" fill="#bae6fd" font-size="12.5" font-weight="bold">OL (C/G/T): Yanal Koruma Duvarı</text>
+
+        <!-- Quarterback -->
+        <circle cx="330" cy="170" r="18" fill="#eab308" stroke="#fff" stroke-width="2.5"/>
+        <text x="330" y="175" fill="#0f172a" font-size="13" font-weight="bold" text-anchor="middle">QB</text>
+        <path d="M 420 170 L 352 170" fill="none" stroke="#fde047" stroke-width="2.5" stroke-dasharray="4,4"/>
+        <text x="240" y="198" fill="#fef08a" font-size="12">QB (Oyun Kurucu — Korunan Kişi)</text>
+
+        <!-- Defensive Line / Pass Rushers -->
+        <circle cx="495" cy="98" r="16" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+        <text x="495" y="103" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">DL</text>
+        <circle cx="495" cy="145" r="16" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+        <text x="495" y="150" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">DL</text>
+        <circle cx="495" cy="195" r="16" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+        <text x="495" y="200" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">DL</text>
+        <circle cx="495" cy="242" r="16" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+        <text x="495" y="247" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">DL</text>
+        <text x="525" y="175" fill="#fecaca" font-size="13" font-weight="bold">← Savunma (Pass Rushers): QB'ye Baskı (Pressure) Yapmaya Çalışır</text>
+      </svg>
+    </div>
+
+    <div class="term-grid">
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-futbol">Pozisyon (Ana Çalışma)</span>
+          <h4>Offensive Line (OL): C, G, T</h4>
+          <div class="tr-sub">Hücum Hattı Oyuncuları (Center, Guard, Tackle)</div>
+          <p>Oyun kurucunun (<b>QB</b>) hemen önünde etten bir duvar ören 5 dev oyuncudur (ortalama 140–155 kg). Tek görevleri, karşıdan saldıran savunma oyuncularının (<i>Pass Rushers</i>) oyun kurucuya ulaşmasını engellemektir.</p>
+          <ul>
+            <li><b>C (Center):</b> Tam ortadaki oyuncu; topu bacaklarının arasından QB'ye atarak (<i>snap</i>) oyunu başlatır.</li>
+            <li><b>G (Guard):</b> Center'ın sağ ve sol yanındaki iki iç koruma oyuncusu.</li>
+            <li><b>T (Tackle):</b> Hattın en dış uçlarındaki iki oyuncu; en hızlı dış savunmacıları durdurmak için en yüksek yanal çevikliğe ihtiyaç duyan pozisyondur.</li>
+          </ul>
+        </div>
+        <div class="analogy"><b>Günlük Hayat Benzetmesi:</b> Kaleciyi koruyan 5 kişilik yakın koruma (bodyguard) ekibi. Rakip sağa kaçarsa sağa, sola kaçarsa sola kayarak (ayna gibi) önünü kapatırlar.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-futbol">Maç Olayı</span>
+          <h4>One-on-One Pass Protection</h4>
+          <div class="tr-sub">Bire Bir Pas Koruması (`pass_rushers_encountered == 1`)</div>
+          <p>Bir hücum hattı oyuncusunun (C/G/T), takım arkadaşından yardım almadan (ikili sıkıştırma olmadan) <b>tek başına bir savunma oyuncusunu</b> durdurmaya çalıştığı pozisyondur.</p>
+          <p>Oyuncunun bireysel pas koruma başarısını ölçmek için en adil durumdur; bu yüzden çalışmamızda sadece bire bir pozisyonları (<b>20.853 snap</b>) filtreledik.</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> <code>player_play.csv</code> içinde <code>pass_rushers_encountered == 1</code> olan 50 çaylak OL oyuncusunun 20.853 oyunu.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-futbol">Hedef Değişken (Outcome)</span>
+          <h4>Pressure Allowed & Peak Pressure Probability</h4>
+          <div class="tr-sub">Yenilen Baskı (0/1) ve Anlık Zirve Baskı Olasılığı (0–100%)</div>
+          <p>Savunma oyuncusu hücum hattı oyuncusunu geçip oyun kurucuyu (QB) rahatsız ederse, acele pas atmaya zorlarsa veya yere indirirse (<i>sack</i>), o OL oyuncusu <b>baskı yemiş (`pressure_allowed = True / 1`)</b> sayılır.</p>
+          <p><b>`peak_pressure_probability_allowed`</b> ise Next Gen Stats yapay zeka modelinin o pozisyon boyunca hesapladığı <b>sürekli (0 ile 1 arası) anlık baskı tehlikesi olasılığıdır</b>.</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> 20.853 bire bir pozisyonda toplam <b>1.850 baskı</b> (%8.87) yenmiştir. Sürekli olasılık hedefi kullanıldığında maçtan maça ölçüm güvenilirliği <code>r = 0.367</code>'den <code>r = 0.696</code>'ya çıkmaktadır!</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-futbol">Oyun Bağlamı</span>
+          <h4>Snap, Dropback & Dropback Duration</h4>
+          <div class="tr-sub">Oyunun Başlama Anı ve Topu Elde Tutma Süresi (saniye)</div>
+          <p><b>Snap (`ball_snap`):</b> Topun yerden oyun kurucuya verildiği <code>t = 0.0 s</code> başlangıç anıdır.</p>
+          <p><b>Dropback Duration:</b> Oyun kurucunun topu aldıktan sonra pası elinden çıkarana (veya yıkılana) kadar geçen süredir (genelde <code>2.0 – 3.5 saniye</code>).</p>
+          <p>Süre uzadıkça hücum hattı oyuncusunun rakibini tutması zorlaşır; bu yüzden bağlam modelimizde süreyi (`dropback_duration`) kontrol ettik, ayrıca süresiz duyarlılık modeli de kurduk.</p>
+        </div>
+        <div class="analogy"><b>Mantık:</b> Bir kapıyı 2 saniye tutmak kolaydır ama 5 saniye tutmak çok zordur. Süreyi hesaba katmazsak, topu elinde çok tutan oyun kurucuların koruma oyuncularını haksız yere başarısız sanırız.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-futbol">Oyun Durumu</span>
+          <h4>Down, Yards to Go & Offense Formation</h4>
+          <div class="tr-sub">Hak Sayısı (1–4), Kalan Mesafe ve Hücum Dizilişi</div>
+          <p>Amerikan futbolunda hücum takımının 10 yard ilerlemek için 4 hakkı (<b>Down</b>) vardır. <b>Yards to Go</b> ise yeni hak kazanmak için kalan mesafedir.</p>
+          <p>Örneğin 3. hak ve gidilecek 12 yard varsa (`3rd & 12`), savunma takımı %100 pas atılacağını bilir ve tüm gücüyle oyun kurucuya saldırır. Bu taktiksel zorluğu dengelemek için bu değişkenleri <b>1. Aşama Bağlam Modeline</b> koyduk.</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> <code>numeric = ["down", "yards_to_go", "dropback_duration", "duration_sq"]</code> ve <code>categorical = ["lined_up_position", "offense_formation"]</code>.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-futbol">Pozisyon (İkinci Çalışma)</span>
+          <h4>Wide Receiver (WR), Route & Cushion</h4>
+          <div class="tr-sub">Pas Yakalayıcı, Koşu Rotası ve Başlangıç Mesafesi</div>
+          <p><b>Wide Receiver (WR):</b> Sahada hızla koşup oyun kurucunun attığı pası yakalayan çevik oyunculardır.</p>
+          <p><b>Route (Rota):</b> WR'nin savunmacıyı şaşırtmak için koştuğu önceden çizilmiş yol (örn. <i>Hitch, Curl, Go, Slant</i>).</p>
+          <p><b>Cushion:</b> Oyun başlarken karşısındaki savunmacının WR'ye bıraktığı boşluk mesafesidir (yard).</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> <code>submission/</code> klasöründeki ikinci çalışmamızda 58 çaylak WR'nin 10.944 rotasındaki zirve hızı (<code>route peak speed</code>) incelenmiştir.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BÖLÜM 2: COMBINE DRİLLERİ VE ÇIKIŞ SPRİNTİ TUZAĞI -->
+  <section class="cat-section" data-cat="dril">
+    <div class="cat-title">2. NFL Scouting Combine Drilleri ve "Çıkış Sprinti Tuzağı" (470 / 470 Kayıt)</div>
+
+    <div class="hero-diagram">
+      <h3>Neden 3 OL Drilinin Tamamında (%100) En Yüksek Hız Çıkış Sprintinde Çıkıyor?</h3>
+      <p>Combine'da hücum hattı (OL) oyuncularına yaptırılan 3 ayak işi drilinin anatomisi aşağıdadır. Her üç drilde de oyuncu önce <b>kısa adımlarla yanal/çapraz koruma hareketi (Mavi Faz)</b> yapar, drilin sonunda ise <b>düz bir bitiş koşusu / çıkış sprinti (Turuncu Faz)</b> atar:</p>
+      <svg class="diagram" viewBox="0 0 920 270">
+        <!-- Box 1: Mirror Drill -->
+        <rect x="15" y="15" width="280" height="240" rx="10" fill="#fff" stroke="#cbd5e1"/>
+        <text x="155" y="38" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">1. Pass-Pro Mirror Drill (113 Kayıt)</text>
+        <!-- Mirror path -->
+        <path d="M 70 140 L 72 75 L 76 205 L 80 85 L 85 190 L 125 165" fill="none" stroke="#0f627a" stroke-width="4"/>
+        <!-- Reversal dots -->
+        <circle cx="72" cy="75" r="5" fill="#b91c1c"/><circle cx="76" cy="205" r="5" fill="#b91c1c"/><circle cx="80" cy="85" r="5" fill="#b91c1c"/><circle cx="85" cy="190" r="5" fill="#b91c1c"/>
+        <!-- Threshold line -->
+        <line x1="125" y1="55" x2="125" y2="225" stroke="#64748b" stroke-width="2" stroke-dasharray="5,4"/>
+        <text x="130" y="68" font-size="11" fill="#475569">+1.5 yd sınırı</text>
+        <!-- Exit sprint -->
+        <path d="M 125 165 L 265 130" fill="none" stroke="#d97706" stroke-width="4.5"/>
+        <polygon points="262,124 275,128 265,137" fill="#d97706"/>
+        <text x="155" y="244" font-size="12" fill="#b91c1c" font-weight="bold" text-anchor="middle">Zirve Hız: 113 / 113 (%100) Turuncu Çıkışta!</text>
+
+        <!-- Box 2: 5-Yard Wave Drill -->
+        <rect x="320" y="15" width="280" height="240" rx="10" fill="#fff" stroke="#cbd5e1"/>
+        <text x="460" y="38" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">2. 5-Yard Wave Drill (118 Kayıt)</text>
+        <path d="M 530 130 L 525 75 L 515 195 L 505 85 L 485 180" fill="none" stroke="#0f627a" stroke-width="4"/>
+        <line x1="485" y1="55" x2="485" y2="225" stroke="#64748b" stroke-width="2" stroke-dasharray="5,4"/>
+        <text x="415" y="68" font-size="11" fill="#475569">−2.0 yd sınırı</text>
+        <path d="M 485 180 L 350 140" fill="none" stroke="#d97706" stroke-width="4.5"/>
+        <polygon points="353,134 340,137 350,147" fill="#d97706"/>
+        <text x="460" y="244" font-size="12" fill="#b91c1c" font-weight="bold" text-anchor="middle">Zirve Hız: 118 / 118 (%100) Turuncu Çıkışta!</text>
+
+        <!-- Box 3: Pass Rush Drop -->
+        <rect x="625" y="15" width="280" height="240" rx="10" fill="#fff" stroke="#cbd5e1"/>
+        <text x="765" y="38" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">3. Pass Rush Drop (239 Kayıt, 2 Tekrar)</text>
+        <path d="M 835 195 L 810 155 L 785 110 L 765 85" fill="none" stroke="#0f627a" stroke-width="4"/>
+        <line x1="765" y1="55" x2="765" y2="225" stroke="#64748b" stroke-width="2" stroke-dasharray="5,4"/>
+        <text x="770" y="68" font-size="11" fill="#475569">2.2 yd sınırı</text>
+        <path d="M 765 85 L 655 150" fill="none" stroke="#d97706" stroke-width="4.5"/>
+        <polygon points="653,144 645,155 660,155" fill="#d97706"/>
+        <text x="765" y="244" font-size="12" fill="#b91c1c" font-weight="bold" text-anchor="middle">Zirve Hız: 239 / 239 (%100) Turuncu Çıkışta!</text>
+      </svg>
+      <img class="real-img" src="reports/trenches/mirror_phase_story.png" alt="Gerçek Mirror Fazı Grafiği">
+    </div>
+
+    <div class="term-grid">
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-dril">Combine Testi</span>
+          <h4>Pass-Pro Mirror Drill</h4>
+          <div class="tr-sub">Pas Koruması Ayna Drili (`PASS_PRO-MIRROR_DRILL`)</div>
+          <p>Hücum hattı oyuncusu çömelmiş pas koruma duruşunda (<i>pass-set stance</i>) başlar. Karşısındaki koç sağa-sola kaçar; oyuncu da ayaklarını çaprazlamadan <b>ayna gibi sağa-sola kayarak</b> koçun önünde kalmaya çalışır. Koçun son işaretiyle oyuncu ileri doğru düz bir <b>çıkış sprinti</b> atarak drili bitirir.</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> 121 oyuncudan kalite ve en az 2 dönüş şartını geçen <b>113 oyuncu (113 kayıt)</b>. Tamamında zirve hız çıkış sprintindedir!</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-dril">Combine Testi</span>
+          <h4>5-Yard Wave Drill & Pass Rush Drop</h4>
+          <div class="tr-sub">Diğer İki OL Ayak İşi Drili (118 + 239 Kayıt)</div>
+          <p><b>5-Yard Wave Drill:</b> Oyuncunun 5 yardlık bir koridorda koçun el işaretlerine göre sağa, sola ve çaprazlara kayıp sonunda sprint attığı drildir.</p>
+          <p><b>Pass Rush Drop:</b> Oyuncunun hayali bir savunmacıya karşı 45 derece açıyla geriye doğru koruma adımları (<i>kick-slide</i>) atıp ardından sprintle bitirdiği drildir. Oyuncu başına <b>2 tekrar</b> kaydedilmiştir.</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> <code>Pass Rush Drop</code> drilindeki 118 çift tekrarlı oyuncu sayesinde <b>tekrar güvenilirliğini (`r = 0.510` çıkış vs. `r = 0.104` yanal)</b> kanıtladık.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-dril">Klasik Combine Ölçümleri</span>
+          <h4>40-Yard Dash, 10-Yard Split & Arm Length</h4>
+          <div class="tr-sub">Klasik Kronometre ve Antropometrik Ölçümler (`CLASSIC`)</div>
+          <ul>
+            <li><b>`forty` (40-Yard Dash):</b> 40 yard (~36.6 metre) düz koşu süresi (saniye).</li>
+            <li><b>`ten_yd_split` (10-Yard Split):</b> Bu koşunun ilk 10 yardlık patlayıcı kalkış süresi (OL için çok önemlidir).</li>
+            <li><b>`combine_weight` & `arm_length`:</b> Oyuncunun kilosu (pound) ve kol uzunluğu (inç — uzun kol rakibi uzakta tutmayı sağlar).</li>
+          </ul>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> Modellerimizdeki temel karşılaştırma ölçütü (<code>CLASSIC = ["forty", "ten_yd_split", "combine_weight", "arm_length"]</code>).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BÖLÜM 3: SİNYAL İŞLEME VE FİZİKSEL ÖZELLİKLER -->
+  <section class="cat-section" data-cat="sinyal">
+    <div class="cat-title">3. Sinyal İşleme, Kinematik ve Çıkarılan Özellikler (Features)</div>
+
+    <div class="hero-diagram">
+      <h3>Görsel Şema: Savitzky–Golay Filtresi ve Reversal Recovery (Dönüş Toparlanma Oranı) Nasıl Hesaplanır?</h3>
+      <svg class="diagram" viewBox="0 0 920 230">
+        <!-- Left: Savitzky-Golay -->
+        <rect x="15" y="15" width="430" height="200" rx="10" fill="#fff" stroke="#cbd5e1"/>
+        <text x="230" y="38" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">A. Savitzky–Golay (5, 2) Yumuşatma: Tepecikleri Ezmeyen Ütü</text>
+        <polyline points="40,170 75,140 110,152 145,85 180,60 215,92 250,165 285,180 320,115 355,75 390,145" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,3"/>
+        <path d="M 40 170 Q 110 140 175 68 T 275 175 T 360 80 L 390 145" fill="none" stroke="#0f627a" stroke-width="3.5"/>
+        <text x="230" y="198" font-size="12" fill="#334155" text-anchor="middle">Gri Kesikli: 10 Hz Ham Titrek Veri · Mavi Kalın: Savitzky–Golay(5,2) Eğrisi</text>
+
+        <!-- Right: Reversal Recovery -->
+        <rect x="475" y="15" width="430" height="200" rx="10" fill="#fff" stroke="#cbd5e1"/>
+        <text x="690" y="38" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">B. Reversal Recovery (Yön Değişimi Toparlanma Oranı)</text>
+        <!-- Pre-window -->
+        <rect x="535" y="55" width="75" height="115" fill="#e0f2fe"/>
+        <text x="572" y="72" font-size="11" fill="#0369a1" font-weight="bold" text-anchor="middle">Giriş Hızı</text>
+        <text x="572" y="86" font-size="10.5" fill="#0369a1" text-anchor="middle">(−0.5 ile −0.2 s)</text>
+        <!-- Post-window -->
+        <rect x="695" y="55" width="85" height="115" fill="#fef3c7"/>
+        <text x="737" y="72" font-size="11" fill="#b45309" font-weight="bold" text-anchor="middle">Çıkış Hızı</text>
+        <text x="737" y="86" font-size="10.5" fill="#b45309" text-anchor="middle">(+0.3 ile +0.6 s)</text>
+        <!-- Speed curve |vy(t)| -->
+        <path d="M 510 110 L 575 100 L 650 168 L 735 88 L 830 95" fill="none" stroke="#0f172a" stroke-width="3.5"/>
+        <circle cx="650" cy="168" r="6" fill="#b91c1c"/>
+        <text x="650" y="186" font-size="11.5" fill="#b91c1c" font-weight="bold" text-anchor="middle">Dönüş Anı (v_y = 0)</text>
+        <text x="690" y="204" font-size="12" fill="#0f172a" font-weight="bold" text-anchor="middle">Oran = Ortalama Çıkış Hızı / Ortalama Giriş Hızı (Medyan)</text>
+      </svg>
+    </div>
+
+    <div class="term-grid">
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-sinyal">Sinyal İşleme</span>
+          <h4>Savitzky–Golay Filter (5, 2)</h4>
+          <div class="tr-sub">5-Kare 2. Dereceden Polinom Yumuşatma Filtresi</div>
+          <p>Sensör çipleri saniyede 10 kez (`0.1 s`) konum ölçerken milimetrik titreşimler (gürültü) oluşur. Doğrudan türev ($\Delta y / \Delta t$) alırsak bu küçük gürültüler hızda devasa sahte sıçramalar yaratır.</p>
+          <p><b>Savitzky–Golay filtresi</b>, her noktada komşu 5 kareye (`0.5 saniye`) küçük bir parabol ($at^2+bt+c$) uydurur. Böylece gürültüyü silerken, oyuncunun yön değiştirdiği keskin tepe noktalarını ezmez.</p>
+        </div>
+        <div class="analogy"><b>Günlük Hayat Benzetmesi:</b> Kırışık bir gömleği ütülerken yakadaki keskin ütü çizgisini bozmadan sadece buruşuklukları açan akıllı ütü.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-sinyal">Birincil Özellik 1</span>
+          <h4>Lateral Speed p75 (`lateral_speed_p75`)</h4>
+          <div class="tr-sub">Ayna Fazı 75. Yüzdelik Yanal Hızı (`yd/s`)</div>
+          <p>Oyuncunun sadece <b>mavi ayna fazı</b> boyunca sağa-sola kayarken ulaştığı mutlak yanal hızların ($|v_y(t)|$) küçükten büyüğe sıralandığında <b>%75'inci sıradaki (üst çeyrek)</b> değeridir.</p>
+          <p><b>Neden `max` (%100) değil de `p75` (%75)?</b> Çünkü tek bir karelik anlık sensör hatası maksimum değeri bozabilir; 75. yüzdelik ise oyuncunun sürdürülebilir hızlı yanal temposunu çok sağlam (<i>robust</i>) biçimde ölçer.</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> 113 OL oyuncusunda medyan değer ~<code>2.33 yd/s</code> (~<code>7.6 km/s</code> yanal kayma hızı).</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-sinyal">Birincil Özellik 2</span>
+          <h4>Reversal Recovery (`reversal_recovery`)</h4>
+          <div class="tr-sub">Yön Değişimi Sonrası Hız Toparlanma Oranı</div>
+          <p>Bir oyuncu sağa kayarken aniden durup sola dönmek zorunda kaldığında ($v_y$ işaret değiştirdiğinde), <b>dönüşten 0.3–0.6 saniye sonraki ortalama yanal hızının, dönüşten 0.5–0.2 saniye önceki yaklaşma hızına oranıdır</b>.</p>
+          <p>Oranın `1.0`'dan büyük olması (örn. `1.45x`), oyuncunun fren yaptıktan sonra patlayıcı biçimde yeniden hızlanabildiğini gösterir.</p>
+        </div>
+        <div class="analogy"><b>Günlük Hayat Benzetmesi:</b> Bir spor arabanın viraja girerken fren yapıp viraj çıkışında tekrar gaza bastığında hızını ne kadar çabuk geri kazandığı.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-sinyal">Kirli Karşılaştırma Özelliği</span>
+          <h4>Whole-Drill Speed (`whole_drill_speed`)</h4>
+          <div class="tr-sub">Tüm Kayıt 95. Yüzdelik Toplam Hızı (`yd/s`)</div>
+          <p>Drili fazlarına ayırmadan, dosyanın başından sonuna kadar toplam hızın ($s(t)$) 95. yüzdeliğidir.</p>
+          <p>Çalışmamızda kanıtladığımız üzere, <b>470 OL kaydının %100'ünde bu değer aslında dril sonundaki düz çıkış sprintini ölçmektedir</b> ve yanal çeviklikle korelasyonu sıfırdır (`r = +0.005`).</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> Modele eklendiğinde 2025 yılı pas koruma tahminlerini her üç hedef tanımında da <b>kötüleştiren</b> hatalı/kirli metrik.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BÖLÜM 4: İSTATİSTİK VE MAKİNE ÖĞRENMESİ TERİMLERİ -->
+  <section class="cat-section" data-cat="model">
+    <div class="cat-title">4. İstatistik, Psikometri ve Makine Öğrenmesi Terimleri</div>
+
+    <div class="hero-diagram">
+      <h3>Görsel Özet: Sıralama Kırılması (`r = +0.005`) ve 3 Modelin Karşılaştırması</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <img class="real-img" src="reports/trenches/mirror_ranking_shift.png" alt="Sıralama Kırılması">
+        <img class="real-img" src="reports/trenches/mirror_model_comparison.png" alt="Model Karşılaştırması">
+      </div>
+    </div>
+
+    <div class="term-grid">
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-model">İstatistik</span>
+          <h4>Spearman ($r_s$) vs. Pearson ($r$) Korelasyonu</h4>
+          <div class="tr-sub">Doğrusal İlişki ve Sıralama (Rank) İlişkisi (`−1` ile `+1` arası)</div>
+          <p><b>Pearson ($r$):</b> İki sayısal ölçümün doğrusal olarak birlikte artıp azalma gücüdür.</p>
+          <p><b>Spearman ($r_s$):</b> Oyuncuları iki farklı metriğe göre 1'den 113'e kadar <b>sıraya dizdiğimizde</b> bu iki sıralama listesinin birbirine ne kadar benzediğidir.</p>
+          <ul>
+            <li><b>`r = +1.00`:</b> İki sıralama birebir aynı.</li>
+            <li><b>`r = 0.00`:</b> İki sıralama tamamen alakasız (yazı-tura gibi).</li>
+          </ul>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> Mirror yanal hız sıralaması ile tüm-kayıt hızı sıralaması arasındaki Spearman korelasyonu <b><code>r = +0.005</code></b>'tir (yani iki sıralama tamamen farklıdır!).</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-model">Psikometri & Ölçüm Teorisi</span>
+          <h4>Repeatability & Split-Half Reliability</h4>
+          <div class="tr-sub">Deneme Tekrar Güvenilirliği ($r_{XX}$) ve Maç Yarı-Yarıya Kararlılığı ($r_{YY}$)</div>
+          <p><b>Repeatability ($r_{XX}$):</b> Aynı oyuncuya aynı drili 2 kez yaptırdığımızda ölçümlerin ne kadar yakın çıktığıdır (`Pass Rush Drop` drilinde çıkış sprinti `r = 0.510`, yanal hız ise koç işaretine bağlı olduğu için `r = 0.104`).</p>
+          <p><b>Split-Half Reliability ($r_{YY}$):</b> Oyuncunun sezondaki maçlarını tek numaralı maçlar (1., 3., 5...) ve çift numaralı maçlar (2., 4., 6...) diye ikiye böldüğümüzde iki yarıdaki performans ortalamasının tutarlılığıdır.</p>
+        </div>
+        <div class="analogy"><b>Günlük Hayat Benzetmesi:</b> Bozuk bir basküle 2 dakika arayla iki kez çıktığında birinde 70 kg, diğerinde 95 kg gösteriyorsa o baskülün tekrar güvenilirliği ($r_{XX}$) düşüktür; o baskülle sağlıklı diyet tahmini yapılamaz.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-model">Psikometri Teoremi</span>
+          <h4>Psychometric Attenuation Bound</h4>
+          <div class="tr-sub">Psikometrik Zayıflama Sınırı: $|r_{XY}| \le \sqrt{r_{XX} \cdot r_{YY}}$</div>
+          <p>İstatistik biliminin temel yasalarından biridir: Gürültülü bir $X$ ölçümü ile gürültülü bir $Y$ hedefi arasındaki gözlenen korelasyon, ikisinin kendi iç güvenilirliklerinin çarpımının karekökünü <b>asla geçemez</b>.</p>
+          <p>Koç yönlendirmeli drilde $r_{XX} \approx 0.104$ olduğu için, en mükemmel yapay zeka modelini bile kursak tek denemelik drilin maç başarısıyla korelasyonu doğal bir tavana çarpar.</p>
+        </div>
+        <div class="project-val"><b>Neden Çok Önemli?</b> Hocalara <i>"Neden modelin iyileşmesi küçük kaldı?"</i> sorusunun cevabını bu matematiksel formülle verdiğinde tam not alırsın!</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-model">Doğrulama Tasarımı</span>
+          <h4>Out-of-Time (Forward-Year) Validation</h4>
+          <div class="tr-sub">Sızıntısız İleri-Yıl Doğrulaması (`2023 → 2024` ve `2023–24 → 2025`)</div>
+          <p>Modeli geçmiş yıllarda (`2023` ve `2024` draft sınıfları) eğitip, modelin eğitim sırasında hiç görmediği <b>gelecekteki `2025` draft sınıfı</b> üzerinde test etmektir.</p>
+          <p><b>Data Leakage (Veri Sızıntısı) Önleme:</b> Eksik değer doldurma (`SimpleImputer median`), ölçekleme (`StandardScaler`) ve 1. aşama oyun bağlam modeli **sadece eğitim yıllarında** hesaplanır; test yılından tek bir bilgi bile sızdırılmaz.</p>
+        </div>
+        <div class="analogy"><b>Günlük Hayat Benzetmesi:</b> 2023 ve 2024 çıkmış sınav sorularına çalışıp 2025 sınavına girmek (gerçek hayat testi).</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-model">Makine Öğrenmesi</span>
+          <h4>Ridge Regression ($\alpha = 10$)</h4>
+          <div class="tr-sub">L2 Cezalı Doğrusal Regresyon Modeli</div>
+          <p>Klasik doğrusal regresyona $\alpha \sum \beta_k^2$ cezası ekleyerek katsayıların aşırı büyümesini ve modelin eğitim verisini ezberlemesini (<i>overfitting</i>) engelleyen yöntemdir.</p>
+          <p>50 oyunculuk küçük örneklemde karmaşık kara-kutu modeller (XGBoost, Derin Öğrenme) gürültüyü ezberlediği için, sabit $\alpha = 10$ cezalı Ridge modeli en güvenilir ve bilimsel seçenektir.</p>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> <code>Ridge(alpha=10, solver="lsqr")</code> — hiçbir hiperparametre araması (<i>tuning</i>) yapılmadan önceden sabitlenmiştir.</div>
+      </div>
+
+      <div class="term-card">
+        <div>
+          <span class="term-badge b-model">Hata ve Belirsizlik Metrikleri</span>
+          <h4>MAE, RMSE & Full-Refit Player Bootstrap</h4>
+          <div class="tr-sub">Ortalama Mutlak Hata ve 400 Yeniden Eğitimli Güven Aralığı</div>
+          <ul>
+            <li><b>MAE (Mean Absolute Error):</b> Oyuncu başına tahmin edilen baskı yüzdesi ile gerçek baskı yüzdesi arasındaki mutlak farkların ortalamasıdır (<b>düşük olması iyidir</b>).</li>
+            <li><b>RMSE (Root Mean Squared Error):</b> Büyük hataları karesini alarak daha ağır cezalandıran hata ölçütüdür.</li>
+            <li><b>Full-Refit Bootstrap (400 Replikasyon):</b> Eğitim ve test oyuncularını rastgele (yerine koyarak) 400 kez yeniden seçip, her seferinde hem 1. aşama hem 2. aşama modelleri sıfırdan eğiterek elde edilen %95 güven aralığıdır (`[−0.264, +0.353] yp`). Aralığın `0`'ı içermesi, farkın istatistiksel olarak kesinleşmediğini gösterir.</li>
+          </ul>
+        </div>
+        <div class="project-val"><b>Projedeki Karşılığı:</b> <code>validate_mirror_study.py</code> içinde 400 tam yeniden eğitimle hesaplanmıştır.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const searchBox = document.getElementById('searchBox');
+const sections = Array.from(document.querySelectorAll('.cat-section'));
+const cards = Array.from(document.querySelectorAll('.term-card'));
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  sections.forEach(sec => {
+    sec.style.display = (cat === 'all' || sec.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+searchBox.addEventListener('input', () => {
+  const q = searchBox.value.trim().toLowerCase();
+  if (!q) {
+    cards.forEach(c => c.style.display = 'flex');
+    document.querySelectorAll('.hero-diagram').forEach(h => h.style.display = 'block');
+    return;
+  }
+  document.querySelectorAll('.hero-diagram').forEach(h => h.style.display = 'none');
+  sections.forEach(sec => sec.style.display = 'block');
+  cards.forEach(c => {
+    const match = c.innerText.toLowerCase().includes(q);
+    c.style.display = match ? 'flex' : 'none';
+  });
+});
+</script>
+</body>
+</html>
+

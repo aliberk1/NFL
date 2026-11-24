@@ -1,0 +1,61 @@
+{
+  "players": 113,
+  "peak_in_exit_fraction": 1.0,
+  "pooled_rank_correlation": 0.005481069931465833,
+  "by_year": [
+    {
+      "year": 2023,
+      "players": 37,
+      "rank_correlation": -0.04646752015173067,
+      "median_absolute_percentile_change": 32.43243243243243,
+      "mirror_top_quartile": 10,
+      "whole_drill_top_quartile": 10,
+      "top_quartile_overlap": 2,
+      "median_reversals": 4.0
+    },
+    {
+      "year": 2024,
+      "players": 42,
+      "rank_correlation": 0.26796856008427195,
+      "median_absolute_percentile_change": 21.42857142857143,
+      "mirror_top_quartile": 11,
+      "whole_drill_top_quartile": 11,
+      "top_quartile_overlap": 4,
+      "median_reversals": 3.0
+    },
+    {
+      "year": 2025,
+      "players": 34,
+      "rank_correlation": -0.28250572956455305,
+      "median_absolute_percentile_change": 32.35294117647059,
+      "mirror_top_quartile": 9,
+      "whole_drill_top_quartile": 9,
+      "top_quartile_overlap": 1,
+      "median_reversals": 3.0
+    }
+  ],
+  "ol_drill_suite": [
+    {
+      "drill": "Pass-Pro Mirror Drill",
+      "accepted_attempts": 113,
+      "accepted_players": 113,
+      "peak_in_exit_fraction": 1.0,
+      "phase_vs_whole_spearman": 0.0054810699314658
+    },
+    {
+      "drill": "5-Yard Wave Drill (Slide & Shuffle)",
+      "accepted_attempts": 118,
+      "accepted_players": 118,
+      "peak_in_exit_fraction": 1.0,
+      "phase_vs_whole_spearman": -0.0215653406082119
+    },
+    {
+      "drill": "Pass Rush Drop (Kick-Slide)",
+      "accepted_attempts": 239,
+      "accepted_players": 120,
+      "peak_in_exit_fraction": 1.0,
+      "phase_vs_whole_spearman": 0.1465657337315091
+    }
+  ],
+  "interpretation": "These are rankings of distinct observed movement summaries, not rankings of football talent."
+}

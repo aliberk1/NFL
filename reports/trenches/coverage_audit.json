@@ -1,0 +1,484 @@
+{
+  "OL": {
+    "players": 84,
+    "rows": 42684,
+    "lineups": {
+      "G": 19612,
+      "T": 17750,
+      "C": 5004,
+      "TE": 293,
+      "FB": 15,
+      "SLOT_WR": 8,
+      "WR": 1
+    },
+    "coverage": {
+      "pressure_allowed": {
+        "rows": 25017,
+        "players": 82,
+        "values": {
+          "False": 22802,
+          "True": 2215
+        }
+      },
+      "peak_pressure_probability_allowed": {
+        "rows": 23918,
+        "players": 82,
+        "values": {
+          "1.0": 422,
+          "0.125": 132,
+          "0.137500002980232": 132,
+          "0.132499992847443": 128,
+          "0.150000005960464": 126,
+          "0.152500003576279": 123,
+          "0.112499997019768": 116,
+          "0.155000001192093": 115
+        }
+      },
+      "time_to_pressure_allowed": {
+        "rows": 2212,
+        "players": 77,
+        "values": {
+          "2.79999995231628": 136,
+          "2.59999990463257": 133,
+          "2.70000004768372": 131,
+          "2.5": 131,
+          "2.40000009536743": 127,
+          "2.29999995231628": 115,
+          "2.20000004768372": 105,
+          "2.90000009536743": 100
+        }
+      },
+      "player_get_off": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      },
+      "time_to_pressure": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      },
+      "quick_pressure": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      },
+      "unblocked_pressure": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      },
+      "blitzing": {
+        "rows": 25035,
+        "players": 82,
+        "values": {
+          "False": 25035
+        }
+      },
+      "pass_rushers_encountered": {
+        "rows": 25017,
+        "players": 82,
+        "values": {
+          "1.0": 23298,
+          "0.0": 1099,
+          "2.0": 618,
+          "3.0": 2
+        }
+      },
+      "dropback_duration": {
+        "rows": 25017,
+        "players": 82,
+        "values": {
+          "2.26900005340576": 126,
+          "2.10199999809265": 112,
+          "2.63599991798401": 110,
+          "2.36899995803833": 110,
+          "2.16899991035461": 108,
+          "2.43600010871887": 104,
+          "2.46900010108948": 103,
+          "2.06900000572205": 99
+        }
+      }
+    },
+    "numeric_distributions": {
+      "pressure_allowed": {
+        "count": 25017,
+        "unique": 2,
+        "top": false,
+        "freq": 22802
+      },
+      "peak_pressure_probability_allowed": {
+        "count": 23918.0,
+        "mean": 0.2888900095997038,
+        "std": 0.2441922592980527,
+        "min": 0.0283333323895931,
+        "1%": 0.0641666650772095,
+        "50%": 0.188333332538605,
+        "99%": 1.0,
+        "max": 1.0
+      },
+      "time_to_pressure_allowed": {
+        "count": 2212.0,
+        "mean": 2.9645117492184285,
+        "std": 0.9677719867406199,
+        "min": 0.899999976158142,
+        "1%": 1.5,
+        "50%": 2.79999995231628,
+        "99%": 6.19999980926514,
+        "max": 10.3999996185303
+      },
+      "player_get_off": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      },
+      "time_to_pressure": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      },
+      "quick_pressure": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      },
+      "unblocked_pressure": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      },
+      "blitzing": {
+        "count": 25035,
+        "unique": 1,
+        "top": false,
+        "freq": 25035
+      },
+      "pass_rushers_encountered": {
+        "count": 25017.0,
+        "mean": 0.9809329655834033,
+        "std": 0.2619013209399847,
+        "min": 0.0,
+        "1%": 0.0,
+        "50%": 1.0,
+        "99%": 2.0,
+        "max": 3.0
+      },
+      "dropback_duration": {
+        "count": 25017.0,
+        "mean": 3.0029465963408573,
+        "std": 1.2103367726409178,
+        "min": 0.289000004529953,
+        "1%": 1.10099995136261,
+        "50%": 2.75200009346008,
+        "99%": 6.94883989334106,
+        "max": 14.2449998855591
+      }
+    },
+    "at_least_50_by_year_position": [
+      {
+        "draft_year": 2023,
+        "nfl_position": "C",
+        "players": 2
+      },
+      {
+        "draft_year": 2023,
+        "nfl_position": "G",
+        "players": 10
+      },
+      {
+        "draft_year": 2023,
+        "nfl_position": "T",
+        "players": 6
+      },
+      {
+        "draft_year": 2024,
+        "nfl_position": "C",
+        "players": 4
+      },
+      {
+        "draft_year": 2024,
+        "nfl_position": "G",
+        "players": 7
+      },
+      {
+        "draft_year": 2024,
+        "nfl_position": "T",
+        "players": 9
+      },
+      {
+        "draft_year": 2025,
+        "nfl_position": "G",
+        "players": 11
+      },
+      {
+        "draft_year": 2025,
+        "nfl_position": "T",
+        "players": 9
+      }
+    ]
+  },
+  "DL": {
+    "players": 94,
+    "rows": 22967,
+    "lineups": {
+      "EDGE": 11734,
+      "INTERIOR_LINE": 10953,
+      "SLOT_CB": 206,
+      "MLB": 44,
+      "OLB": 18,
+      "CB": 11,
+      "TE": 1
+    },
+    "coverage": {
+      "pressure_allowed": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      },
+      "peak_pressure_probability_allowed": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      },
+      "time_to_pressure_allowed": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      },
+      "player_get_off": {
+        "rows": 14990,
+        "players": 94,
+        "values": {
+          "0.769999980926514": 40,
+          "0.870000004768372": 38,
+          "0.944999992847443": 36,
+          "0.925000011920929": 34,
+          "0.912999987602234": 34,
+          "0.85699999332428": 34,
+          "0.973999977111816": 33,
+          "0.901000022888184": 33
+        }
+      },
+      "time_to_pressure": {
+        "rows": 1066,
+        "players": 81,
+        "values": {
+          "2.40000009536743": 66,
+          "2.79999995231628": 63,
+          "2.59999990463257": 60,
+          "2.5": 60,
+          "2.70000004768372": 60,
+          "2.29999995231628": 57,
+          "2.09999990463257": 50,
+          "3.0": 48
+        }
+      },
+      "quick_pressure": {
+        "rows": 1061,
+        "players": 81,
+        "values": {
+          "False": 742,
+          "True": 319
+        }
+      },
+      "unblocked_pressure": {
+        "rows": 12864,
+        "players": 94,
+        "values": {
+          "False": 12765,
+          "True": 99
+        }
+      },
+      "blitzing": {
+        "rows": 12875,
+        "players": 94,
+        "values": {
+          "True": 12249,
+          "False": 626
+        }
+      },
+      "pass_rushers_encountered": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      },
+      "dropback_duration": {
+        "rows": 0,
+        "players": 0,
+        "values": {}
+      }
+    },
+    "numeric_distributions": {
+      "pressure_allowed": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      },
+      "peak_pressure_probability_allowed": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      },
+      "time_to_pressure_allowed": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      },
+      "player_get_off": {
+        "count": 14990.0,
+        "mean": 1.0209468981061005,
+        "std": 0.2931708517694165,
+        "min": 0.135000005364418,
+        "1%": 0.5108899790048603,
+        "50%": 0.972000002861023,
+        "99%": 1.882109974622725,
+        "max": 1.99899995326996
+      },
+      "time_to_pressure": {
+        "count": 1066.0,
+        "mean": 3.041651028741368,
+        "std": 1.0469408675758043,
+        "min": 1.20000004768372,
+        "1%": 1.5,
+        "50%": 2.79999995231628,
+        "99%": 6.93500006198882,
+        "max": 9.60000038146973
+      },
+      "quick_pressure": {
+        "count": 1061,
+        "unique": 2,
+        "top": false,
+        "freq": 742
+      },
+      "unblocked_pressure": {
+        "count": 12864,
+        "unique": 2,
+        "top": false,
+        "freq": 12765
+      },
+      "blitzing": {
+        "count": 12875,
+        "unique": 2,
+        "top": true,
+        "freq": 12249
+      },
+      "pass_rushers_encountered": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      },
+      "dropback_duration": {
+        "count": 0.0,
+        "mean": NaN,
+        "std": NaN,
+        "min": NaN,
+        "1%": NaN,
+        "50%": NaN,
+        "99%": NaN,
+        "max": NaN
+      }
+    },
+    "at_least_50_by_year_position": [
+      {
+        "draft_year": 2023,
+        "nfl_position": "DE",
+        "players": 8
+      },
+      {
+        "draft_year": 2023,
+        "nfl_position": "DT",
+        "players": 5
+      },
+      {
+        "draft_year": 2023,
+        "nfl_position": "NT",
+        "players": 2
+      },
+      {
+        "draft_year": 2023,
+        "nfl_position": "OLB",
+        "players": 5
+      },
+      {
+        "draft_year": 2024,
+        "nfl_position": "DE",
+        "players": 8
+      },
+      {
+        "draft_year": 2024,
+        "nfl_position": "DT",
+        "players": 8
+      },
+      {
+        "draft_year": 2024,
+        "nfl_position": "NT",
+        "players": 1
+      },
+      {
+        "draft_year": 2024,
+        "nfl_position": "OLB",
+        "players": 5
+      },
+      {
+        "draft_year": 2025,
+        "nfl_position": "DE",
+        "players": 6
+      },
+      {
+        "draft_year": 2025,
+        "nfl_position": "DT",
+        "players": 15
+      },
+      {
+        "draft_year": 2025,
+        "nfl_position": "NT",
+        "players": 1
+      },
+      {
+        "draft_year": 2025,
+        "nfl_position": "OLB",
+        "players": 6
+      }
+    ]
+  }
+}
