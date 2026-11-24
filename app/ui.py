@@ -353,7 +353,7 @@ with players:
         position = st.selectbox("Pozisyon", ["Tümü"] + positions,
                                 format_func=lambda value: "Tümü" if value == "Tümü" else position_label(value))
     with filter_cols[2]:
-        teams = [row["team_abbr"] for row in options["teams"]]
+        teams = [row["team_abbr"] for row in options.get("teams", [])]
         team = st.selectbox("Takım", ["Tümü"] + teams,
                             format_func=lambda value: "Tümü" if value == "Tümü" else team_label(value))
     with filter_cols[3]:
@@ -361,14 +361,15 @@ with players:
         season = st.selectbox("Sezon", seasons, index=0) if seasons else None
     page_size = 100
     query_args = (search, None if position == "Tümü" else position)
+    team_filter = {} if team == "Tümü" else {"team": team}
     first_page = analytics.player_directory(*query_args, limit=page_size, offset=0,
-                                             team=None if team == "Tümü" else team)["data"]
+                                             paginated=True, **team_filter)["data"]
     total = first_page["total"]
     page_count = max(1, (total + page_size - 1) // page_size)
     page = st.number_input("Oyuncu listesi · sayfa", min_value=1, max_value=page_count, value=1, step=1)
     directory = first_page if page == 1 else analytics.player_directory(
         *query_args, limit=page_size, offset=(page - 1) * page_size,
-        team=None if team == "Tümü" else team,
+        paginated=True, **team_filter,
     )["data"]
     matches = directory["rows"]
     selected_ids = st.session_state.setdefault("selected_player_ids", [])

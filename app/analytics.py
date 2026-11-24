@@ -79,7 +79,7 @@ def player_filter_options():
     }, ["players", "player_play"])
 
 
-def player_directory(search="", position=None, draft_year=None, limit=100, offset=0, team=None):
+def player_directory(search="", position=None, draft_year=None, limit=100, offset=0, team=None, paginated=False):
     if limit < 1 or limit > 250 or offset < 0:
         raise ValueError("Sayfa boyutu 1–250, başlangıç değeri sıfır veya üzeri olmalıdır.")
     filters = []
@@ -123,7 +123,10 @@ def player_directory(search="", position=None, draft_year=None, limit=100, offse
         total = 0
     for row in rows:
         row.pop("total_count")
-    return result({"rows": rows, "total": total, "limit": limit, "offset": offset}, ["players", "player_play"])
+    data = {"rows": rows, "total": total, "limit": limit, "offset": offset}
+    is_paginated = (paginated or bool(search.strip()) or position is not None or
+                    draft_year is not None or team is not None or limit != 100 or offset != 0)
+    return result(data if is_paginated else rows, ["players", "player_play"])
 
 
 def player_profile(player_id):

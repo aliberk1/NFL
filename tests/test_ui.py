@@ -25,10 +25,11 @@ def ui(monkeypatch, tmp_path):
         "draft_years": [{"draft_year": 2024}, {"draft_year": 2023}],
     }})
 
-    def directory(search="", position=None, draft_year=None, limit=100, offset=0):
+    def directory(search="", position=None, draft_year=None, limit=100, offset=0, team=None, paginated=False):
         rows = [p for p in players if
                 (not search or search.casefold() in (p["display_name"] + p["teams"]).casefold()) and
                 (not position or p["nfl_position"] == position) and
+                (not team or team in p["teams"].split(", ")) and
                 (draft_year is None or p["draft_year"] == draft_year)]
         return {"data": {"rows": rows[offset:offset + limit], "total": len(rows), "limit": limit, "offset": offset}}
 
