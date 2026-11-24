@@ -1,4 +1,5 @@
 import sys
+import logging
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -10,6 +11,10 @@ import streamlit.components.v1 as components
 from app import analytics
 from app.assistant import answer
 from app.config import DB
+from app.observability import configure_logging
+
+configure_logging()
+logger = logging.getLogger("nfl.ui")
 
 LABELS = {
     "display_name": "Oyuncu", "nfl_position": "Pozisyon", "season": "Sezon",
@@ -285,34 +290,29 @@ if DB.exists():
         st.dataframe(summary["data"]["coverage"], hide_index=True)
     with players:
         st.subheader("Oyuncu bul ve karşılaştır")
-        st.caption("İsim veya takımla ara, ardından tablonun solundaki kutudan oyuncu seç.")
-        directory = analytics.player_directory()["data"]
-        lookup = {
-            p["nfl_id"]: f'{p["display_name"]} — {p["teams"]} — {p["nfl_position"]} — Draft: {p["draft_year"]}'
-            for p in directory
-        }
+        st.caption("İsim veya takım ara; ardından listeden en fazla 10 oyuncu seç.")
+        options = analytics.player_filter_options()["data"]
         search_col, position_col, draft_col = st.columns([3, 1, 1])
         with search_col:
             search = st.text_input("Oyuncu veya takım ara", placeholder="Örnek: Alan Ali veya MIN")
         with position_col:
-            position = st.selectbox("Pozisyon", ["Tümü"] + sorted({
-                p["nfl_position"] for p in directory if p["nfl_position"]
-            }))
+            position = st.selectbox("Pozisyon", ["Tümü"] + [row["nfl_position"] for row in options["positions"]])
         with draft_col:
-            draft_years = sorted({
-                str(p["draft_year"]) for p in directory if p["draft_year"] is not None
-            }, reverse=True)
+            draft_years = [str(row["draft_year"]) for row in options["draft_years"]]
             draft_class = st.selectbox("Draft sınıfı", ["Tümü"] + draft_years)
-        matches = [
-            p for p in directory
-            if (not search.strip() or search.strip().casefold() in lookup[p["nfl_id"]].casefold())
-            and (position == "Tümü" or p["nfl_position"] == position)
-            and (draft_class == "Tümü" or str(p["draft_year"]) == draft_class)
-        ]
+        draft_year = int(draft_class) if draft_class != "Tümü" else None
+        page_size = 100
+        filters = (search, None if position == "Tümü" else position, draft_year)
+        total = analytics.player_directory(*filters, limit=page_size, offset=0)["data"]["total"]
+        page_count = max(1, (total + page_size - 1) // page_size)
+        page = st.number_input("Sayfa", min_value=1, max_value=page_count, value=1, step=1)
+        directory = analytics.player_directory(*filters, limit=page_size, offset=(page - 1) * page_size)["data"]
+        matches = directory["rows"]
+        lookup = {p["nfl_id"]: f'{p["display_name"]} — {p["teams"]} — {p["nfl_position"]} — Draft: {p["draft_year"]}' for p in matches}
         selected = []
         if matches:
-            st.caption(f"{len(matches)} oyuncu · Karşılaştırmak için en fazla 10 oyuncu seç")
-            selection = st.dataframe(
+            st.caption(f"{directory['total']} oyuncu · Sayfa {page}/{page_count} · Bu sayfadan en fazla 10 oyuncu seç")
+            st.dataframe(
                 pd.DataFrame(matches)[["display_name", "teams", "nfl_position", "draft_year"]].rename(columns={
                     "display_name": "Oyuncu", "teams": "Kayıtlı takımlar",
                     "nfl_position": "Pozisyon", "draft_year": "Draft yılı",
@@ -320,10 +320,17 @@ if DB.exists():
                 hide_index=True, width="stretch",
                 height=min(390, 36 * (len(matches) + 1) + 4),
                 column_config={"Draft yılı": st.column_config.NumberColumn(format="%d")},
-                on_select="rerun", selection_mode="multi-row",
-                key=f"player_table:{search.strip().casefold()}:{position}:{draft_class}",
+                key=f"player_table:{search.strip().casefold()}:{position}:{draft_class}:{page}",
             )
-            selected = [matches[i]["nfl_id"] for i in selection.selection.rows]
+            player_options = {
+                f'{player["display_name"]} · {player["nfl_position"]} · {player["draft_year"]} · #{player["nfl_id"]}': player["nfl_id"]
+                for player in matches
+            }
+            selected_labels = st.multiselect(
+                "Karşılaştırılacak oyuncular", list(player_options), max_selections=10,
+                key=f"player_selection:{search.strip().casefold()}:{position}:{draft_class}:{page}",
+            )
+            selected = [player_options[label] for label in selected_labels]
             selected_players = [p for p in matches if p["nfl_id"] in selected]
             st.caption("Takımlar verideki geçmiş kayıtlardır; güncel kadro bilgisi değildir.")
         else:
@@ -393,4 +400,5 @@ if DB.exists():
                     st.markdown(response["answer"])
                     show_evidence(response["evidence"])
             except Exception as exc:
-                st.error(f"İşlem tamamlanamadı: {exc}")
+                logger.error("chat_ui_failed", extra={"event": "chat_ui_failed", "error_type": type(exc).__name__})
+                st.error("Sohbet tamamlanamadı. Bağlantı ayarlarını kontrol edip tekrar deneyin.")

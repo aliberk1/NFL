@@ -1,5 +1,6 @@
 import hashlib
 import json
+import logging
 
 import duckdb
 import pytest
@@ -7,6 +8,7 @@ from fastapi.testclient import TestClient
 
 from app import analytics, assistant
 from app.api import app
+from app.observability import JsonFormatter
 
 
 @pytest.fixture
@@ -65,6 +67,61 @@ def test_invalid_season_type(database):
 def test_search_is_parameterized(database):
     assert len(analytics.search_players("Player")["data"]) == 2
     assert analytics.search_players("' OR 1=1 --")["data"] == []
+
+
+def test_structured_logs_redact_exception_messages_and_secrets():
+    record = logging.LogRecord("nfl", logging.ERROR, __file__, 1, "secret token=abc", (), None)
+    record.event = "provider_failed"
+    record.error_type = "TimeoutException"
+    formatted = JsonFormatter().format(record)
+    assert '"event": "provider_failed"' in formatted
+    assert "TimeoutException" in formatted
+    assert "abc" not in formatted
+    assert "secret" not in formatted
+
+
+def test_api_unexpected_error_is_redacted_and_actionable(monkeypatch, capsys):
+    from app import api
+
+    def failure():
+        raise RuntimeError("provider token=abc")
+
+    monkeypatch.setattr(api.analytics, "dataset_summary", failure)
+    response = TestClient(api.app, raise_server_exceptions=False).get("/dataset")
+    assert response.status_code == 500
+    assert "token=abc" not in response.text
+    assert "token=abc" not in capsys.readouterr().err
+
+
+def test_player_directory_filters_team_and_paginates(database):
+    with duckdb.connect(str(analytics.DB)) as con:
+        con.execute("UPDATE player_play SET team_abbr = 'NYJ' WHERE nfl_id = 1 AND game_id = 20")
+    page = analytics.player_directory(search="NYJ", position="T", draft_year=2023, limit=1)
+    assert page["data"]["total"] == 1
+    assert page["data"]["rows"][0]["teams"] == "NYJ, X"
+    assert analytics.player_directory(search="missing")["data"]["total"] == 0
+    with pytest.raises(ValueError, match="Sayfa boyutu"):
+        analytics.player_directory(limit=251)
+
+
+def test_query_cache_hits_and_invalidates_when_database_version_changes(database, monkeypatch):
+    real_connect = duckdb.connect
+    connections = []
+
+    def tracked_connect(*args, **kwargs):
+        connections.append(1)
+        return real_connect(*args, **kwargs)
+
+    analytics._cached_query.cache_clear()
+    monkeypatch.setattr(analytics.duckdb, "connect", tracked_connect)
+    sql = "SELECT count(*) AS count FROM players"
+    assert analytics.query(sql)[0]["count"] == 2
+    assert analytics.query(sql)[0]["count"] == 2
+    assert len(connections) == 1
+    with real_connect(str(analytics.DB)) as con:
+        con.execute("INSERT INTO players VALUES (3, 'C Player', 'WR', 2024)")
+    assert analytics.query(sql)[0]["count"] == 3
+    assert len(connections) == 2
 
 
 def test_research_snapshot_loads_manifest_verified_cohorts():
