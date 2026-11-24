@@ -54,7 +54,7 @@
   "files": [
     {
       "path": "CALISMA_DURUMU.html",
-      "sha256": "03916973a4eb14fb245b349b0b0e061b3504cd588cfe131c79626188497aea5e"
+      "sha256": "fad105a5d3737aaa4a5cccc02a4731dee25a2c47dd526cd221e0f2f4e6e0b0c7"
     },
     {
       "path": "CALISMA_DURUMU.md",
@@ -66,15 +66,15 @@
     },
     {
       "path": "reports/trenches/coverage_audit.json",
-      "sha256": "584775e18a5a435556d48a1bdbf0e7c803fabb8e5d51f81c956f25d1a4ecdc2e"
+      "sha256": "bdd4623012db6e28f4e6fe9f12981ba564e076b528dd60cc38e3a2c1a0787ff4"
     },
     {
       "path": "reports/trenches/dl_rookie_coverage.csv",
-      "sha256": "e822a0207a43a048b18229e73d34b9bd962d847e71305472b51bb5fdee451487"
+      "sha256": "a035ec8aa57076d502d856254b1f1e08cb80861a0695a6146e694e3b105b08c0"
     },
     {
       "path": "reports/trenches/drill_attempt_coverage.csv",
-      "sha256": "b153de8e720d8517b88fbd945fd0995ce9a7be6b8a1945c2c2ced149131e4a90"
+      "sha256": "fdb5c24f497838d25cd08c4aafcfd9cdc29f3b602e1c262b16f3a40b7ca9358a"
     },
     {
       "path": "reports/trenches/hoop_trajectory_audit.png",
@@ -86,39 +86,39 @@
     },
     {
       "path": "reports/trenches/mirror_attempt_features.csv",
-      "sha256": "879df71a53e4f2214b7daed42b2fa7b756432fb7d5eb6f36f4bcf77daf49aada"
+      "sha256": "2ca5154bed7820ea228517e7a66da572755c02967010618a97dfb916c290b754"
     },
     {
       "path": "reports/trenches/mirror_boundary_sensitivity.csv",
-      "sha256": "ad10de42b0e8e0e750437627c44201069059aba096cd42f375e1e4d864c350f5"
+      "sha256": "069e92c038b7956228e52c521d65a1831fba51f30ce70f836fb116cedea2ab52"
     },
     {
       "path": "reports/trenches/mirror_context_checks.csv",
-      "sha256": "ed7767c96ccd99d15e17111dd0e64fdb06a3e503d33ebe958d47355692a3e717"
+      "sha256": "882b41f84cfc80cc0522444268bfa5609ebc659f85e5e0ff509bc695cc3a2253"
     },
     {
       "path": "reports/trenches/mirror_explorer.html",
-      "sha256": "28b7fd703ebf90bf18b9633ff536a9ddab61c619859bc081580256c3be87c456"
+      "sha256": "88e27223ff6416d3bacc6641d357150dc3bd96d111ed9234d0c545a6b1a63935"
     },
     {
       "path": "reports/trenches/mirror_feature_audit.json",
-      "sha256": "5d2c540a7ac08c6085faa9efb22b276b67eda68ea2bfa0f28c4c446f8c46570a"
+      "sha256": "d3ce371326667ffd05cc66d1331e484b1b8f20c0b07d84a6007d4e4732351ead"
     },
     {
       "path": "reports/trenches/mirror_forward_year_scores.csv",
-      "sha256": "f84f52c3ec35fcf85a132a4781a60bd7e99728cbf5c2c7973cf3c37ad920a38c"
+      "sha256": "e622cfe1efa06195bf6152cd894df374185b99150008ea86f7444868680f00bd"
     },
     {
       "path": "reports/trenches/mirror_full_refit_bootstrap.csv",
-      "sha256": "e4394d84f424febd490b338584be2895d86531e85215ac213ee385dd3677d305"
+      "sha256": "6d0c834884fe9f8ca88b2c05c37e78208efd9b6783655f0cc87f7327ee166491"
     },
     {
       "path": "reports/trenches/mirror_measurement_rank_comparison.csv",
-      "sha256": "42fe85418bfcf91af798117033259f19777d9969c4ed0da985661e2927753bcc"
+      "sha256": "eeda3f277a3b39634912db7fd10de61677ed4bf855e01f8c137d87211a434583"
     },
     {
       "path": "reports/trenches/mirror_measurement_summary.json",
-      "sha256": "e2654a628c7d0da7a339b5f60eeb2ed97c393be874d2309efa754e2562dca412"
+      "sha256": "77e1d593ce755f4afa9d903a6a64762f155f006442d1060b8a041f26442bf900"
     },
     {
       "path": "reports/trenches/mirror_model_comparison.png",
@@ -126,7 +126,7 @@
     },
     {
       "path": "reports/trenches/mirror_model_players.csv",
-      "sha256": "8e613bf95044d34040e8cd32963a6737691ba755a3112a2b33333a20c9406079"
+      "sha256": "6a5d7de5f80cac0e86918974905effd807740f332ae35d7d0fbfdc78a3ba01ce"
     },
     {
       "path": "reports/trenches/mirror_phase_examples.png",
@@ -138,11 +138,11 @@
     },
     {
       "path": "reports/trenches/mirror_player_features.csv",
-      "sha256": "ca737c8da75d218417d657a58ebc248276abb40292b28d05be884049221ad0bc"
+      "sha256": "d74d0b1af642f62bae3876c251ab9c481d53fc7ec1263e2b0387821fc3e51c1d"
     },
     {
       "path": "reports/trenches/mirror_predictions.csv",
-      "sha256": "a92f132c1e73730e6a9936540720678a55b19d20fc09cb43c0e44996727230ad"
+      "sha256": "32cf65dd385cc8d04711327b1cc401a93c5dc00dff507d4549a811ea149f6e22"
     },
     {
       "path": "reports/trenches/mirror_ranking_shift.png",
@@ -150,7 +150,7 @@
     },
     {
       "path": "reports/trenches/mirror_rejected.csv",
-      "sha256": "2c8b20237c1955cba830668d11df02b0a9e5ce0cabe560d44d6fd19771271fd2"
+      "sha256": "1a1cf4d91d63858cbcb8f9faad510937f08935fb760e81a59096d4c922d627c1"
     },
     {
       "path": "reports/trenches/mirror_study_design.md",
@@ -158,7 +158,7 @@
     },
     {
       "path": "reports/trenches/mirror_summary.json",
-      "sha256": "23af45e70fa93c4ae5ae5e1a023a05c1f508710eccb42c0bbbe8e19bbe046dad"
+      "sha256": "4ea3218ffb4c1a69f63d9a7b1da88de51794f227058eaf00067ca1e0988829b2"
     },
     {
       "path": "reports/trenches/mirror_trajectory_audit.png",
@@ -166,7 +166,7 @@
     },
     {
       "path": "reports/trenches/mirror_validation.json",
-      "sha256": "161a0868632729bae3a7d8e42257201ce3b4b53b304ed7ed51d6fe82874b891e"
+      "sha256": "8cc8aa6522bf194d528b34407097cab822f5bdd8288b86c751aa926df6a80f88"
     },
     {
       "path": "reports/trenches/movement_bridge_design.md",
@@ -178,43 +178,43 @@
     },
     {
       "path": "reports/trenches/movement_correlations.csv",
-      "sha256": "8d29a401d159f647525b745b7048452cb7c0a66410ea1b5ee144ec4d058f5dc0"
+      "sha256": "76ecededa759d95ff2f70380232e6fe63010420119809e4d631a4b027d1a923f"
     },
     {
       "path": "reports/trenches/movement_forward_year_scores.csv",
-      "sha256": "accdf63251dc99cef3c7edd840e70d7c7348f99908247d980f481ccf1fee538e"
+      "sha256": "61053cc463ee084578822734e101ef497e6e9e0edb5ec0709c747a675168a957"
     },
     {
       "path": "reports/trenches/movement_model_players.csv",
-      "sha256": "95eb7301716f0c67cc018b5155093f2240d2f822a40477f553d91dcba9b30909"
+      "sha256": "8e75e5c6c94486c7edc2d31013ebb44528db2bb21cf77e70c89df87bc2e08a01"
     },
     {
       "path": "reports/trenches/movement_player_means.csv",
-      "sha256": "c3d0600747f4ba298bc395fe6683d1da9ea91d22028cb081784fc0966215c89b"
+      "sha256": "2f81dc980371f19dc8c737ca6b19ae2ecf874f81f9f99a90b2c4adebddf2c77b"
     },
     {
       "path": "reports/trenches/movement_predictions.csv",
-      "sha256": "234fb07d719e21d635bd0160e18ff9d49e0f661d76ae317dcdc69f8795f34e6a"
+      "sha256": "40c8fb07edfb27509ff5a60ac944f7b693cc8ad2027aa86278d6a8fc5dccbdf8"
     },
     {
       "path": "reports/trenches/movement_summary.json",
-      "sha256": "7fea9e38ba0931bd454df1058c99b0d6ac421f5c0cbb3175783bc9f69cfc6c94"
+      "sha256": "558fb7c32d8a72b8046cc2cece95d92c855be9d03dd6e84e6a72d696231bcded"
     },
     {
       "path": "reports/trenches/ol_drill_suite_audit.csv",
-      "sha256": "0298ed1f1ec139454c81975d90afcab54eaf4cb1ff29a1aabb35908f3d73928c"
+      "sha256": "abb2f7d163bf97b867496eacc949041e2b635aa9203603ccd85984dbe926c486"
     },
     {
       "path": "reports/trenches/ol_early_movement_exclusions.csv",
-      "sha256": "8c70af86b8f14864fe97f7a4938865b1138941be74c3b5444570aaaa6ebd2369"
+      "sha256": "3b03640985f066405d95aca043695c883d40d31844427e5e0af16db7c101218c"
     },
     {
       "path": "reports/trenches/ol_movement_extraction_audit.json",
-      "sha256": "d8a88f89c8a1d1cd1ea59b72706a17da9efc1dd93629b64d7ba9aaa0d5ab0844"
+      "sha256": "8b432de465a6e1a04a197d0a4057625a6ab56a270312da637f11e1cd63b56ad8"
     },
     {
       "path": "reports/trenches/ol_rookie_coverage.csv",
-      "sha256": "131bd5e05869fdcc43325a83b72d87014d97887b549323940024387fd05b93f9"
+      "sha256": "27d27eca4e7747a98d739d50850fc9284dcfb179b1b4f272180232011fdd4758"
     },
     {
       "path": "reports/trenches/README_TR.md",
@@ -338,7 +338,7 @@
     },
     {
       "path": "submission_mirror/mirror_explorer.html",
-      "sha256": "28b7fd703ebf90bf18b9633ff536a9ddab61c619859bc081580256c3be87c456"
+      "sha256": "88e27223ff6416d3bacc6641d357150dc3bd96d111ed9234d0c545a6b1a63935"
     },
     {
       "path": "submission_mirror/mirror_phase_validation.executed.ipynb",
@@ -354,7 +354,7 @@
     },
     {
       "path": "submission_mirror/verification.json",
-      "sha256": "5475bc7c8f3f116c55890332adf93cd1656a76394ea0ef0c889eccdacd77ee2d"
+      "sha256": "fbea2d22dbe05a1430a95967a30a97bcd97e924b52c16d2608048451c3ea7999"
     },
     {
       "path": "submission_mirror/writeup_en.md",
@@ -362,7 +362,7 @@
     },
     {
       "path": "verification/mirror_result.json",
-      "sha256": "5475bc7c8f3f116c55890332adf93cd1656a76394ea0ef0c889eccdacd77ee2d"
+      "sha256": "fbea2d22dbe05a1430a95967a30a97bcd97e924b52c16d2608048451c3ea7999"
     }
   ]
 }

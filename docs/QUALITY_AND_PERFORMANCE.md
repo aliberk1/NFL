@@ -31,3 +31,5 @@ This run used Python 3.12.7, DuckDB 1.5.6, and Streamlit 1.37.1 on the developme
 ## Logs and user errors
 
 Application logs are newline-delimited JSON with event name, severity, and exception type. They intentionally omit exception messages, SQL values, request contents, and credentials. The UI and API return short, actionable messages; unexpected API failures use a generic response while retaining a safe event in server logs.
+
+Verified text research artifacts normalize CRLF to LF before SHA-256 verification. Their manifest hashes therefore match on Windows and Linux checkouts.
