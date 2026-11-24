@@ -40,11 +40,19 @@ def result(data, sources):
 
 
 def dataset_summary():
-    return result({
+    payload = result({
         "players": query("SELECT count(*) AS count, min(draft_year) AS first_draft, max(draft_year) AS last_draft FROM players"),
         "seasons": query("SELECT season, season_type, count(*) AS games FROM games GROUP BY season, season_type ORDER BY season, season_type"),
         "coverage": query("SELECT * FROM team_season_coverage ORDER BY season, team_abbr"),
     }, ["players", "games", "player_play"])
+    catalog = DB.parent / "catalog.json"
+    payload["provenance"] = None
+    if catalog.exists():
+        info = json.loads(catalog.read_text(encoding="utf-8"))
+        payload["provenance"] = {
+            key: info.get(key) for key in ("source", "loaded_at_utc", "data_version", "seasons")
+        }
+    return payload
 
 
 def search_players(name):
@@ -105,7 +113,10 @@ def _read_verified_research_artifact(package: str, relative_path: str) -> tuple[
     if not artifact_path.is_relative_to(ROOT.resolve()):
         raise ValueError(f"{relative_path} proje dizininin dışına çıkıyor.")
     content = artifact_path.read_bytes()
-    actual_digest = hashlib.sha256(content).hexdigest()
+    hash_content = content
+    if artifact_path.suffix.lower() in {".csv", ".html", ".json", ".md", ".txt"}:
+        hash_content = content.replace(b"\r\n", b"\n")
+    actual_digest = hashlib.sha256(hash_content).hexdigest()
     if actual_digest != entry["sha256"]:
         raise ValueError(f"{relative_path} manifestteki SHA-256 özetiyle eşleşmiyor.")
     return content, actual_digest
@@ -215,10 +226,14 @@ def player_performance(player_ids, season=None, season_type=None):
                count(pp.pressure_allowed) AS pressure_labeled_plays,
                avg(CAST(pp.pressure_allowed AS INTEGER)) AS pressure_allowed_rate,
                sum(pp.rec_yards) AS receiving_yards,
+               count(pp.rec_yards) AS receiving_labeled_plays,
                sum(pp.rush_yards) AS rushing_yards,
-               sum(CAST(pp.sack AS INTEGER)) AS sacks,
+               count(pp.rush_yards) AS rushing_labeled_plays,
+               sum(pp.sack) AS sacks,
                count(pp.sack) AS sack_labeled_plays,
-               sum(CAST(pp.sack AS INTEGER))::DOUBLE / count(DISTINCT pp.game_id) AS sacks_per_observed_game
+               sum(pp.tackle) AS tackles,
+               count(pp.tackle) AS tackle_labeled_plays,
+               sum(pp.sack) / count(DISTINCT pp.game_id) AS sacks_per_observed_game
         FROM player_play pp JOIN players p USING (nfl_id) JOIN games g USING (game_id)
         WHERE pp.nfl_id IN ({marks}) {season_filter}
         GROUP BY p.nfl_id, p.display_name, p.nfl_position, g.season, g.season_type, pp.team_abbr
@@ -228,19 +243,24 @@ def player_performance(player_ids, season=None, season_type=None):
     payload["metric_definitions"] = {
         "games": "Oyuncunun seçilen sezon/tür/takım grubunda kaydının bulunduğu benzersiz game_id sayısı. Maç birimindedir; oyuncu–oyun satırı veya takımın tüm maç sayısı değildir.",
         "player_play_rows": "Oyuncu–oyun kayıt sayısı. Bir maçta birden çok kayıt bulunur. Maç sayısı değildir.",
-        "sacks": "Datasetin sack alanındaki True kayıtların toplamı. Resmi yarım sack kredisi gibi ayrı bir ölçüm olduğu varsayılmaz.",
+        "sacks": "Datasetin sack alanındaki sayısal değerlerin toplamı; 0.5 gibi kesirli krediler korunur. Resmi istatistikle aynı olduğu varsayılmaz.",
         "sack_labeled_plays": "sack alanı dolu kayıtların sayısı. Toplam satırdan azsa sack ölçümünün kapsamı kısmi olabilir.",
+        "tackles": "Datasetin tackle alanındaki sayısal değerlerin toplamı; yalnızca etiketli oyunları kapsar.",
+        "tackle_labeled_plays": "tackle alanı dolu oyun sayısı; ölçüm kapsamını gösterir.",
         "sacks_per_observed_game": "Kodda hesaplanan sacks / games. Birimi gözlenen maç başına sack; pas baskısı fırsatı veya snap başına oran değildir.",
         "pressure_labeled_plays": "pressure_allowed alanı dolu kayıtların sayısı; pressure_allowed_rate paydasıdır.",
         "pressure_allowed_rate": "Etiketli kayıtlardaki baskı verme oranı (0–1). Savunmacının baskı üretme oranı değildir.",
         "receiving_yards": "Dolu rec_yards değerlerinin toplamı; tümü eksikse null.",
+        "receiving_labeled_plays": "rec_yards alanı dolu oyun sayısı; pas yardı ölçümünün kapsamıdır.",
         "rushing_yards": "Dolu rush_yards değerlerinin toplamı; tümü eksikse null.",
+        "rushing_labeled_plays": "rush_yards alanı dolu oyun sayısı; koşu yardı ölçümünün kapsamıdır.",
     }
     payload["interpretation_rules"] = [
         "PRE, REG ve POST gruplarını karıştırma. Farklı takımlardaki oranları basitçe ortalama.",
         "Tek metrik üstünlüğünü genel yetenek veya en güçlü/en iyi sezon olarak sunma.",
         "Maç başına sack artışı snap veya pass-rush fırsatı başına verim artışını kanıtlamaz.",
         "null eksiktir; sıfır değildir. Az gözlemde kesin üstünlük veya gelişim iddiası üretme.",
+        "Pozisyonlar farklı fırsatlara sahiptir: pressure_allowed özellikle hücum hattı, rec_yards pas yakalayıcılar, rush_yards koşu rolleri, sack savunma rolleri için anlamlıdır. Etiket sayısı ve gözlenen maç sayısı azsa oranları karşılaştırma.",
     ]
     payload["scope"] = {"season": season, "season_type": season_type or "PRE/REG/POST ayrı gruplar"}
     return payload

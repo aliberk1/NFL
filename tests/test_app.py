@@ -19,12 +19,13 @@ def database(tmp_path, monkeypatch):
     con.execute("INSERT INTO games VALUES (10, 2023, 'REG'), (20, 2024, 'REG')")
     con.execute("""CREATE TABLE player_play (
         game_id INTEGER, play_id INTEGER, nfl_id INTEGER, team_abbr VARCHAR,
-        pressure_allowed BOOLEAN, rec_yards DOUBLE, rush_yards DOUBLE, sack BOOLEAN)""")
+        pressure_allowed BOOLEAN, rec_yards DOUBLE, rush_yards DOUBLE, sack DOUBLE,
+        tackle BIGINT)""")
     con.execute("""INSERT INTO player_play VALUES
-        (10, 1, 1, 'X', true, NULL, NULL, NULL),
-        (10, 2, 1, 'X', false, NULL, NULL, NULL),
-        (10, 1, 2, 'X', NULL, NULL, NULL, NULL),
-        (20, 1, 1, 'X', false, NULL, NULL, NULL)""")
+        (10, 1, 1, 'X', true, NULL, NULL, NULL, NULL),
+        (10, 2, 1, 'X', false, NULL, NULL, NULL, NULL),
+        (10, 1, 2, 'X', NULL, NULL, NULL, NULL, NULL),
+        (20, 1, 1, 'X', false, NULL, NULL, NULL, NULL)""")
     con.close()
     monkeypatch.setattr(analytics, "DB", path)
 
@@ -43,7 +44,7 @@ def test_distinct_games_and_computed_sack_rate(database):
     with duckdb.connect(str(analytics.DB)) as con:
         con.execute("UPDATE player_play SET sack = (play_id = 1) WHERE nfl_id = 1")
         con.execute("INSERT INTO games VALUES (30, 2023, 'POST')")
-        con.execute("INSERT INTO player_play VALUES (30, 1, 1, 'X', false, NULL, NULL, true)")
+        con.execute("INSERT INTO player_play VALUES (30, 1, 1, 'X', false, NULL, NULL, true, NULL)")
     response = analytics.player_performance([1], 2023, "REG")
     row = response["data"][0]
     assert len(response["data"]) == 1
@@ -55,6 +56,17 @@ def test_distinct_games_and_computed_sack_rate(database):
     assert response["scope"]["season_type"] == "REG"
     assert "benzersiz" in response["metric_definitions"]["games"]
     assert analytics.player_performance([2], 2023, "REG")["data"][0]["sacks_per_observed_game"] is None
+
+
+def test_fractional_sacks_and_multiple_historical_teams(database):
+    with duckdb.connect(str(analytics.DB)) as con:
+        con.execute("UPDATE player_play SET sack = 0.5 WHERE game_id = 10 AND play_id = 1 AND nfl_id = 1")
+        con.execute("UPDATE player_play SET sack = 0 WHERE game_id = 10 AND play_id = 2 AND nfl_id = 1")
+        con.execute("UPDATE player_play SET team_abbr = 'Y' WHERE game_id = 20 AND nfl_id = 1")
+    rows = analytics.player_performance([1])["data"]
+    assert [(row["team_abbr"], row["sacks"]) for row in rows] == [("X", 0.5), ("Y", None)]
+    assert rows[0]["sacks_per_observed_game"] == 0.5
+    assert analytics.player_directory()["data"][0]["teams"] == "X, Y"
 
 
 def test_invalid_season_type(database):
@@ -91,6 +103,23 @@ def test_research_artifact_rejects_manifest_hash_mismatch(tmp_path, monkeypatch)
 
     with pytest.raises(ValueError, match="SHA-256"):
         analytics._read_verified_research_artifact("package", "reports/result.json")
+
+
+def test_research_text_artifact_hash_is_line_ending_independent(tmp_path, monkeypatch):
+    monkeypatch.setattr(analytics, "ROOT", tmp_path)
+    (tmp_path / "package").mkdir()
+    artifact = tmp_path / "reports" / "result.json"
+    artifact.parent.mkdir()
+    artifact.write_bytes(b'{\r\n  "value": 1\r\n}')
+    canonical = b'{\n  "value": 1\n}'
+    (tmp_path / "package" / "manifest.json").write_text(json.dumps({
+        "verification": {"status": "passed"},
+        "files": [{"path": "reports/result.json", "sha256": hashlib.sha256(canonical).hexdigest()}],
+    }), encoding="utf-8")
+
+    content, digest = analytics._read_verified_research_artifact("package", "reports/result.json")
+    assert content == b'{\r\n  "value": 1\r\n}'
+    assert digest == hashlib.sha256(canonical).hexdigest()
 
 
 @pytest.mark.parametrize("players,expected", [
