@@ -109,15 +109,21 @@ Actions `container` işi olarak çalışır.
 | --- | --- | --- |
 | Kurgusal demo verisi | Var | Depodaki kodla üretilir |
 | Yarışma CSV'leri | Yok | `.dockerignore` izin listesi dışında |
-| Araştırma çıktıları, oyuncu izleri, GIF/PNG görseller | Yok | Yarışma verisinden türetilmiştir; paylaşım izni doğrulanmadı |
+| Araştırma çıktıları, oyuncu izleri, GIF/PNG görseller | Yok | Yarışma verisinden türetilmiştir; demoda paylaşılmaz |
 | NFL logosu veya takım görseli | Yok | Uygulamada kullanılmaz |
 
-Durum: Yarışma kuralları sayfası otomatik olarak okunamadı (oturum gerektiriyor). Bu yüzden
-demo bu içerikleri yayınlamaz. **Depoda** hâlihazırda bulunan oyuncu düzeyindeki türetilmiş
-dosyaların (`mirror_explorer.html`, `reports/`, GIF/PNG) paylaşılabilirliğini, yarışmaya katılan
-bir ekip üyesi [kurallar sayfasında](https://www.kaggle.com/competitions/nfl-big-data-bowl-2027/rules)
-kontrol edip tarih ve ilgili maddeyle buraya yazmalıdır.
+Kaynak: [Resmî yarışma kuralları](https://www.kaggle.com/competitions/nfl-big-data-bowl-2027/rules),
+25 Kasım 2026'da okundu (Data Access and Use, Data Security, Code Sharing maddeleri). Bu bölüm hukuki görüş değildir.
 
-| Tarih | Kontrol eden | Madde | Sonuç |
-| --- | --- | --- | --- |
-| — | — | — | Bekliyor |
+| Kural | Demodaki karşılığı |
+| --- | --- |
+| Veri lisansı CC BY-NC 4.0; yalnızca ticari olmayan kullanım | Yarışma verisi yok |
+| Yarışma verisi, yarışmaya katılmayanlara aktarılamaz, yayınlanamaz | Yarışma verisi ve türevleri imaja girmez |
+| Yarışma kodu herkese açık paylaşılıyorsa Kaggle forumu veya notebook'unda da paylaşılmalıdır | Demoyu değil, depoyu ilgilendirir |
+
+Sonuç: **Demo yalnızca kurgusal veri yayınladığı için koşullarla uyumludur.**
+
+Açık konu (demo kapsamı dışında): Depoda Issue 6'dan önce eklenmiş, gerçek oyuncu düzeyinde
+araştırma dosyaları vardır (`submission_mirror/mirror_explorer.html`, `reports/` CSV'leri ve bunlardan
+üretilen görseller). Bunların ve herkese açık kodun kurallara uygunluğunu ekip ayrıca
+değerlendirmelidir; bu belge onlar için onay değildir.
