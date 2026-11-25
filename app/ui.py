@@ -331,7 +331,9 @@ st.set_page_config(page_title="NFL Veri Asistanı", page_icon="🏈", layout="wi
 st.title("🏈 NFL Veri Asistanı")
 if analytics.is_demo():
     st.warning(analytics.DEMO_NOTE)
-st.caption("Yalnızca yerel dataset • Gözlenen veriler ve kaynaklı analiz • MVP 0.1")
+    st.caption("Kurgusal örnek veri • Tanıtım ortamı • MVP 0.1")
+else:
+    st.caption("Yalnızca yerel dataset • Gözlenen veriler ve kaynaklı analiz • MVP 0.1")
 if not DB.exists():
     st.info("Oyuncu analizi i\u00e7in \u00f6nce `python -m pipelines.ingest` \u00e7al\u0131\u015ft\u0131r\u0131n. Ara\u015ft\u0131rma sonu\u00e7lar\u0131 manifestlerden g\u00f6r\u00fcnt\u00fclenebilir.")
     research, = st.tabs(["Ara\u015ft\u0131rma"])
