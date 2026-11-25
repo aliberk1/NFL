@@ -1,5 +1,19 @@
 # NFL Big Data Bowl 2027 — Araştırma ve Veri Analiz Asistanı
 
+[![Pull request checks](https://github.com/aliberk1/NFL/actions/workflows/pull-request.yml/badge.svg)](https://github.com/aliberk1/NFL/actions/workflows/pull-request.yml)
+[![Demo health](https://github.com/aliberk1/NFL/actions/workflows/demo-health.yml/badge.svg)](https://github.com/aliberk1/NFL/actions/workflows/demo-health.yml)
+
+**[Canlı demo](https://nfl-veri-asistani-demo.onrender.com/)** (kurgusal veri; uykudaysa açılması yaklaşık bir dakika sürer) ·
+[Mimari](docs/MIMARI.md) · [Sorun giderme](docs/SORUN_GIDERME.md) · [Sürüm notları](CHANGELOG.md) · [Sürüm süreci](docs/SURUM_SURECI.md)
+
+![Kurgusal veriyle kısa demo: oyuncu seçimi, karşılaştırma ve profil](docs/screenshots/demo.gif)
+
+| Karşılaştırma | Mobil |
+| --- | --- |
+| ![Kurgusal oyuncu karşılaştırması](docs/screenshots/issue-06-compare.png) | ![Mobil görünüm](docs/screenshots/issue-06-mobile.png) |
+
+Görüntülerdeki bütün oyuncular ve ölçümler kurgusaldır.
+
 Bu proje, **NFL oyuncularının Combine testlerindeki hareketlerinin maç performansına ne kadar yansıdığını araştırır** ve aynı veri setini Türkçe sorgulamak için bir analiz uygulaması sunar.
 
 Kısaca iki bölümden oluşur:
@@ -20,7 +34,7 @@ Kodlar takip verisindeki hareketi fazlara ayırır; yanal hareket, yön değişt
 - İncelenen üç OL drilindeki **470 kaydın tamamında** en yüksek hız çıkış sprintinde oluşmuştur. Bu sonuç incelenen örnekleme aittir.
 - Mirror drilinde **113 oyuncu** için tüm drilin hızıyla yanal faz hızının oyuncu sıralamaları neredeyse ilişkisizdir (`Spearman r = 0.005`).
 - Maç performansı modellemesi **50 çaylak OL ve 20.853 bire bir pas koruma oyununu** kapsar.
-- Faz ayrıştırılmış özellikler 2025 testinde küçük bir hata azalması sağlamıştır; ancak bootstrap güven aralıkları sıfırı içerir. **Tutarlı ek tahmin faydası kanıtlanmış değildir.**
+- Faz ayrıştırılmış özellikler 2025 testinde klasik modele göre küçük bir hata azalması sağlamıştır (MAE 2,502 → 2,482 puan); ancak bootstrap güven aralıkları sıfırı içerir. Aynı testte basit ortalama referansı (MAE 2,405) ikisinden de düşük hata vermiştir. **Tutarlı ek tahmin faydası kanıtlanmış değildir.**
 
 Çalışmanın temel katkısı, tek bir “hız” değerinin yanlış hareketi temsil edebileceğini göstermesi ve bunu incelemek için yeniden çalıştırılabilir bir analiz sunmasıdır.
 
@@ -38,7 +52,7 @@ Wide Receiver (**WR**, pas yakalayıcı) çalışması, Combine hız ölçümler
 
 - Maç analizi **58 çaylak WR ve 10.944 rota oyununu** kapsar.
 - Combine zirve hızıyla maç rota hızı arasında ilişki bulunmuştur.
-- Ancak klasik 40-yard koşu süresine ek tahmin katkısı yıllar arasında tutarlı değildir: 2024'te iyileşme görülürken 2025'te görülmemiştir.
+- Ancak klasik 40-yard koşu süresine ek tahmin katkısı yıllar arasında tutarlı değildir: 2024'te iyileşme görülürken 2025'te görülmemiştir; iki yılda da güven aralığı sıfırı içerir.
 
 [Araştırma yazısı](submission/writeup_en.md) · [Notebook](submission/receiver_speed_translation.ipynb) · [Çalıştırma rehberi](submission/README_TR.md)
 
@@ -65,11 +79,9 @@ Oyuncu analizi ve veri kapsamı ekranları LLM anahtarı olmadan çalışır. So
 - Kariyer toplamları zaman damgasızdır; geçmişe dönük tahmin modellerinde doğrudan girdi olarak kullanılmamalıdır.
 - Harici LLM kullanıldığında soru ve seçilen araç sonuçları sağlayıcıya gönderilir.
 
-Sonraki geliştirmeler: gerçek LLM bağlantısıyla uçtan uca sohbet doğrulaması, araştırma özelliklerinin uygulamaya aktarılması ve sayısal yanıtların araç çıktılarıyla otomatik karşılaştırılması.
+Sonraki adımlar: gerçek LLM bağlantısıyla uçtan uca sohbet doğrulaması ve benzer oyuncu araştırması. Tam liste: [bilinen sınırlar](CHANGELOG.md).
 
 ## Docker ile hızlı demo
-
-[Canlı demo (kurgusal veri)](https://nfl-veri-asistani-demo.onrender.com/) · uykudaysa açılması yaklaşık bir dakika sürer.
 
 ```sh
 docker compose up --build -d --wait
@@ -205,3 +217,10 @@ Ekip görev alma, bağımlılık kilidi ve PR süreci: [Ekip çalışma düzeni]
 - [Koç soruları ve geliştirme hedefleri](docs/KOC_SORULARI.md)
 
 HTML sunum ve inceleyicilerini kullanmak için dosyaları yerel olarak tarayıcıda açın.
+
+## Lisans ve veri koşulları
+
+- **Kod:** Lisans henüz depo sahibi tarafından belirlenmedi; bir lisans dosyası eklenene kadar kullanım izni verilmiş sayılmaz.
+- **Yarışma verisi:** Ayrı koşullara tabidir (CC BY-NC 4.0 ve [yarışma kuralları](https://www.kaggle.com/competitions/nfl-big-data-bowl-2027/rules)); ham CSV'ler depoda yoktur. Kod lisansı veriyi kapsamaz.
+- **Kurgusal demo verisi:** Depodaki kodla üretilir, yarışma verisi içermez.
+- Ayrıntılar ve açık konular: [Veri ve görsel paylaşım koşulları](docs/DEMO_VE_YAYIN.md#veri-ve-görsel-paylaşım-koşulları).
