@@ -55,7 +55,7 @@ diski olmayan barındırmada sayaç yeniden başlatmada sıfırlanır. Anahtarı
 
 ## HTTPS yayını (Render)
 
-1. Render → New → Blueprint ekranında bu depoyu seçin; `render.yaml` okunur.
+1. Render → New → Blueprint ekranında bu depoyu ve yayınlanacak dalı seçin; `render.yaml` okunur.
 2. Sohbet istenmiyorsa üç LLM değişkenini boş bırakın.
 3. Oluşan `https://…onrender.com` adresinde demo uyarısını ve oyuncu ekranını kontrol edin.
 4. GitHub → Settings → Secrets and variables → Actions → Variables altında `DEMO_URL` ekleyin.

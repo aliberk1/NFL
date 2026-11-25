@@ -4,7 +4,6 @@ services:
     name: nfl-veri-asistani-demo
     runtime: docker
     plan: free
-    branch: main
     autoDeployTrigger: "off"
     healthCheckPath: /_stcore/health
     envVars:
