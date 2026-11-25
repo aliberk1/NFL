@@ -4,7 +4,7 @@
 [![Demo health](https://github.com/aliberk1/NFL/actions/workflows/demo-health.yml/badge.svg)](https://github.com/aliberk1/NFL/actions/workflows/demo-health.yml)
 
 **[Canlı demo](https://nfl-veri-asistani-demo.onrender.com/)** (kurgusal veri; uykudaysa açılması yaklaşık bir dakika sürer) ·
-[Mimari](docs/MIMARI.md) · [Sorun giderme](docs/SORUN_GIDERME.md) · [Sürüm notları](CHANGELOG.md) · [Sürüm süreci](docs/SURUM_SURECI.md)
+[v0.1.0 sürümü](https://github.com/aliberk1/NFL/releases/tag/v0.1.0) · [Mimari](docs/MIMARI.md) · [Sorun giderme](docs/SORUN_GIDERME.md) · [Sürüm notları](CHANGELOG.md) · [Sürüm süreci](docs/SURUM_SURECI.md)
 
 ![Kurgusal veriyle kısa demo: oyuncu seçimi, karşılaştırma ve profil](docs/screenshots/demo.gif)
 
