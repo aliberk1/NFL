@@ -1,0 +1,11 @@
+{
+  "verification": {
+    "status": "passed"
+  },
+  "files": [
+    {
+      "path": "reports/similarity/summary.json",
+      "sha256": "5f464de87dd9a7eabee00ad10a738a0afd6cabcb124e3f1c3152895a71b7c579"
+    }
+  ]
+}

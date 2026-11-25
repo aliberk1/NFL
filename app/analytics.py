@@ -9,6 +9,7 @@ from typing import Any
 
 import duckdb
 
+from app import similarity
 from app.config import DB, ROOT
 
 logger = logging.getLogger("nfl")
@@ -151,6 +152,36 @@ def player_profile(player_id):
         "combine": query("SELECT * FROM combine_results WHERE nfl_id = ?", [player_id]),
         "career_snapshot": query("SELECT * FROM player_career_successes WHERE nfl_id = ?", [player_id]),
     }, ["players", "combine_results", "player_career_successes"])
+
+
+SIMILARITY_NOTES = [
+    "Benzerlik yalnızca Combine ölçümlerine dayanır; gelecekte eşit başarı anlamına gelmez.",
+    "Mesafe bir olasılık veya kalite puanı değildir; farklı pozisyon gruplarının mesafeleri karşılaştırılamaz.",
+    "Mesafe aralığı, ölçümler tek tek çıkarıldığında görülen en küçük ve en büyük değerdir; güven aralığı değildir.",
+]
+
+
+def similar_players(player_id):
+    rows = query("SELECT nfl_id, display_name, nfl_position, draft_year FROM players WHERE nfl_id = ?", [player_id])
+    if not rows:
+        return result({"status": "player_not_found", "neighbors": []}, ["players", "combine_results"])
+    group = similarity.group_for(rows[0]["nfl_position"])
+    positions = similarity.GROUPS[group]["positions"] if group else (rows[0]["nfl_position"],)
+    marks = ",".join("?" for _ in positions)
+    pool = query(f"""
+        SELECT c.*, p.display_name, p.nfl_position FROM players p
+        JOIN combine_results c ON c.nfl_id = p.nfl_id AND c.draft_year = p.draft_year
+        WHERE p.nfl_position IN ({marks}) ORDER BY p.nfl_id
+    """, list(positions))
+    target = next((row for row in pool if row["nfl_id"] == player_id), rows[0])
+    payload = result(similarity.similar(target, pool), ["players", "combine_results"])
+    payload["interpretation_rules"] = SIMILARITY_NOTES
+    return payload
+
+
+def similarity_study():
+    summary, digest = _verified_research_json("reports/similarity", "reports/similarity/summary.json")
+    return {"summary": summary, "digest": digest}
 
 
 def _read_verified_research_artifact(package: str, relative_path: str) -> tuple[bytes, str]:

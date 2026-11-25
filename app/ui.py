@@ -71,6 +71,36 @@ def show_performance(payload, rows=None):
     st.caption("Kayıtlı maç: oyuncunun yer aldığı benzersiz maç. Kayıtlı oyun: maçların içindeki oyuncu–oyun kayıtları. Boş alan, sıfır değil eksik bilgidir.")
 
 
+SIMILAR_MESSAGES = {
+    "unsupported_position": "Bu pozisyon için benzerlik ölçütü tanımlı değil.",
+    "small_pool": "Karşılaştırma havuzu güvenilir bir liste için çok küçük.",
+    "insufficient_measurements": "Yeterli ortak Combine ölçümü yok; eksik değerler tahminle doldurulmaz.",
+    "player_not_found": "Oyuncu kaydı bulunamadı.",
+}
+
+
+def show_similar(player_id):
+    payload = analytics.similar_players(player_id)
+    data = payload["data"]
+    if data["status"] != "ok":
+        st.info(SIMILAR_MESSAGES[data["status"]])
+        return
+    total = len(data["features"])
+    labels = {key: label for key, label, _ in COMBINE_FIELDS}
+    st.caption(f"Grup: {data['group']} · Karşılaştırma havuzu: {data['pool_size']} oyuncu · "
+               f"Ölçütler: {', '.join(labels[name] for name in data['features'])}")
+    st.table(pd.DataFrame([{
+        "Oyuncu": row["display_name"], "Pozisyon": row["nfl_position"], "Draft yılı": str(row["draft_year"]),
+        "Mesafe (küçük = yakın)": f"{row['distance']:.2f}",
+        "Mesafe aralığı": f"{row['distance_low']:.2f}–{row['distance_high']:.2f}",
+        "Ortak ölçüm": f"{row['shared_features']}/{total}",
+        "Listede kalma": f"{row['stability']:.0%}",
+    } for row in data["neighbors"]]))
+    for note in payload["interpretation_rules"]:
+        st.caption(note)
+    st.caption("Listede kalma: ölçümler tek tek çıkarıldığında oyuncunun ilk beşte kaldığı denemelerin oranı.")
+
+
 def show_profile(player_id, directory_entry, expanded=False):
     profile = analytics.player_profile(player_id)
     player = next(iter(profile["data"]["player"]), None)
@@ -83,7 +113,8 @@ def show_profile(player_id, directory_entry, expanded=False):
                      expanded=expanded):
         st.caption("Kayıtlı takımlar: " + (", ".join(teams) if teams else "Bilgi yok") +
                    " · Bu liste güncel kadroyu göstermez.")
-        profile_tab, combine_tab, career_tab, technical_tab = st.tabs(["Profil", "Combine", "Kariyer", "Teknik"])
+        profile_tab, combine_tab, similar_tab, career_tab, technical_tab = st.tabs(
+            ["Profil", "Combine", "Benzer profiller", "Kariyer", "Teknik"])
         with profile_tab:
             st.table(pd.DataFrame(formatted_fields(player, PLAYER_FIELDS)))
         with combine_tab:
@@ -94,6 +125,8 @@ def show_profile(player_id, directory_entry, expanded=False):
                     st.table(pd.DataFrame(formatted_fields(record, COMBINE_FIELDS)))
             else:
                 st.info("Bu oyuncu için Combine kaydı yok.")
+        with similar_tab:
+            show_similar(player_id)
         with career_tab:
             career = profile["data"]["career_snapshot"]
             if career:
@@ -309,6 +342,33 @@ def show_wr_research(study):
 
 
 
+MODEL_NAMES = {
+    "mean": "Ortalama (referans)", "position_mean": "Pozisyon ortalaması", "ridge": "Ridge",
+    "similar_k5": "Benzer 5 oyuncu (ana)", "similar_k3": "Benzer 3 oyuncu (duyarlılık)",
+    "similar_k7": "Benzer 7 oyuncu (duyarlılık)",
+}
+
+
+def show_similarity_study(study):
+    summary = study["summary"]
+    st.subheader("Benzer oyuncular sonraki draft sınıfını tahmin etmeye yardımcı mı?")
+    if not summary["consistent_benefit_shown"]:
+        st.warning("Tutarlı tahmin faydası gösterilemedi. Benzerlik listeleri yalnızca betimseldir.")
+    for name, item in summary["studies"].items():
+        st.markdown(f"#### {name} · {item['target_label']}")
+        for fold in item["folds"]:
+            st.caption(f"Eğitim: {', '.join(map(str, fold['train_years']))} ({fold['train_players']} oyuncu) · "
+                       f"Test: {fold['test_year']} ({fold['test_players']} oyuncu)")
+            st.table(pd.DataFrame([{
+                "Model": MODEL_NAMES[score["model"]], "MAE": f"{score['mae']:.3f}", "RMSE": f"{score['rmse']:.3f}",
+                "MAE azalması": f"{score['improvement_over_mean']:+.3f}" if "ci_low" in score else "—",
+                "%95 aralık": f"[{score['ci_low']:+.3f}, {score['ci_high']:+.3f}]" if "ci_low" in score else "—",
+            } for score in fold["scores"]]))
+    st.caption("Pozitif MAE azalması ortalamadan iyi demektir. Aralıklar eğitim ve test oyuncularını yeniden örnekler.")
+    show_limitations(summary["limitations"], {})
+    show_research_source({"summary": study["digest"], "veri": summary["data_version"]})
+
+
 def show_research():
     if analytics.is_demo():
         st.info("Demo yalnızca kurgusal veri içerir. Gerçek oyunculara ait araştırma çıktıları "
@@ -316,15 +376,19 @@ def show_research():
         return
     try:
         studies = analytics.research_snapshot()
+        similarity_results = analytics.similarity_study()
     except FileNotFoundError as exc:
         logger.warning("research_unavailable", extra={"event": "research_unavailable", "error_type": type(exc).__name__})
         st.info("Araştırma çıktıları bu kurulumda bulunmuyor.")
         return
-    ol_research, wr_research = st.tabs(["OL faz ayr\u0131\u015ft\u0131rmas\u0131", "WR h\u0131z aktar\u0131m\u0131"])
+    ol_research, wr_research, similarity_research = st.tabs(
+        ["OL faz ayr\u0131\u015ft\u0131rmas\u0131", "WR h\u0131z aktar\u0131m\u0131", "Benzerlik deneyi"])
     with ol_research:
         show_ol_research(studies["ol"])
     with wr_research:
         show_wr_research(studies["wr"])
+    with similarity_research:
+        show_similarity_study(similarity_results)
 
 
 st.set_page_config(page_title="NFL Veri Asistanı", page_icon="🏈", layout="wide")

@@ -65,6 +65,11 @@ def player(player_id: int):
     return analytics.player_profile(player_id)
 
 
+@app.get("/players/{player_id}/similar")
+def similar(player_id: int):
+    return analytics.similar_players(player_id)
+
+
 @app.post("/chat")
 def chat(request: ChatRequest, http: Request):
     try:
