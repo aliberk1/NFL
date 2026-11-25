@@ -7,7 +7,7 @@ from decimal import Decimal, InvalidOperation
 
 import httpx
 
-from app import analytics
+from app import analytics, limits
 
 FUNCTIONS = {
     "dataset_summary": analytics.dataset_summary,
@@ -274,6 +274,8 @@ def provenance_line(evidence):
         ))
     if sources:
         parts.append("Kaynak tablolar: " + ", ".join(sorted(sources)))
+    if any(item.get("result", {}).get("kind") == "synthetic_demo" for item in evidence):
+        parts.insert(0, "KURGUSAL DEMO VERİSİ")
     return "**Kanıt kapsamı:** " + " · ".join(parts) if parts else ""
 
 
@@ -284,7 +286,29 @@ def finalize_answer(text, evidence):
     return text + ("\n\n" + provenance if provenance else "")
 
 
-def answer(question, history=None):
+def limited_completion(client, base, key, payload):
+    """Apply the output cap and daily token budget around one provider call."""
+    field = os.environ.get("NFL_LLM_MAX_TOKENS_FIELD", "").strip() or "max_tokens"
+    if field not in ("max_tokens", "max_completion_tokens"):
+        raise ValueError("NFL_LLM_MAX_TOKENS_FIELD max_tokens veya max_completion_tokens olmalıdır.")
+    payload = {**payload, field: limits.setting("NFL_LLM_MAX_OUTPUT_TOKENS")}
+    reservation = limits.reserve_tokens(len(analytics.as_json(payload).encode("utf-8")))
+    try:
+        response = request_completion(client, base, key, payload)
+    except ValueError:
+        # The provider rejected the request, so it produced no billable completion.
+        limits.settle_tokens(reservation, 0)
+        raise
+    usage = response.json().get("usage") or {}
+    limits.settle_tokens(reservation, usage.get("total_tokens"))
+    return response
+
+
+def provider_configured():
+    return all(os.environ.get(name, "").strip() for name in ("NFL_LLM_API_KEY", "NFL_LLM_MODEL"))
+
+
+def answer(question, history=None, client_id="local"):
     key = os.environ.get("NFL_LLM_API_KEY", "").strip()
     model = os.environ.get("NFL_LLM_MODEL", "").strip()
     if not key or not model:
@@ -295,12 +319,13 @@ def answer(question, history=None):
     for entry in (history or [])[-12:]:
         messages.append({"role": entry["role"], "content": entry["content"]})
     messages.append({"role": "user", "content": question})
+    limits.register_chat(client_id)
     evidence = []
     tool_call_count = 0
     with httpx.Client(timeout=httpx.Timeout(
             connect=30, read=PROVIDER_READ_TIMEOUT_SECONDS, write=30, pool=30)) as client:
         for step in range(MAX_TOOL_ROUNDS):
-            response = request_completion(client, base, key, {
+            response = limited_completion(client, base, key, {
                 "model": model, "messages": messages, "tools": TOOLS,
                 "tool_choice": "required" if step == 0 else "auto"})
             message = response.json()["choices"][0]["message"]

@@ -42,9 +42,26 @@ def query(sql, params=None):
         raise
 
 
+DEMO_NOTE = (
+    "DEMO: Bütün oyuncu, takım, maç ve ölçümler kurgusaldır; gerçek NFL verisi değildir."
+)
+
+
+def _catalog():
+    path = DB.parent / "catalog.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+def is_demo():
+    """Decided by the loaded database's own catalog, not by an environment flag."""
+    return DB.exists() and _catalog().get("demo") is True
+
+
 def result(data, sources):
-    return {"data": data, "sources": sources, "coverage_notes": [COVERAGE_NOTE],
-            "kind": "observed", "model_version": None}
+    demo = is_demo()
+    return {"data": data, "sources": sources,
+            "coverage_notes": ([DEMO_NOTE] if demo else []) + [COVERAGE_NOTE],
+            "kind": "synthetic_demo" if demo else "observed", "model_version": None}
 
 
 def dataset_summary():
@@ -53,10 +70,9 @@ def dataset_summary():
         "seasons": query("SELECT season, season_type, count(*) AS games FROM games GROUP BY season, season_type ORDER BY season, season_type"),
         "coverage": query("SELECT * FROM team_season_coverage ORDER BY season, team_abbr"),
     }, ["players", "games", "player_play"])
-    catalog = DB.parent / "catalog.json"
+    info = _catalog()
     payload["provenance"] = None
-    if catalog.exists():
-        info = json.loads(catalog.read_text(encoding="utf-8"))
+    if info:
         payload["provenance"] = {
             key: info.get(key) for key in ("source", "loaded_at_utc", "data_version", "seasons")
         }
