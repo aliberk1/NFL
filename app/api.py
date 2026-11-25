@@ -1,6 +1,6 @@
 import httpx
 import logging
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 from typing import Literal
@@ -8,6 +8,7 @@ from typing import Literal
 from app import analytics
 from app.assistant import answer
 from app.config import DB
+from app.limits import LimitExceeded
 from app.observability import configure_logging
 
 configure_logging()
@@ -39,6 +40,16 @@ def health():
     return {"status": "ok", "database_ready": DB.exists()}
 
 
+@app.get("/ready")
+def ready():
+    try:
+        analytics.query("SELECT count(*) AS n FROM players")
+    except Exception as exc:
+        logger.error("readiness_failed", extra={"event": "readiness_failed", "error_type": type(exc).__name__})
+        raise HTTPException(503, "Veritabanı sorgulanamıyor.") from exc
+    return {"status": "ready", "demo": analytics.is_demo()}
+
+
 @app.get("/dataset")
 def dataset():
     return analytics.dataset_summary()
@@ -55,9 +66,13 @@ def player(player_id: int):
 
 
 @app.post("/chat")
-def chat(request: ChatRequest):
+def chat(request: ChatRequest, http: Request):
     try:
-        return answer(request.question, [m.model_dump() for m in request.history])
+        client = http.client.host if http.client else "unknown"
+        return answer(request.question, [m.model_dump() for m in request.history], client_id=f"api:{client}")
+    except LimitExceeded as exc:
+        logger.warning("chat_limited", extra={"event": "chat_limited", "error_type": "LimitExceeded"})
+        raise HTTPException(429, str(exc)) from exc
     except ValueError as exc:
         logger.warning("chat_request_rejected", extra={"event": "chat_request_rejected", "error_type": type(exc).__name__})
         raise HTTPException(400, str(exc)) from exc

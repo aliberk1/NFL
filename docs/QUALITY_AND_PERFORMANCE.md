@@ -7,7 +7,7 @@ Use Python 3.11 (the same version as CI) and install the development dependencie
 ```powershell
 python -m pip install -r requirements-dev.txt
 python -m pytest -q
-ruff check --select E4,E7,E9,F app/analytics.py app/api.py app/assistant.py app/config.py app/observability.py app/ui.py tests scripts/measure_player_directory.py
+ruff check --select E4,E7,E9,F app pipelines tests scripts/measure_player_directory.py
 ```
 
 To run the application, prepare the local dataset with `python -m pipelines.ingest`, then start Streamlit with `streamlit run app/ui.py`. The database defaults to `data/curated/nfl.duckdb`; set `NFL_DB_PATH` to use another DuckDB file. Chat credentials are configured through environment variables described in `docs/LLM_KURULUMU.md` and are never emitted in logs.
