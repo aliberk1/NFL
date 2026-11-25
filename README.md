@@ -69,6 +69,8 @@ Sonraki geliştirmeler: gerçek LLM bağlantısıyla uçtan uca sohbet doğrulam
 
 ## Docker ile hızlı demo
 
+[Canlı demo (kurgusal veri)](https://nfl-veri-asistani-demo.onrender.com/) · uykudaysa açılması yaklaşık bir dakika sürer.
+
 ```sh
 docker compose up --build -d --wait
 ```

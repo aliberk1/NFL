@@ -64,6 +64,7 @@ def test_demo_ui_runs_and_hides_research(demo, monkeypatch):
     app = AppTest.from_file(str(config.ROOT / "app" / "ui.py"), default_timeout=30).run()
     assert not app.exception
     assert analytics.DEMO_NOTE in [item.value for item in app.warning]
+    assert not any("Gözlenen veriler" in item.value for item in app.caption)
     assert any("sağlayıcısı yapılandırılmamış" in item.value for item in app.info)
 
 
