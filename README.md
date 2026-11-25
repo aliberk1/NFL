@@ -63,6 +63,7 @@ Streamlit arayüzünde:
 - Oyuncuları adlarına göre arayabilir, profillerini ve Combine bilgilerini inceleyebilirsiniz.
 - Aynı pozisyon ve draft sınıfından en fazla 10 oyuncunun kayıtlı sezon performansını karşılaştırabilirsiniz.
 - Normal sezon, play-off ve sezon öncesi kayıtlarını ayrı görüntüleyebilirsiniz.
+- Profildeki **Benzer profiller** sekmesinde aynı pozisyon grubundan Combine ölçümleri en yakın beş oyuncuyu, havuz büyüklüğü ve mesafe aralığıyla görebilirsiniz. Bu liste başarı tahmini değildir; [ileri-yıl deneyinde](docs/BENZER_OYUNCU.md) tutarlı tahmin faydası gösterilemedi.
 - Veri setinde hangi takım ve sezonların ne ölçüde temsil edildiğini görebilirsiniz.
 - **Araştırma** sekmesinde OL mirror fazlarını zaman/hız grafiğinde inceleyebilir; WR hız aktarım sonuçlarını, kohortları ve sınırlarını görebilirsiniz. Araştırma çıktıları manifestteki SHA-256 özetleriyle doğrulanır; bu sekme temel DuckDB veritabanı oluşturulmadan da açılır.
 - Bir LLM sağlayıcısı bağlayarak veri seti hakkında Türkçe sorular sorabilir, cevabın dayandığı araç çıktılarını açabilir ve konuşmayı indirebilirsiniz.
@@ -79,7 +80,7 @@ Oyuncu analizi ve veri kapsamı ekranları LLM anahtarı olmadan çalışır. So
 - Kariyer toplamları zaman damgasızdır; geçmişe dönük tahmin modellerinde doğrudan girdi olarak kullanılmamalıdır.
 - Harici LLM kullanıldığında soru ve seçilen araç sonuçları sağlayıcıya gönderilir.
 
-Sonraki adımlar: gerçek LLM bağlantısıyla uçtan uca sohbet doğrulaması ve benzer oyuncu araştırması. Tam liste: [bilinen sınırlar](CHANGELOG.md).
+Sonraki adımlar: gerçek LLM bağlantısıyla uçtan uca sohbet doğrulaması ve yeni sezonla bağımsız doğrulama. Tam liste: [bilinen sınırlar](CHANGELOG.md).
 
 ## Docker ile hızlı demo
 

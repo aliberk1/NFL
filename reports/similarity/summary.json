@@ -1,0 +1,355 @@
+{
+  "status": "exploratory",
+  "settings": {
+    "primary_k": 5,
+    "sensitivity_k": [
+      3,
+      7
+    ],
+    "ridge_alpha": 10.0,
+    "min_shared_features": 4,
+    "min_shared_fraction": 0.6,
+    "bootstrap_resamples": 2000,
+    "seed": 20270108,
+    "folds": [
+      [
+        [
+          2023
+        ],
+        2024
+      ],
+      [
+        [
+          2023,
+          2024
+        ],
+        2025
+      ]
+    ],
+    "primary_metric": "player-level mean absolute error"
+  },
+  "inputs_sha256": {
+    "reports/speed_study/descriptive_player_means.csv": "8861a33d8f7d959aa651f0d24eb14c29dcb31f66ec0af569e976edacdd12079c",
+    "reports/trenches/movement_player_means.csv": "2f81dc980371f19dc8c737ca6b19ae2ecf874f81f9f99a90b2c4adebddf2c77b"
+  },
+  "data_version": "87f57b41f3a28868e97927499d79f170ab6b371f2021552095a6118e62b4d88b",
+  "code_sha256": {
+    "app/similarity.py": "95b609d8462133b1212d357785ccf4e1f900e850fe1b9746b48298393aa7517d",
+    "scripts/evaluate_similarity.py": "bebff489cfb7993ccfe7342cffaa8aa5a35de3f99d67dc2d1db649829bacd2f6"
+  },
+  "studies": {
+    "WR": {
+      "target": "game_peak_speed",
+      "target_label": "Çaylak sezonu rota zirve hızı (veri birimi)",
+      "players": 58,
+      "features": [
+        "combine_height",
+        "combine_weight",
+        "arm_length",
+        "ten_yd_split",
+        "forty",
+        "vertical",
+        "broad_jump",
+        "three_cone"
+      ],
+      "missing": {
+        "combine_height": 0,
+        "combine_weight": 0,
+        "arm_length": 0,
+        "ten_yd_split": 0,
+        "forty": 0,
+        "vertical": 5,
+        "broad_jump": 4,
+        "three_cone": 39
+      },
+      "folds": [
+        {
+          "train_years": [
+            2023
+          ],
+          "test_year": 2024,
+          "train_players": 22,
+          "test_players": 20,
+          "scores": [
+            {
+              "model": "mean",
+              "mae": 0.298771,
+              "rmse": 0.343326,
+              "fallback_players": 0
+            },
+            {
+              "model": "position_mean",
+              "mae": 0.298771,
+              "rmse": 0.343326,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0
+            },
+            {
+              "model": "ridge",
+              "mae": 0.279163,
+              "rmse": 0.35488,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.019608,
+              "ci_low": -0.237422,
+              "ci_high": 0.098078
+            },
+            {
+              "model": "similar_k5",
+              "mae": 0.251679,
+              "rmse": 0.330104,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.047091,
+              "ci_low": -0.077358,
+              "ci_high": 0.127583
+            },
+            {
+              "model": "similar_k3",
+              "mae": 0.248538,
+              "rmse": 0.312418,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.050233,
+              "ci_low": -0.093704,
+              "ci_high": 0.147454
+            },
+            {
+              "model": "similar_k7",
+              "mae": 0.241792,
+              "rmse": 0.319244,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.056979,
+              "ci_low": -0.054253,
+              "ci_high": 0.121375
+            }
+          ]
+        },
+        {
+          "train_years": [
+            2023,
+            2024
+          ],
+          "test_year": 2025,
+          "train_players": 42,
+          "test_players": 16,
+          "scores": [
+            {
+              "model": "mean",
+              "mae": 0.22514,
+              "rmse": 0.285053,
+              "fallback_players": 0
+            },
+            {
+              "model": "position_mean",
+              "mae": 0.22514,
+              "rmse": 0.285053,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.0,
+              "ci_low": 0.0,
+              "ci_high": 0.0
+            },
+            {
+              "model": "ridge",
+              "mae": 0.186444,
+              "rmse": 0.234863,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.038696,
+              "ci_low": -0.057306,
+              "ci_high": 0.107601
+            },
+            {
+              "model": "similar_k5",
+              "mae": 0.231589,
+              "rmse": 0.313953,
+              "fallback_players": 0,
+              "improvement_over_mean": -0.00645,
+              "ci_low": -0.13081,
+              "ci_high": 0.085559
+            },
+            {
+              "model": "similar_k3",
+              "mae": 0.261076,
+              "rmse": 0.335432,
+              "fallback_players": 0,
+              "improvement_over_mean": -0.035937,
+              "ci_low": -0.185034,
+              "ci_high": 0.074228
+            },
+            {
+              "model": "similar_k7",
+              "mae": 0.218297,
+              "rmse": 0.293791,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.006843,
+              "ci_low": -0.105005,
+              "ci_high": 0.093786
+            }
+          ]
+        }
+      ]
+    },
+    "OL": {
+      "target": "game_lateral_speed_p75",
+      "target_label": "Çaylak sezonu erken yanal hız (veri birimi)",
+      "players": 50,
+      "features": [
+        "combine_height",
+        "combine_weight",
+        "arm_length",
+        "ten_yd_split",
+        "vertical",
+        "broad_jump",
+        "short_shuttle"
+      ],
+      "missing": {
+        "combine_height": 0,
+        "combine_weight": 0,
+        "arm_length": 0,
+        "ten_yd_split": 10,
+        "vertical": 8,
+        "broad_jump": 6,
+        "short_shuttle": 24
+      },
+      "folds": [
+        {
+          "train_years": [
+            2023
+          ],
+          "test_year": 2024,
+          "train_players": 17,
+          "test_players": 16,
+          "scores": [
+            {
+              "model": "mean",
+              "mae": 0.116055,
+              "rmse": 0.132727,
+              "fallback_players": 0
+            },
+            {
+              "model": "position_mean",
+              "mae": 0.119428,
+              "rmse": 0.136948,
+              "fallback_players": 0,
+              "improvement_over_mean": -0.003373,
+              "ci_low": -0.047727,
+              "ci_high": 0.023302
+            },
+            {
+              "model": "ridge",
+              "mae": 0.127665,
+              "rmse": 0.154004,
+              "fallback_players": 0,
+              "improvement_over_mean": -0.01161,
+              "ci_low": -0.123029,
+              "ci_high": 0.017176
+            },
+            {
+              "model": "similar_k5",
+              "mae": 0.133947,
+              "rmse": 0.158426,
+              "fallback_players": 2,
+              "improvement_over_mean": -0.017892,
+              "ci_low": -0.069282,
+              "ci_high": 0.013232
+            },
+            {
+              "model": "similar_k3",
+              "mae": 0.145863,
+              "rmse": 0.166741,
+              "fallback_players": 2,
+              "improvement_over_mean": -0.029808,
+              "ci_low": -0.096835,
+              "ci_high": 0.012566
+            },
+            {
+              "model": "similar_k7",
+              "mae": 0.133516,
+              "rmse": 0.15103,
+              "fallback_players": 2,
+              "improvement_over_mean": -0.017461,
+              "ci_low": -0.054564,
+              "ci_high": 0.011079
+            }
+          ]
+        },
+        {
+          "train_years": [
+            2023,
+            2024
+          ],
+          "test_year": 2025,
+          "train_players": 33,
+          "test_players": 17,
+          "scores": [
+            {
+              "model": "mean",
+              "mae": 0.113339,
+              "rmse": 0.148107,
+              "fallback_players": 0
+            },
+            {
+              "model": "position_mean",
+              "mae": 0.110902,
+              "rmse": 0.147147,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.002437,
+              "ci_low": -0.024882,
+              "ci_high": 0.016237
+            },
+            {
+              "model": "ridge",
+              "mae": 0.111664,
+              "rmse": 0.148668,
+              "fallback_players": 0,
+              "improvement_over_mean": 0.001675,
+              "ci_low": -0.053184,
+              "ci_high": 0.013848
+            },
+            {
+              "model": "similar_k5",
+              "mae": 0.127554,
+              "rmse": 0.162143,
+              "fallback_players": 2,
+              "improvement_over_mean": -0.014215,
+              "ci_low": -0.062071,
+              "ci_high": 0.020092
+            },
+            {
+              "model": "similar_k3",
+              "mae": 0.147458,
+              "rmse": 0.18402,
+              "fallback_players": 2,
+              "improvement_over_mean": -0.034119,
+              "ci_low": -0.084328,
+              "ci_high": 0.012385
+            },
+            {
+              "model": "similar_k7",
+              "mae": 0.121841,
+              "rmse": 0.155493,
+              "fallback_players": 2,
+              "improvement_over_mean": -0.008502,
+              "ci_low": -0.048336,
+              "ci_high": 0.024038
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "consistent_benefit_shown": false,
+  "independent_validation": "not_performed",
+  "limitations": [
+    "Örneklemler küçüktür: testlerde yalnızca 16–20 oyuncu vardır.",
+    "Aynı oyuncu ve yılların sonuçları önceki araştırmalarda incelenmiştir; bu analiz keşifseldir.",
+    "Yeni sezon veya bağımsız oyuncu örneklemi bulunmadığından bağımsız doğrulama yapılmamıştır.",
+    "Ham yarışma CSV'leri bu çalışmada yoktu; sonuçlar kayıtlı araştırma tablolarından hesaplanmıştır.",
+    "Hedefler hareket ölçümleridir; genel oyuncu başarısı değildir.",
+    "Yalnızca Combine'a katılan ve maç kaydı bulunan oyuncular dahildir; bu seçim yanlılığı yaratabilir.",
+    "Çoklu model ve k değeri için düzeltme yapılmamıştır."
+  ],
+  "environment": {
+    "python": "3.11.9",
+    "numpy": "2.2.6"
+  }
+}

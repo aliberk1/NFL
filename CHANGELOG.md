@@ -1,5 +1,10 @@
 # Sürüm notları
 
+## Yayınlanmamış
+
+- Pozisyona göre benzer Combine profilleri ve ileri-yıl değerlendirmesi; tutarlı tahmin faydası gösterilemedi (#8)
+- Bağımsız doğrulama yapılmadı; yeni sezon verisi ve ham yarışma CSV'leri yoktu.
+
 ## v0.1.0 — 25 Kasım 2026
 
 İlk ürün sürümü.
