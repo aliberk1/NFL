@@ -1,6 +1,6 @@
 # Sürüm notları
 
-## v0.1.0 — yayın bekliyor
+## v0.1.0 — 25 Kasım 2026
 
 İlk ürün sürümü.
 
@@ -22,5 +22,6 @@
 - Uygulama tracking verisini yüklemez ve model eğitmez.
 - Açık demo kurgusaldır, araştırma ekranını göstermez; ücretsiz sunucu uykuya geçebilir ve kullanım sayaçları yeniden başlatmada sıfırlanır.
 - Araştırma keşifseldir ve örneklemler küçüktür. Tutarlı ek tahmin faydası kanıtlanmamıştır; 2025 OL testinde basit ortalama, faz modelinden daha düşük MAE vermiştir.
-- Kod lisansı henüz belirlenmemiştir.
+- Kod lisansı henüz belirlenmemiştir; lisans eklenene kadar kullanım izni verilmiş sayılmaz.
+- Temiz kurulum yeni bir klonda denenmiştir, ancak başka bir ekip üyesince henüz doğrulanmamıştır; ekip incelemesi yapılmamıştır.
 - Depodaki oyuncu düzeyi araştırma dosyalarının paylaşım durumu ekip değerlendirmesi beklemektedir.
