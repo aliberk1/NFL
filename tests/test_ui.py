@@ -63,7 +63,7 @@ def ui(monkeypatch, tmp_path):
     monkeypatch.setattr(analytics, "player_profile", lambda player_id: {"data": {
         "player": [], "combine": [], "career_snapshot": [],
     }})
-    monkeypatch.setattr(assistant, "answer", lambda question, history: {
+    monkeypatch.setattr(assistant, "answer", lambda question, history, client_id=None: {
         "answer": "Test yanıtı", "evidence": [],
     })
     return AppTest.from_file(str(Path(__file__).parents[1] / "app" / "ui.py"), default_timeout=20).run()

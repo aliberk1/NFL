@@ -93,12 +93,13 @@ def validate_table(con, table, report, errors):
             errors.append(f"{table}: {duplicates} tekrar anahtar grubu")
 
 
-def build():
+def build(data=None, source_name="NFL Big Data Bowl 2027 local CSV", demo=False):
+    data = data or DATA
     DB.parent.mkdir(parents=True, exist_ok=True)
     staging = DB.with_suffix(".building.duckdb")
     if staging.exists():
         staging.unlink()
-    report = {"source": "NFL Big Data Bowl 2027 local CSV",
+    report = {"source": source_name, "demo": demo,
               "loaded_at_utc": datetime.now(timezone.utc).isoformat(),
               "tables": {}, "foreign_keys": {}, "errors": []}
     errors = report["errors"]
@@ -106,7 +107,7 @@ def build():
     try:
         sources = {}
         for table in SCHEMA:
-            path = DATA / f"{table}.csv"
+            path = data / f"{table}.csv"
             if not path.is_file():
                 errors.append(f"Eksik kaynak: {path}")
                 continue

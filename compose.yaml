@@ -1,0 +1,48 @@
+name: nfl-demo
+
+x-app: &app
+  image: nfl-assistant:${NFL_IMAGE_TAG:-local}
+  restart: unless-stopped
+  read_only: true
+  tmpfs: [/tmp]
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  volumes: ["nfl-data:/data"]
+  # Optional secrets come from the shell or a local, Git-ignored .env file.
+  environment: &env
+    NFL_DEMO_MODE: "1"
+    NFL_LLM_API_KEY: ${NFL_LLM_API_KEY:-}
+    NFL_LLM_MODEL: ${NFL_LLM_MODEL:-}
+    NFL_LLM_BASE_URL: ${NFL_LLM_BASE_URL:-https://api.openai.com/v1}
+    NFL_LLM_MAX_TOKENS_FIELD: ${NFL_LLM_MAX_TOKENS_FIELD:-max_tokens}
+    NFL_LLM_MAX_OUTPUT_TOKENS: ${NFL_LLM_MAX_OUTPUT_TOKENS:-4000}
+    NFL_LLM_DAILY_TOKEN_LIMIT: ${NFL_LLM_DAILY_TOKEN_LIMIT:-500000}
+    NFL_CHAT_PER_MINUTE: ${NFL_CHAT_PER_MINUTE:-5}
+    NFL_CHAT_GLOBAL_PER_MINUTE: ${NFL_CHAT_GLOBAL_PER_MINUTE:-20}
+    NFL_CHAT_DAILY_LIMIT: ${NFL_CHAT_DAILY_LIMIT:-200}
+  logging:
+    driver: json-file
+    options: {max-size: 10m, max-file: "5"}
+
+services:
+  ui:
+    <<: *app
+    build:
+      context: .
+      args:
+        APP_VERSION: ${NFL_IMAGE_TAG:-local}
+    ports: ["127.0.0.1:${NFL_UI_PORT:-8501}:8501"]
+
+  api:
+    <<: *app
+    environment:
+      <<: *env
+      NFL_DEMO_MODE: "0" # The ui service prepares the shared demo database.
+      NFL_HEALTH_URL: http://127.0.0.1:8000/ready
+    command: ["python", "-m", "uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "8000", "--no-proxy-headers"]
+    ports: ["127.0.0.1:${NFL_API_PORT:-8000}:8000"]
+    depends_on:
+      ui: {condition: service_healthy}
+
+volumes:
+  nfl-data:
