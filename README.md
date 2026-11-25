@@ -67,6 +67,18 @@ Oyuncu analizi ve veri kapsamı ekranları LLM anahtarı olmadan çalışır. So
 
 Sonraki geliştirmeler: gerçek LLM bağlantısıyla uçtan uca sohbet doğrulaması, araştırma özelliklerinin uygulamaya aktarılması ve sayısal yanıtların araç çıktılarıyla otomatik karşılaştırılması.
 
+## Docker ile hızlı demo
+
+[Canlı demo (kurgusal veri)](https://nfl-veri-asistani-demo.onrender.com/) · uykudaysa açılması yaklaşık bir dakika sürer.
+
+```sh
+docker compose up --build -d --wait
+```
+
+http://127.0.0.1:8501 adresinde **tamamen kurgusal** veriyle açılır; yarışma verisi veya LLM
+anahtarı gerekmez. Yayın, kullanım sınırları, yedekleme ve geri dönüş:
+[Docker, demo ve yayın rehberi](docs/DEMO_VE_YAYIN.md).
+
 ## Kurulum ve çalıştırma
 
 ### 1. Projeyi ve bağımlılıkları hazırlayın

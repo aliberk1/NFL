@@ -1,0 +1,8 @@
+# Allow-list: competition data, research outputs, secrets and Git history never enter the image.
+*
+!app/
+!pipelines/
+!docker/
+!requirements-app.lock
+**/__pycache__/
+**/*.py[cod]

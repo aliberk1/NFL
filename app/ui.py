@@ -1,5 +1,6 @@
 import sys
 import logging
+import uuid
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -9,8 +10,9 @@ import pandas as pd
 import streamlit.components.v1 as components
 
 from app import analytics
-from app.assistant import answer
+from app.assistant import answer, provider_configured
 from app.config import DB
+from app.limits import LimitExceeded
 from app.observability import configure_logging
 from app.player_view import (
     CAREER_FIELDS, COMBINE_FIELDS, PLAYER_FIELDS, ROLE_METRICS,
@@ -308,7 +310,16 @@ def show_wr_research(study):
 
 
 def show_research():
-    studies = analytics.research_snapshot()
+    if analytics.is_demo():
+        st.info("Demo yalnızca kurgusal veri içerir. Gerçek oyunculara ait araştırma çıktıları "
+                "bu ortamda yayınlanmaz; proje deposundaki araştırma yazılarından incelenebilir.")
+        return
+    try:
+        studies = analytics.research_snapshot()
+    except FileNotFoundError as exc:
+        logger.warning("research_unavailable", extra={"event": "research_unavailable", "error_type": type(exc).__name__})
+        st.info("Araştırma çıktıları bu kurulumda bulunmuyor.")
+        return
     ol_research, wr_research = st.tabs(["OL faz ayr\u0131\u015ft\u0131rmas\u0131", "WR h\u0131z aktar\u0131m\u0131"])
     with ol_research:
         show_ol_research(studies["ol"])
@@ -318,7 +329,11 @@ def show_research():
 
 st.set_page_config(page_title="NFL Veri Asistanı", page_icon="🏈", layout="wide")
 st.title("🏈 NFL Veri Asistanı")
-st.caption("Yalnızca yerel dataset • Gözlenen veriler ve kaynaklı analiz • MVP 0.1")
+if analytics.is_demo():
+    st.warning(analytics.DEMO_NOTE)
+    st.caption("Kurgusal örnek veri • Tanıtım ortamı • MVP 0.1")
+else:
+    st.caption("Yalnızca yerel dataset • Gözlenen veriler ve kaynaklı analiz • MVP 0.1")
 if not DB.exists():
     st.info("Oyuncu analizi i\u00e7in \u00f6nce `python -m pipelines.ingest` \u00e7al\u0131\u015ft\u0131r\u0131n. Ara\u015ft\u0131rma sonu\u00e7lar\u0131 manifestlerden g\u00f6r\u00fcnt\u00fclenebilir.")
     research, = st.tabs(["Ara\u015ft\u0131rma"])
@@ -437,6 +452,8 @@ with players:
         st.info("Karşılaştırmaya başlamak için arama sonucundan bir oyuncu ekle.")
 with chat:
     st.caption("Sohbet, yapılandırılmış bir LLM bağlantısı gerektirir. Oyuncu analizi ve veri kapsamı anahtarsız kullanılabilir.")
+    if not provider_configured():
+        st.info("Bu ortamda sohbet sağlayıcısı yapılandırılmamış; diğer sekmeler kullanılabilir.")
     if st.button("Konuşmayı temizle"):
         st.session_state.messages = []
     if "messages" not in st.session_state:
@@ -461,7 +478,7 @@ with chat:
     for column, (label, prompt) in zip(example_columns, examples):
         if column.button(label, key=f"chat_example_{label}"):
             st.session_state.pending_chat_example = prompt
-    question = st.chat_input("Dataset hakkında bir soru sorun")
+    question = st.chat_input("Dataset hakkında bir soru sorun", max_chars=4000)
     if st.session_state.get("pending_chat_example"):
         question = st.session_state.pop("pending_chat_example")
     if question:
@@ -470,13 +487,17 @@ with chat:
             st.markdown(question)
         try:
             with st.spinner("Veriler inceleniyor..."):
-                response = answer(question, history)
+                client_id = st.session_state.setdefault("client_id", f"ui:{uuid.uuid4()}")
+                response = answer(question, history, client_id=client_id)
             st.session_state.messages.extend([{"role": "user", "content": question},
                                               {"role": "assistant", "content": response["answer"],
                                                "evidence": response["evidence"]}])
             with st.chat_message("assistant"):
                 st.markdown(response["answer"])
                 show_evidence(response["evidence"])
+        except LimitExceeded as exc:
+            logger.warning("chat_limited", extra={"event": "chat_limited", "error_type": "LimitExceeded"})
+            st.warning(str(exc))
         except Exception as exc:
             logger.error("chat_ui_failed", extra={"event": "chat_ui_failed", "error_type": type(exc).__name__})
             st.error("Sohbet tamamlanamadı. Bağlantı ayarlarını kontrol edip tekrar deneyin.")

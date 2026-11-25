@@ -1,0 +1,21 @@
+# Public demo: fictional data only. Chat stays off until secrets are set in the Render panel.
+services:
+  - type: web
+    name: nfl-veri-asistani-demo
+    runtime: docker
+    plan: free
+    autoDeployTrigger: "off"
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: NFL_DEMO_MODE
+        value: "1"
+      - key: NFL_LLM_API_KEY
+        sync: false
+      - key: NFL_LLM_MODEL
+        sync: false
+      - key: NFL_LLM_BASE_URL
+        sync: false
+      - key: NFL_CHAT_DAILY_LIMIT
+        value: "50"
+      - key: NFL_LLM_DAILY_TOKEN_LIMIT
+        value: "150000"
