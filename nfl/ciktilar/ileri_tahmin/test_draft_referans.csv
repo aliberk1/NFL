@@ -1,0 +1,14 @@
+model,reference,auc_diff_folds,t_corrected,p_corrected_t,auc_diff_oof,ci_low,ci_high,p_bootstrap,p_holm
+Draft | GradBoost,Draft | LogReg,-0.0087,-0.4595,0.6479,-0.0121,-0.0403,0.0141,0.404,0.8916
+Combine+Takip+Draft | RandomForest,Draft | LogReg,-0.0147,-0.7686,0.4458,-0.0148,-0.0565,0.0219,0.472,0.8916
+Combine+Takip+Draft | LogReg,Draft | LogReg,-0.041,-1.7667,0.0835,-0.028,-0.0634,0.0025,0.073,0.2505
+Combine+Takip+Draft | GradBoost,Draft | LogReg,-0.0457,-2.3817,0.0212,-0.0376,-0.0763,-0.0046,0.025,0.1058
+Combine+Takip+Draft | SVM,Draft | LogReg,-0.0702,-2.1813,0.034,-0.069,-0.1279,-0.0157,0.015,0.136
+Combine | GradBoost,Draft | LogReg,-0.2463,-4.8541,0.0,-0.2366,-0.3436,-0.1298,0.0,0.0001
+Combine | LogReg,Draft | LogReg,-0.2669,-5.2203,0.0,-0.2614,-0.3706,-0.1502,0.0,0.0
+Combine | RandomForest,Draft | LogReg,-0.2698,-6.3936,0.0,-0.2625,-0.3725,-0.1573,0.0,0.0
+Combine+Takip | LogReg,Draft | LogReg,-0.2701,-5.4137,0.0,-0.2634,-0.3698,-0.1551,0.0,0.0
+Combine+Takip | RandomForest,Draft | LogReg,-0.2707,-6.5017,0.0,-0.2679,-0.3782,-0.1591,0.0,0.0
+Combine+Takip | SVM,Draft | LogReg,-0.2847,-4.5385,0.0,-0.2769,-0.3815,-0.173,0.0,0.0003
+Combine+Takip | GradBoost,Draft | LogReg,-0.2971,-5.7532,0.0,-0.282,-0.3944,-0.1714,0.0,0.0
+Combine | SVM,Draft | LogReg,-0.2972,-4.481,0.0,-0.2948,-0.4072,-0.1802,0.0,0.0003

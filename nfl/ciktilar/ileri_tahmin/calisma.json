@@ -1,0 +1,8 @@
+{
+  "train_players": 160,
+  "train_pos": 36,
+  "future_players": 350,
+  "chosen": "Draft | LogReg",
+  "reference": "Draft | LogReg",
+  "seconds": 170
+}
