@@ -1,0 +1,19 @@
+{
+  "n": 52930,
+  "classes": [
+    "CORNER",
+    "CROSS",
+    "DİĞER",
+    "FLAT",
+    "GO",
+    "HITCH",
+    "IN",
+    "OUT",
+    "POST",
+    "SCREEN",
+    "SLANT"
+  ],
+  "best_feature_model": "MLP",
+  "verdict": "DESTEKLENDİ",
+  "seconds": 537
+}

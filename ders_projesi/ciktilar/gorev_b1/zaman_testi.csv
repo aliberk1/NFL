@@ -1,0 +1,5 @@
+model,auc,ap,brier,logloss
+Draft | LogReg,0.8985,0.7019,0.1175,0.3637
+Çaylak | LogReg,0.8784,0.7303,0.1192,0.3742
+Draft+Çaylak | LogReg,0.9093,0.7466,0.1091,0.3358
+Draft+Çaylak+Combine | RandomForest,0.9008,0.7333,0.1137,0.3616

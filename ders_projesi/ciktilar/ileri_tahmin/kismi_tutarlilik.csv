@@ -1,0 +1,9 @@
+model,draft_year,auc_simdiye_kadar
+Draft | LogReg,2024,0.9246
+Draft | LogReg,2025,0.8941
+Combine | GradBoost,2024,0.7116
+Combine | GradBoost,2025,0.7613
+Combine+Takip | LogReg,2024,0.7358
+Combine+Takip | LogReg,2025,0.6872
+Combine+Takip+Draft | RandomForest,2024,0.929
+Combine+Takip+Draft | RandomForest,2025,0.8456

@@ -1,0 +1,11 @@
+{
+  "n_players": 510,
+  "targets": {
+    "y_starter": 103,
+    "y_starter_40": 123,
+    "y_starter_60": 83,
+    "y_pos_top20": 111
+  },
+  "n_folds": 25,
+  "seconds": 1432
+}

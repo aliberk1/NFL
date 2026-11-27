@@ -1,0 +1,5 @@
+model,auc,ap,brier,logloss
+Draft | LogReg,0.9246,0.7711,0.0923,0.2907
+Combine | GradBoost,0.7116,0.4259,0.1751,0.5467
+Combine+Takip | LogReg,0.7358,0.5072,0.1522,0.4917
+Combine+Takip+Draft | RandomForest,0.929,0.7732,0.0982,0.324
