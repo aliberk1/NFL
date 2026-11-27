@@ -12,3 +12,7 @@ models/
 *.log
 verification/notebook_run/
 verification/mirror_notebook_run/
+.venv-ml/
+nfl/ciktilar/cache/
+nfl/ciktilar/gorev_a_quick/
+nfl/ciktilar/*_log.txt
